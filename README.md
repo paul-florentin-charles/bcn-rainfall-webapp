@@ -14,20 +14,12 @@ Webapp run with Flask to display in a user-friendly way rainfall data from the c
 
 ### Get started
 
-
 ```commandline
 git clone https://github.com/paul-florentin-charles/bcn-rainfall-webapp.git
 cd bcn-rainfall-webapp
 pip install uv
 uv sync
 uv run run.py
-```
-
-### Tests & Coverage
-
-```commandline
-uv run coverage run -m pytest
-uv run coverage report
 ```
 
 ### Code quality
