@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="pure-g">
+    <div class="pure-u-1 flex-center">
+        <div class="plotly-graph" id="chart_rainfall_average"></div>
+    </div>
+</div>
+
+<div class="pure-g">
+    <div class="pure-u-1 flex-center">
+        <div class="plotly-graph" id="chart_rainfall_average_2"></div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type='text/javascript'>
+    const graph_rainfall_average = {{ plotlyRainfallAverageJSON|safe }}
+    const graph_rainfall_average_2 = {{ plotlyRainfallAverageJSON2|safe }}
+
+    const graph_div_id_to_graph_json = {
+        chart_rainfall_average: graph_rainfall_average,
+        chart_rainfall_average_2: graph_rainfall_average_2,
+    };
+
+    ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
+        if (window.screen.width < 768) {
+            Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
+                graph_json.layout.font.size = 9;
+            })
+        } else {
+            Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
+                graph_json.layout.font.size = 11;
+            })
+        }
+
+        Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
+            Plotly.react(graph_div_id, graph_json, {}, config);
+        })
+    }))
+</script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+# -- Flask server settings -- #
+
+webapp:
+  host: 127.0.0.1
+  port: 5000
+  debug: true
+
+# -- FastAPI server settings (needed for API client) -- #
+
+api:
+  host: 127.0.0.1
+  port: 8000
+  root_path: /rest
