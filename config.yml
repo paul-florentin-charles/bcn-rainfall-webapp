@@ -8,6 +8,4 @@ webapp:
 # -- FastAPI server settings (needed for API client) -- #
 
 api:
-  host: 127.0.0.1
-  port: 8000
-  root_path: /rest
+  base_url: https://bcn-rainfall-api.onrender.com/rest
