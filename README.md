@@ -26,19 +26,9 @@ uv sync
 
 #### Run
 
-With default settings retrieved from `config.yml`
-
 ```commandline
 uv run run.py
 ```
-
-With your own server settings
-
-```commandline
-uv run flask --app bcn_rainfall_webapp.app:flask_app --host localhost --port 5050 --debug run
-```
-
-:warning: Make sure that `bcn_rainfall_webapp.app` is the correct path to app object and that `flask_app` is the correct app instance name.
 
 ### Code quality
 
