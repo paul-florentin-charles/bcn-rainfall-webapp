@@ -5,7 +5,8 @@
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
-Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona that is retrieved from the Barcelona Rainfall API using its client.
+Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona that is retrieved from
+the Barcelona Rainfall API using its client.
 
 ### Requirements
 
@@ -14,13 +15,31 @@ Webapp run with Flask to display in a user-friendly way rainfall data from the c
 
 ### Get started
 
+#### Build
+
 ```commandline
 git clone https://github.com/paul-florentin-charles/bcn-rainfall-webapp.git
 cd bcn-rainfall-webapp
 pip install uv
 uv sync
+```
+
+#### Run
+
+With default settings retrieved from `config.yml`
+
+```commandline
 uv run run.py
 ```
+
+With your own server settings
+
+```commandline
+uv run flask --app bcn_rainfall_webapp.app:flask_app --host localhost --port 5050 --debug run
+```
+
+:warning: Make sure that `bcn_rainfall_webapp.app` is the **correct path to app object** and that `flask_app` is the *
+*correct app instance name**.
 
 ### Code quality
 
