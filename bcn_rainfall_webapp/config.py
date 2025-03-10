@@ -17,7 +17,7 @@ class Config(BaseConfig):
 
     _instance: Optional["Config"] = None
 
-    def __new__(cls, *, path: str):
+    def __new__(cls, *, path="config.yml"):
         return super().__new__(cls, path=path)
 
     @cached_property
@@ -34,3 +34,12 @@ class Config(BaseConfig):
         """
 
         return WebappServerSettings(**self.yaml_config["webapp"])
+
+    @cached_property
+    def get_fastapi_base_url(self) -> str:
+        """
+        Return FastAPI base URL.
+
+        Example: "https://bcn-rainfall-api.onrender.com/rest".
+        """
+        return self.yaml_config["api_base_url"]

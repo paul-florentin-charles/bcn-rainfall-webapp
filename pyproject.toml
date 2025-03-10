@@ -1,11 +1,11 @@
 [project]
 name = "bcn-rainfall-webapp"
-version = "1.0.2"
+version = "1.0.3"
 description = "Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona, Catalunya."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "bcn-rainfall-api-client~=1.0.5",
+    "bcn-rainfall-api-client~=1.0.6",
     "flask~=3.1.0",
     "plotly~=5.24.1",
     "pre-commit~=4.0.1",

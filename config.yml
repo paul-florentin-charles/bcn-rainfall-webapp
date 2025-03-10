@@ -5,7 +5,6 @@ webapp:
   port: 5000
   debug: true
 
-# -- FastAPI server settings (needed for API client) -- #
+# -- FastAPI base URL (used by API client) -- #
 
-api:
-  base_url: https://bcn-rainfall-api.onrender.com/rest
+api_base_url: https://bcn-rainfall-api.onrender.com/rest

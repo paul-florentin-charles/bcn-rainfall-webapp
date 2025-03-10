@@ -28,7 +28,7 @@ wheels = [
 
 [[package]]
 name = "bcn-rainfall-api-client"
-version = "1.0.5"
+version = "1.0.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "api-session" },
@@ -36,14 +36,14 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/52/52/6efd685b79c333e246017b35231d48de87d7047ead2be2cf621044a2fe65/bcn_rainfall_api_client-1.0.5.tar.gz", hash = "sha256:d99ac4177e17e468c6195023e354489176e143c4ec91b53909ddfd802660dc78", size = 19209 }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/0c/22e4a24b955175fc4671901be404e5a79f93f07b04b397f5c454ec7bce02/bcn_rainfall_api_client-1.0.6.tar.gz", hash = "sha256:5650a9eb6ffcb0088adbb0f6b2f60ee9413cf4b243370431ac07a0cf29c34a54", size = 17602 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/36/0f/7e1ad15db581d84444839a6d3b61e93ee2eba88d835ce8f34e7949579e71/bcn_rainfall_api_client-1.0.5-py3-none-any.whl", hash = "sha256:ceecceeb6e8349f36b5e0c55da1b43ed0ba32ad7307de020255b59d481c1483f", size = 5728 },
+    { url = "https://files.pythonhosted.org/packages/9d/ed/c43b650c26b67824edcad081edf0a14e8ead0e884ff2b713ce4bde1fa914/bcn_rainfall_api_client-1.0.6-py3-none-any.whl", hash = "sha256:d597fc10e23dec8ac10e8a9897c0f7da7d9e6855e8d79452102c50242eb6f14d", size = 3280 },
 ]
 
 [[package]]
 name = "bcn-rainfall-webapp"
-version = "1.0.0"
+version = "1.0.3"
 source = { virtual = "." }
 dependencies = [
     { name = "bcn-rainfall-api-client" },
@@ -56,7 +56,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bcn-rainfall-api-client", specifier = "~=1.0.5" },
+    { name = "bcn-rainfall-api-client", specifier = "~=1.0.6" },
     { name = "flask", specifier = "~=3.1.0" },
     { name = "plotly", specifier = "~=5.24.1" },
     { name = "pre-commit", specifier = "~=4.0.1" },

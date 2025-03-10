@@ -1,5 +1,11 @@
 ## Changelog
 
+### v1.0.3
+_10/03/2025_
+
+- Update `bcn-rainfall-api-client` version to latest: **1.0.6**.
+  - Subsequently, adapt code.
+
 ### v1.0.2
 _14/02/2025_
 
