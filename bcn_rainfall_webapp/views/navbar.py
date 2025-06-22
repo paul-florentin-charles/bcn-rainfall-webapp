@@ -148,7 +148,7 @@ def years_above_normal():
             rows=2,
             cols=2,
             layout={
-                "title": f"Percentage of years above and below normal for each season between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season between {BEGIN_YEAR} and {END_YEAR}",
             },
             graph_labels=[
                 "Spring",
