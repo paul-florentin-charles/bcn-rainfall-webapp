@@ -7,4 +7,4 @@ webapp:
 
 # -- FastAPI base URL (used by API client) -- #
 
-api_base_url: https://bcn-rainfall-api.onrender.com/rest
+api_base_url: http://127.0.0.1:8000/rest

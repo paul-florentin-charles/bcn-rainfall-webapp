@@ -25,16 +25,16 @@
 {% block scripts %}
 
 <script type='text/javascript'>
-    const graphs_summer_rainfall = {{ plotlySummerRainfallJSON|safe }};
-    const graphs_averages = {{ plotlyAveragesJSON|safe }};
-    const graphs_linreg = {{ plotlyLinRegJSON|safe }};
-    const graphs_relative_distance_to_normal = {{ plotlyRelativeDistance2NormalJSON|safe }};
+    const graph_seasonal_rainfalls = {{ plotlySeasonalRainfallsJSON|safe }};
+    const graph_averages = {{ plotlyAveragesJSON|safe }};
+    const graph_linreg = {{ plotlyLinRegJSON|safe }};
+    const graph_relative_distance_to_normal = {{ plotlyRelativeDistance2NormalJSON|safe }};
 
     const graph_div_id_to_graph_json = {
-        chart_summer_rainfall: graphs_summer_rainfall,
-        chart_averages: graphs_averages,
-        chart_linreg: graphs_linreg,
-        chart_relative_distance_to_normal: graphs_relative_distance_to_normal,
+        chart_summer_rainfall: graph_seasonal_rainfalls,
+        chart_averages: graph_averages,
+        chart_linreg: graph_linreg,
+        chart_relative_distance_to_normal: graph_relative_distance_to_normal,
     };
 
     ['load', 'resize'].forEach(event => window.addEventListener(event, function () {

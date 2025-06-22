@@ -8,6 +8,16 @@
     </div>
 </div>
 
+<div class="pure-g">
+    <div class="pure-u-1 flex-center">
+        <div class="pure-button-group" role="group" aria-label="...">
+            <button class="pure-button pure-button-primary" onclick="sortAscending();">Sort ascending</button>
+            <button class="pure-button pure-button-primary" onclick="sortDescending();">Sort descending</button>
+            <button class="pure-button" onclick="resetGraph();">Reset</button>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -34,6 +44,21 @@
             Plotly.react(graph_div_id, graph_json, {}, config);
         })
     }))
+
+    function sortAscending() {
+        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = "total ascending";
+        Plotly.react(chart_rainfall_relative_distance_to_normal, graph_rainfall_relative_distance_to_normal, {}, config);
+    }
+
+    function sortDescending() {
+        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = "total descending";
+        Plotly.react(chart_rainfall_relative_distance_to_normal, graph_rainfall_relative_distance_to_normal, {}, config);
+    }
+
+    function resetGraph() {
+        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = "total";
+        Plotly.react(chart_rainfall_relative_distance_to_normal, graph_rainfall_relative_distance_to_normal, {}, config);
+    }
 </script>
 
 {% endblock %}

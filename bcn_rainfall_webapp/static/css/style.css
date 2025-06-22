@@ -34,7 +34,7 @@ h2#title {
     top: 0.4em;
     z-index: 1;
     background-color: var(--header-background-color);
-    margin: 0.8em auto;
+    margin: 0.5em auto;
     padding: 0.2em 0 0.6em 0;
     border-radius: 2.5em;
     border: 1px solid var(--header-border-color);
@@ -79,7 +79,7 @@ a:hover {
     height: 30em;
     width: 100% !important;
     border-radius: 1em;
-    margin: 0.3em;
+    margin: 0.25em;
     overflow: hidden;
 }
 
