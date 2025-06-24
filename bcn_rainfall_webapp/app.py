@@ -29,9 +29,9 @@ def index():
     fig_seasonal_rainfalls = aggregate_plotly_json_figures(
         seasonal_rainfalls,
         layout={
-            "title": f"Rainfall (mm) between {BEGIN_YEAR} and {END_YEAR} for each season",
+            "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each season",
             "xaxis": {"title": "Year"},
-            "yaxis": {"title": {"text": "Rainfall (mm)", "standoff": 0}},
+            "yaxis": {"title": "Rainfall (mm)"},
             "barmode": "stack",
         },
     )
@@ -53,8 +53,8 @@ def index():
     fig_averages = aggregate_plotly_json_figures(
         [monthly_averages, seasonal_averages],
         layout={
-            "title": f"Average rainfall (mm) between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": {"text": "Rainfall (mm)", "standoff": 0}},
+            "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
+            "yaxis": {"title": "Rainfall (mm)"},
         },
     )
 
@@ -75,10 +75,8 @@ def index():
     fig_linreg_slopes = aggregate_plotly_json_figures(
         [monthly_linreg_slopes, seasonal_linreg_slopes],
         layout={
-            "title": f"Average linear regression slope (mm/year) between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {
-                "title": {"text": "Linear regression slope (mm/year)", "standoff": 0}
-            },
+            "title": f"Average linear regression slope between {BEGIN_YEAR} and {END_YEAR}",
+            "yaxis": {"title": "Linear regression slope (mm/year)"},
         },
     )
 
@@ -105,10 +103,8 @@ def index():
     fig_relative_distances_to_normal = aggregate_plotly_json_figures(
         [monthly_relative_distances_to_normal, seasonal_relative_distances_to_normal],
         layout={
-            "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal (%) between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {
-                "title": {"text": "Relative distance to normal (%)", "standoff": 0}
-            },
+            "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
+            "yaxis": {"title": "Relative distance to normal (%)"},
         },
     )
 

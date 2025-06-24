@@ -135,7 +135,7 @@ img.logo:hover {
 
 @media screen and (max-width: 767px) {
     body {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .header, .footer {
