@@ -1,3 +1,4 @@
+import plotly.io
 from flask import Blueprint, jsonify, render_template
 
 from bcn_rainfall_webapp import BEGIN_YEAR, END_YEAR, NORMAL_YEAR, api_client
@@ -15,15 +16,20 @@ navbar = Blueprint(
 def rainfall_by_year():
     rainfall_by_year_list = []
     for cluster_count in [None, 2, 3]:
-        rainfall_by_year_list.append(
-            api_client.get_rainfall_by_year_as_plotly_json(
-                time_mode="yearly",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                plot_average=True,
-                kmeans_cluster_count=cluster_count,
-            )
+        rainfall_by_year_json = api_client.get_rainfall_by_year_as_plotly_json(
+            time_mode="yearly",
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            plot_average=True,
+            kmeans_cluster_count=cluster_count,
         )
+
+        figure = plotly.io.from_json(rainfall_by_year_json)
+        figure.update_layout(
+            xaxis={"title_standoff": 0},
+            yaxis={"title_standoff": 0},
+        )
+        rainfall_by_year_list.append(figure.to_json())
 
     monthly_rainfalls = []
     for month in [
@@ -53,7 +59,8 @@ def rainfall_by_year():
         monthly_rainfalls,
         layout={
             "title": f"Rainfall (mm) between {BEGIN_YEAR} and {END_YEAR} for each month",
-            "yaxis": {"title": "Rainfall (mm)"},
+            "xaxis": {"title": "Year"},
+            "yaxis": {"title": {"text": "Rainfall (mm)", "standoff": 0}},
             "barmode": "stack",
         },
     )
@@ -198,14 +205,19 @@ def rainfall_standard_deviation():
             [fig_monthly, fig_seasonal],
             layout={
                 "title": f"Standard deviation (mm) between {BEGIN_YEAR} and {END_YEAR}",
-                "yaxis": {"title": "Standard deviation (mm)"},
+                "yaxis": {"title": {"text": "Standard deviation (mm)", "standoff": 0}},
             },
         ),
         plotlyRainfallStandardDeviationWeightedJSON=aggregate_plotly_json_figures(
             [fig_monthly_weighted, fig_seasonal_weighted],
             layout={
                 "title": f"Standard deviation weighted by average (%) between {BEGIN_YEAR} and {END_YEAR}",
-                "yaxis": {"title": "Standard deviation weighted by average (%)"},
+                "yaxis": {
+                    "title": {
+                        "text": "Standard deviation weighted by average (%)",
+                        "standoff": 0,
+                    }
+                },
             },
         ),
     )

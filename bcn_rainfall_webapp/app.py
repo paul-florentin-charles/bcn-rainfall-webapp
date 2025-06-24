@@ -30,7 +30,8 @@ def index():
         seasonal_rainfalls,
         layout={
             "title": f"Rainfall (mm) between {BEGIN_YEAR} and {END_YEAR} for each season",
-            "yaxis": {"title": "Rainfall (mm)"},
+            "xaxis": {"title": "Year"},
+            "yaxis": {"title": {"text": "Rainfall (mm)", "standoff": 0}},
             "barmode": "stack",
         },
     )
@@ -53,7 +54,7 @@ def index():
         [monthly_averages, seasonal_averages],
         layout={
             "title": f"Average rainfall (mm) between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Rainfall (mm)"},
+            "yaxis": {"title": {"text": "Rainfall (mm)", "standoff": 0}},
         },
     )
 
@@ -75,7 +76,9 @@ def index():
         [monthly_linreg_slopes, seasonal_linreg_slopes],
         layout={
             "title": f"Average linear regression slope (mm/year) between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Linear regression slope (mm/year)"},
+            "yaxis": {
+                "title": {"text": "Linear regression slope (mm/year)", "standoff": 0}
+            },
         },
     )
 
@@ -103,7 +106,9 @@ def index():
         [monthly_relative_distances_to_normal, seasonal_relative_distances_to_normal],
         layout={
             "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal (%) between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Relative distance to normal (%)"},
+            "yaxis": {
+                "title": {"text": "Relative distance to normal (%)", "standoff": 0}
+            },
         },
     )
 

@@ -4,6 +4,28 @@ import plotly.graph_objs as go
 import plotly.io
 from plotly.subplots import make_subplots
 
+DEFAULT_LAYOUT: dict[str, Any] = dict(
+    legend={
+        "yanchor": "top",
+        "y": 0.99,
+        "xanchor": "left",
+        "x": 0.01,
+        "bgcolor": "rgba(125, 125, 125, 0.7)",
+    },
+    font={
+        "color": "white",
+        "family": "Khula, sans-serif",
+        "size": 11,
+    },
+    paper_bgcolor="rgba(34, 34, 34, 0.6)",
+    plot_bgcolor="rgba(123, 104, 75, 0.3)",
+    margin={"t": 65, "r": 30, "b": 45, "l": 55},
+    xaxis={"title": {"standoff": 0}},
+    yaxis={"title": {"standoff": 0}},
+    title={"pad": {"t": 0, "r": 0, "b": 0, "l": 1000}},
+    autosize=True,
+)
+
 
 def aggregate_plotly_json_figures(
     traces_json: list[str], *, layout: dict[str, Any] | None = None
@@ -13,23 +35,7 @@ def aggregate_plotly_json_figures(
         figure.add_traces(list(plotly.io.from_json(trace_json).select_traces()))
 
     figure.update_layout(
-        legend={
-            "yanchor": "top",
-            "y": 0.99,
-            "xanchor": "left",
-            "x": 0.01,
-            "bgcolor": "rgba(125, 125, 125, 0.7)",
-        },
-        font={
-            "color": "white",
-            "family": "Khula, sans-serif",
-            "size": 11,
-        },
-        paper_bgcolor="rgba(34, 34, 34, 0.6)",
-        plot_bgcolor="rgba(123, 104, 75, 0.3)",
-        margin={"t": 65, "r": 65, "b": 70, "l": 75},
-        autosize=True,
-        **(layout or {}),
+        {**DEFAULT_LAYOUT, **(layout or {})},
     )
 
     return figure.to_json()
@@ -79,24 +85,17 @@ def aggregate_plotly_json_pie_charts(
                 )
 
     figure.update_layout(
-        legend={
-            "yanchor": "middle",
-            "y": 0.5,
-            "xanchor": "center",
-            "x": 0.5,
-            "bgcolor": "rgba(125, 125, 125, 0.7)",
+        {
+            **DEFAULT_LAYOUT,
+            "legend": {
+                "yanchor": "middle",
+                "y": 0.5,
+                "xanchor": "center",
+                "x": 0.5,
+            },
+            "annotations": annotations,
+            **(layout or {}),
         },
-        font={
-            "color": "white",
-            "family": "Khula, sans-serif",
-            "size": 11,
-        },
-        paper_bgcolor="rgba(34, 34, 34, 0.6)",
-        plot_bgcolor="rgba(123, 104, 75, 0.3)",
-        margin={"t": 65, "r": 65, "b": 70, "l": 75},
-        autosize=True,
-        annotations=annotations,
-        **(layout or {}),
     )
 
     return figure.to_json()
