@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, render_template
 
 from bcn_rainfall_webapp import BEGIN_YEAR, END_YEAR, NORMAL_YEAR, api_client
 from bcn_rainfall_webapp.utils.graph import (
@@ -105,6 +105,7 @@ def rainfall_relative_distance_to_normal():
             end_year=END_YEAR,
         ),
     )
+
 
 @navbar.route("/years_compared_to_normal")
 def years_compared_to_normal():

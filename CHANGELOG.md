@@ -1,5 +1,13 @@
 ## Changelog
 
+### v1.0.4
+_25/06/2025_
+
+- Add new graphics, notably stacked bar graphics and pie chart subplots.
+- Improve overall __UI__: better responsiveness, dynamic coloring on hover, etc. 
+- Remove old deprecated routes/templates.
+- Update `bcn-rainfall-api-client` version to latest: **1.0.8**.
+
 ### v1.0.3
 _10/03/2025_
 
