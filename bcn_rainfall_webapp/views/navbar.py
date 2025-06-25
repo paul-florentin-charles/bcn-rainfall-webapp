@@ -94,15 +94,6 @@ def rainfall_average():
     )
 
 
-@navbar.route("/rainfall_normal")
-def rainfall_normal():
-    return jsonify(
-        api_client.get_rainfall_normal(
-            time_mode="monthly", begin_year=BEGIN_YEAR, month="May"
-        )
-    )
-
-
 @navbar.route("/rainfall_relative_distance_to_normal")
 def rainfall_relative_distance_to_normal():
     return render_template(
@@ -115,21 +106,8 @@ def rainfall_relative_distance_to_normal():
         ),
     )
 
-
-@navbar.route("/years_below_normal")
-def years_below_normal():
-    return jsonify(
-        api_client.get_years_below_normal(
-            time_mode="yearly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
-        )
-    )
-
-
-@navbar.route("/years_above_normal")
-def years_above_normal():
+@navbar.route("/years_compared_to_normal")
+def years_compared_to_normal():
     years_compared_to_normal_season_list = []
     for season in ["spring", "summer", "fall", "winter"]:
         years_compared_to_normal_season_list.append(
@@ -143,7 +121,7 @@ def years_above_normal():
         )
 
     return render_template(
-        "sections/years_above_normal.html",
+        "sections/years_compared_to_normal.html",
         plotlyYearsAboveNormalSeasonalJSON=aggregate_plotly_json_pie_charts(
             years_compared_to_normal_season_list,
             rows=2,

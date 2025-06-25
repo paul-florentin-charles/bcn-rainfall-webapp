@@ -23,7 +23,7 @@
 {% block scripts %}
 
 <script type='text/javascript'>
-    const graph_rainfall_relative_distance_to_normal = {{ plotlyRainfallRelativeDistance2NormalJSON|safe }}
+    var graph_rainfall_relative_distance_to_normal = {{ plotlyRainfallRelativeDistance2NormalJSON|safe }}
 
     const graph_div_id_to_graph_json = {
         chart_rainfall_relative_distance_to_normal: graph_rainfall_relative_distance_to_normal,
@@ -32,13 +32,13 @@
     ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
         if (window.screen.width < 768) {
             Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
-                graph_json.layout.font.size = 9;
-                graph_json.layout.margin = {"t": 65, "r": 15, "b": 25, "l": 40};
+                graph_json.layout.font.size = 8;
+                graph_json.layout.margin = {'t': 65, 'r': 15, 'b': 25, 'l': 40};
             })
         } else {
             Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
                 graph_json.layout.font.size = 11;
-                graph_json.layout.margin = {"t": 65, "r": 30, "b": 45, "l": 65};
+                graph_json.layout.margin = {'t': 65, 'r': 30, 'b': 45, 'l': 65};
             })
         }
 
@@ -47,18 +47,34 @@
         })
     }))
 
+    var style = window.getComputedStyle(document.body)
+
+    Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
+        document.getElementById(graph_div_id).addEventListener("mouseover", function () {
+            graph_json.layout.font.color = style.getPropertyValue('--link-hover-color');
+
+            Plotly.react(graph_div_id, graph_json, {}, config);
+        })
+
+        document.getElementById(graph_div_id).addEventListener("mouseout", function () {
+            graph_json.layout.font.color = style.getPropertyValue('--link-color');
+
+            Plotly.react(graph_div_id, graph_json, {}, config);
+        })
+    })
+
     function sortAscending() {
-        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = "total ascending";
+        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = 'total ascending';
         Plotly.react(chart_rainfall_relative_distance_to_normal, graph_rainfall_relative_distance_to_normal, {}, config);
     }
 
     function sortDescending() {
-        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = "total descending";
+        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = 'total descending';
         Plotly.react(chart_rainfall_relative_distance_to_normal, graph_rainfall_relative_distance_to_normal, {}, config);
     }
 
     function resetGraph() {
-        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = "total";
+        graph_rainfall_relative_distance_to_normal.layout.xaxis.categoryorder = 'total';
         Plotly.react(chart_rainfall_relative_distance_to_normal, graph_rainfall_relative_distance_to_normal, {}, config);
     }
 </script>

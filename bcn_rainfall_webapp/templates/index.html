@@ -4,7 +4,7 @@
 
 <div class="pure-g">
     <div class="pure-u-1 pure-u-lg-1-2 flex-center">
-        <div class="plotly-graph" id="chart_summer_rainfall"></div>
+        <div class="plotly-graph" id="chart_seasonal_rainfalls"></div>
     </div>
     <div class="pure-u-1 pure-u-lg-1-2 flex-center">
         <div class="plotly-graph" id="chart_averages"></div>
@@ -25,22 +25,17 @@
 {% block scripts %}
 
 <script type='text/javascript'>
-    const graph_seasonal_rainfalls = {{ plotlySeasonalRainfallsJSON|safe }};
-    const graph_averages = {{ plotlyAveragesJSON|safe }};
-    const graph_linreg = {{ plotlyLinRegJSON|safe }};
-    const graph_relative_distance_to_normal = {{ plotlyRelativeDistance2NormalJSON|safe }};
-
     const graph_div_id_to_graph_json = {
-        chart_summer_rainfall: graph_seasonal_rainfalls,
-        chart_averages: graph_averages,
-        chart_linreg: graph_linreg,
-        chart_relative_distance_to_normal: graph_relative_distance_to_normal,
+        chart_seasonal_rainfalls:  {{ plotlySeasonalRainfallsJSON|safe }},
+        chart_averages:  {{ plotlyAveragesJSON|safe }},
+        chart_linreg: {{ plotlyLinRegJSON|safe }},
+        chart_relative_distance_to_normal: {{ plotlyRelativeDistance2NormalJSON|safe }},
     };
 
     ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
         if (window.screen.width < 768) {
             Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
-                graph_json.layout.font.size = 9;
+                graph_json.layout.font.size = 8;
                 graph_json.layout.margin = {"t": 65, "r": 15, "b": 25, "l": 25};
             })
         } else {
@@ -54,6 +49,22 @@
             Plotly.react(graph_div_id, graph_json, {}, config);
         })
     }))
+
+    var style = window.getComputedStyle(document.body)
+
+    Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
+        document.getElementById(graph_div_id).addEventListener("mouseover", function () {
+            graph_json.layout.font.color = style.getPropertyValue('--link-hover-color');
+
+            Plotly.react(graph_div_id, graph_json, {}, config);
+        })
+
+        document.getElementById(graph_div_id).addEventListener("mouseout", function () {
+            graph_json.layout.font.color = style.getPropertyValue('--link-color');
+
+            Plotly.react(graph_div_id, graph_json, {}, config);
+        })
+    })
 </script>
 
 {% endblock %}
