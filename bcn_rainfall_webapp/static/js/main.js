@@ -5,6 +5,11 @@ const config = {
     scrollZoom: true,
 };
 
+/** Document style **/
+
+const style = window.getComputedStyle(document.body)
+
+
 /** Scroll to top button **/
 
 const scrollToTopBtn = document.getElementById('scrollToTop');

@@ -5,9 +5,9 @@
 <div class="pure-g">
     <div id="first-button-group" class="pure-u-1 pure-u-lg-1-4 flex-center">
         <div class="pure-button-group" role="group" aria-label="...">
-            <button class="pure-button pure-button-primary" onclick="sortAscending();">Sort ascending</button>
-            <button class="pure-button pure-button-primary" onclick="sortDescending();">Sort descending</button>
-            <button class="pure-button" onclick="resetGraph();">Reset</button>
+            <button id="button-sort-ascending" class="pure-button pure-button-primary">Sort ascending</button>
+            <button id="button-sort-descending" class="pure-button pure-button-primary">Sort descending</button>
+            <button id="button-sort-reset" class="pure-button">Reset</button>
         </div>
     </div>
     <div id="first-plotly-graph" class="pure-u-1 pure-u-lg-3-4 flex-center">
@@ -21,9 +21,9 @@
     </div>
     <div class="pure-u-1 pure-u-lg-1-4 flex-center">
         <div class="pure-button-group" role="group" aria-label="...">
-            <button class="pure-button pure-button-primary" onclick="sortAscendingWeighted();">Sort ascending</button>
-            <button class="pure-button pure-button-primary" onclick="sortDescendingWeighted();">Sort descending</button>
-            <button class="pure-button" onclick="resetGraphWeighted();">Reset</button>
+            <button id="button-sort-ascending-weighted" class="pure-button pure-button-primary">Sort ascending</button>
+            <button id="button-sort-descending-weighted" class="pure-button pure-button-primary">Sort descending</button>
+            <button id="button-sort-reset-weighted" class="pure-button">Reset</button>
         </div>
     </div>
 </div>
@@ -67,52 +67,27 @@
         })
     }))
 
-    var style = window.getComputedStyle(document.body)
+    colorizeGraphsFontsOnHover(graph_div_id_to_graph_json)
 
-    Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
-        document.getElementById(graph_div_id).addEventListener("mouseover", function () {
-            graph_json.layout.font.color = style.getPropertyValue('--link-hover-color');
-
-            Plotly.react(graph_div_id, graph_json, {}, config);
-        })
-
-        document.getElementById(graph_div_id).addEventListener("mouseout", function () {
-            graph_json.layout.font.color = style.getPropertyValue('--link-color');
-
-            Plotly.react(graph_div_id, graph_json, {}, config);
+    Object.entries({
+        'button-sort-ascending': 'ascending',
+        'button-sort-descending': 'descending',
+        'button-sort-reset': ''
+    }).forEach(([button_id, order]) => {
+        document.getElementById(button_id).addEventListener('click', function () {
+            sortGraph(graph_rainfall_standard_deviation, chart_rainfall_standard_deviation, order);
         })
     })
 
-    function sortAscending() {
-        graph_rainfall_standard_deviation.layout.xaxis.categoryorder = 'total ascending';
-        Plotly.react(chart_rainfall_standard_deviation, graph_rainfall_standard_deviation, {}, config);
-    }
-
-    function sortAscendingWeighted() {
-        graph_rainfall_standard_deviation_weighted.layout.xaxis.categoryorder = 'total ascending';
-        Plotly.react(chart_rainfall_standard_deviation_weighted, graph_rainfall_standard_deviation_weighted, {}, config);
-    }
-
-    function sortDescending() {
-        graph_rainfall_standard_deviation.layout.xaxis.categoryorder = 'total descending';
-        Plotly.react(chart_rainfall_standard_deviation, graph_rainfall_standard_deviation, {}, config);
-    }
-
-    function sortDescendingWeighted() {
-        graph_rainfall_standard_deviation_weighted.layout.xaxis.categoryorder = 'total descending';
-        Plotly.react(chart_rainfall_standard_deviation_weighted, graph_rainfall_standard_deviation_weighted, {}, config);
-    }
-
-    function resetGraph() {
-        graph_rainfall_standard_deviation.layout.xaxis.categoryorder = 'total';
-        Plotly.react(chart_rainfall_standard_deviation, graph_rainfall_standard_deviation, {}, config);
-    }
-
-    function resetGraphWeighted() {
-        graph_rainfall_standard_deviation_weighted.layout.xaxis.categoryorder = 'total';
-        Plotly.react(chart_rainfall_standard_deviation_weighted, graph_rainfall_standard_deviation_weighted, {}, config);
-    }
-
+    Object.entries({
+        'button-sort-ascending-weighted': 'ascending',
+        'button-sort-descending-weighted': 'descending',
+        'button-sort-reset-weighted': ''
+    }).forEach(([button_id, order]) => {
+        document.getElementById(button_id).addEventListener('click', function () {
+            sortGraph(graph_rainfall_standard_deviation_weighted, chart_rainfall_standard_deviation_weighted, order);
+        })
+    })
 </script>
 
 {% endblock %}
