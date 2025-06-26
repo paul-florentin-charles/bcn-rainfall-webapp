@@ -43,11 +43,11 @@
         var graphRainfallByYearNClusters = JSON.parse(graph_rainfall_by_year_list[n_clusters - 1]);
 
         if (window.screen.width < 768) {
-            graphRainfallByYearNClusters.layout.font.size = 8;
-            graphRainfallByYearNClusters.layout.margin = {'t': 65, 'r': 15, 'b': 25, 'l': 25};
+            graphRainfallByYearNClusters.layout.font.size = default_layout_dict['phone']['font_size'];
+            graphRainfallByYearNClusters.layout.margin = default_layout_dict['phone']['margin'];
         } else {
-            graphRainfallByYearNClusters.layout.font.size = 11;
-            graphRainfallByYearNClusters.layout.margin = {'t': 65, 'r': 30, 'b': 45, 'l': 65};
+            graphRainfallByYearNClusters.layout.font.size = default_layout_dict['computer']['font_size'];
+            graphRainfallByYearNClusters.layout.margin = default_layout_dict['computer']['margin'];
         }
 
         Plotly.react(chart_rainfall_by_year, graphRainfallByYearNClusters, {}, config);

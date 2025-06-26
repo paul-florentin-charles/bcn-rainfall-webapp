@@ -1,3 +1,4 @@
+import plotly.express as px
 from flask import Blueprint, render_template
 
 from bcn_rainfall_webapp import BEGIN_YEAR, END_YEAR, NORMAL_YEAR, api_client
@@ -56,6 +57,7 @@ def rainfall_by_year():
             "xaxis": {"title": "Year"},
             "yaxis": {"title": "Rainfall (mm)"},
             "barmode": "stack",
+            "colorway": px.colors.cyclical.IceFire[1:],
         },
     )
 
@@ -110,6 +112,7 @@ def rainfall_relative_distance_to_normal():
 @navbar.route("/years_compared_to_normal")
 def years_compared_to_normal():
     years_compared_to_normal_season_list = []
+    years_compared_to_normal_season_list_2 = []
     for season in ["spring", "summer", "fall", "winter"]:
         years_compared_to_normal_season_list.append(
             api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
@@ -118,6 +121,17 @@ def years_compared_to_normal():
                 begin_year=BEGIN_YEAR,
                 end_year=END_YEAR,
                 season=season,
+            )
+        )
+
+        years_compared_to_normal_season_list_2.append(
+            api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+                time_mode="seasonal",
+                normal_year=NORMAL_YEAR,
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+                season=season,
+                percentages_of_normal="0,75,90,110,125,inf",
             )
         )
 
@@ -137,7 +151,21 @@ def years_compared_to_normal():
                 "Winter",
             ],
         ),
-        plotlyYearsAboveNormalJSON2=api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+        plotlyYearsAboveNormalSeasonal2JSON=aggregate_plotly_json_pie_charts(
+            years_compared_to_normal_season_list_2,
+            rows=2,
+            cols=2,
+            layout={
+                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season between {BEGIN_YEAR} and {END_YEAR}",
+            },
+            graph_labels=[
+                "Spring",
+                "Summer",
+                "Fall",
+                "Winter",
+            ],
+        ),
+        plotlyYearsAboveNormalJSON=api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
             time_mode="yearly",
             normal_year=NORMAL_YEAR,
             begin_year=BEGIN_YEAR,

@@ -33,6 +33,7 @@ def index():
             "xaxis": {"title": "Year"},
             "yaxis": {"title": "Rainfall (mm)"},
             "barmode": "stack",
+            "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
         },
     )
 
