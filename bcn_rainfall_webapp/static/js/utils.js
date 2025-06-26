@@ -34,6 +34,20 @@ function colorizeGraphsFontsOnHover(graph_div_id_to_graph_json) {
     })
 }
 
+function colorizeGraphFontsOnHover(graph_div_id, graph_json) {
+    document.getElementById(graph_div_id).addEventListener("mouseover", function () {
+        graph_json.layout.font.color = style.getPropertyValue('--link-hover-color');
+
+        Plotly.react(graph_div_id, graph_json, {}, config);
+    })
+
+    document.getElementById(graph_div_id).addEventListener("mouseout", function () {
+        graph_json.layout.font.color = style.getPropertyValue('--link-color');
+
+        Plotly.react(graph_div_id, graph_json, {}, config);
+    })
+}
+
 function resizeGraphs(graph_div_id_to_graph_json) {
     ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
         if (window.screen.width < 768) {
@@ -51,5 +65,19 @@ function resizeGraphs(graph_div_id_to_graph_json) {
         Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
             Plotly.react(graph_div_id, graph_json, {}, config);
         })
+    }))
+}
+
+function resizeGraph(graph_div_id, graph_json) {
+    ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
+        if (window.screen.width < 768) {
+            graph_json.layout.font.size = default_layout_dict['phone']['font_size'];
+            graph_json.layout.margin = default_layout_dict['phone']['margin'];
+        } else {
+            graph_json.layout.font.size = default_layout_dict['computer']['font_size'];
+            graph_json.layout.margin = default_layout_dict['computer']['margin'];
+        }
+
+        Plotly.react(graph_div_id, graph_json, {}, config);
     }))
 }

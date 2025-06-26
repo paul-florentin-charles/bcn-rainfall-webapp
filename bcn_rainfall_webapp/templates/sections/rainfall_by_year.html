@@ -42,6 +42,9 @@
     function displayClusters(n_clusters) {
         var graphRainfallByYearNClusters = JSON.parse(graph_rainfall_by_year_list[n_clusters - 1]);
 
+        resizeGraph('chart_rainfall_by_year', graphRainfallByYearNClusters);
+        colorizeGraphFontsOnHover('chart_rainfall_by_year', graphRainfallByYearNClusters);
+
         if (window.screen.width < 768) {
             graphRainfallByYearNClusters.layout.font.size = default_layout_dict['phone']['font_size'];
             graphRainfallByYearNClusters.layout.margin = default_layout_dict['phone']['margin'];
