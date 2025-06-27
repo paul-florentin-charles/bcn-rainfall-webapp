@@ -12,27 +12,37 @@ the Barcelona Rainfall API using its client.
 
 - Python 3.12
 - Pip
+- Node.js
 
 ### Get started
 
-#### Build
+#### Build Python environment
 
-```commandline
+```sh
 git clone https://github.com/paul-florentin-charles/bcn-rainfall-webapp.git
 cd bcn-rainfall-webapp
 pip install uv
 uv sync
 ```
 
-#### Run
+#### Generate JavaScript files from TypeScript files
 
-```commandline
+```sh
+cd bcn_rainfall_webapp/static
+npm install
+cd js
+npx tsc --watch
+```
+
+#### Run Flask app
+
+```sh
 uv run run.py
 ```
 
 ### Code quality
 
-```commandline
+```sh
 uv tool run mypy --check-untyped-defs .
 uv tool run ruff check
 uv tool run ruff format

@@ -1,0 +1,29 @@
+{
+  "name": "bcn_rainfall_frontend",
+  "version": "1.0.0",
+  "description": "Frontend for bcn-rainfall-webapp repository",
+  "keywords": [
+    "frontend",
+    "barcelona",
+    "rainfall"
+  ],
+  "homepage": "https://github.com/paul-florentin-charles/bcn-rainfall-webapp#readme",
+  "bugs": {
+    "url": "https://github.com/paul-florentin-charles/bcn-rainfall-webapp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paul-florentin-charles/bcn-rainfall-webapp.git"
+  },
+  "license": "MIT",
+  "author": "Paul Charles",
+  "type": "commonjs",
+  "main": "js/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/plotly.js": "^3.0.2",
+    "typescript": "^5.8.3"
+  }
+}

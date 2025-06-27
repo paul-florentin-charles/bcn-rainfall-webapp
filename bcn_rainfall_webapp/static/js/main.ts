@@ -1,20 +1,20 @@
 /** Plotly main configuration **/
 
-const config = {
+const config: Partial<Plotly.Config> = {
     responsive: true,
     scrollZoom: true,
 };
 
 /** Document style **/
 
-const style = window.getComputedStyle(document.body)
+const style: CSSStyleDeclaration = window.getComputedStyle(document.body)
 
 
 /** Scroll to top button **/
 
-const scrollToTopBtn = document.getElementById('scrollToTop');
+const scrollToTopBtn = document.getElementById('scrollToTop') as HTMLElement;
 
-const toggleScrollToTopButton = () => {
+const toggleScrollToTopButton = (): void => {
     if (window.scrollY > 250) {
         scrollToTopBtn.classList.add('visible');
     } else {
@@ -33,19 +33,20 @@ window.addEventListener('scroll', toggleScrollToTopButton);
 
 /** Toggle hamburger menu for tablets & phones **/
 
-const hamburger = document.getElementById('hamburger-menu');
-const menu = document.getElementById('main-menu');
+const hamburger = document.getElementById('hamburger-menu') as HTMLElement;
+const menu = document.getElementById('main-menu') as HTMLElement;
 
 hamburger.addEventListener('click', function () {
     const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', !expanded);
+    hamburger.setAttribute('aria-expanded', (!expanded).toString());
     menu.classList.toggle('open');
 });
 
 // Close menu when clicking outside
-document.addEventListener('click', function (e) {
-    if (!hamburger.contains(e.target) && !menu.contains(e.target) && menu.classList.contains('open')) {
-        hamburger.setAttribute('aria-expanded', false);
+document.addEventListener('click', function (e: MouseEvent) {
+    const target = e.target as Node;
+    if (!hamburger.contains(target) && !menu.contains(target) && menu.classList.contains('open')) {
+        hamburger.setAttribute('aria-expanded', 'false');
         menu.classList.remove('open');
     }
 });

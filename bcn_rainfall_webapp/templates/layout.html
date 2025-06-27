@@ -28,8 +28,8 @@
 </body>
 
 <script src="https://pure-css.github.io/js/menus.js"></script>
-<script src="../static/js/main.js"></script>
-<script src="../static/js/utils.js"></script>
+<script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% block scripts %}{% endblock %}
 
 </html>
