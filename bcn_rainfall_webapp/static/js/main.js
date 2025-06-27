@@ -42,7 +42,7 @@ hamburger.addEventListener('click', function () {
     menu.classList.toggle('open');
 });
 
-// Optional: close menu when clicking outside
+// Close menu when clicking outside
 document.addEventListener('click', function (e) {
     if (!hamburger.contains(e.target) && !menu.contains(e.target) && menu.classList.contains('open')) {
         hamburger.setAttribute('aria-expanded', false);
