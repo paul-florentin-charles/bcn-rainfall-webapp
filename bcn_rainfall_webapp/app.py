@@ -3,9 +3,17 @@ Webapp run with Flask that communicates with an API (FastAPI/Uvicorn) to display
 Work-in-progress!
 """
 
+from typing import Any
+
 from flask import Flask, render_template
 
-from bcn_rainfall_webapp import BEGIN_YEAR, END_YEAR, NORMAL_YEAR, api_client
+from bcn_rainfall_webapp import (
+    BEGIN_YEAR,
+    END_YEAR,
+    NORMAL_YEAR,
+    api_client,
+    redis_client,
+)
 from bcn_rainfall_webapp.utils.graph import aggregate_plotly_json_figures
 from bcn_rainfall_webapp.views import navbar
 
@@ -15,107 +23,128 @@ flask_app.register_blueprint(navbar)
 
 @flask_app.route("/")
 def index():
-    seasonal_rainfalls = []
-    for season in ["spring", "summer", "fall", "winter"]:
-        seasonal_rainfalls.append(
-            api_client.get_rainfall_by_year_as_plotly_json(
-                time_mode="seasonal",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                season=season,
-            )
+    ctx_variables_dict: dict[str, Any] = {}
+
+    if seasonal_rainfalls_as_plotly_json := redis_client.get(
+        "seasonal_rainfalls_as_plotly_json"
+    ):
+        ctx_variables_dict["plotlySeasonalRainfallsJSON"] = (
+            seasonal_rainfalls_as_plotly_json
+        )
+    else:
+        seasonal_rainfalls_as_plotly_json = aggregate_plotly_json_figures(
+            [
+                api_client.get_rainfall_by_year_as_plotly_json(
+                    time_mode="seasonal",
+                    begin_year=BEGIN_YEAR,
+                    end_year=END_YEAR,
+                    season=season,
+                )
+                for season in ["spring", "summer", "fall", "winter"]
+            ],
+            layout={
+                "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each season",
+                "xaxis": {"title": "Year"},
+                "yaxis": {"title": "Rainfall (mm)"},
+                "barmode": "stack",
+                "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
+            },
         )
 
-    fig_seasonal_rainfalls = aggregate_plotly_json_figures(
-        seasonal_rainfalls,
-        layout={
-            "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each season",
-            "xaxis": {"title": "Year"},
-            "yaxis": {"title": "Rainfall (mm)"},
-            "barmode": "stack",
-            "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
-        },
-    )
+        ctx_variables_dict["plotlySeasonalRainfallsJSON"] = (
+            seasonal_rainfalls_as_plotly_json
+        )
+        redis_client.set(
+            "seasonal_rainfalls_as_plotly_json", seasonal_rainfalls_as_plotly_json
+        )
 
     ## Averages ##
 
-    monthly_averages = api_client.get_rainfall_averages_as_plotly_json(
-        time_mode="monthly",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
+    if rainfall_averages_as_plotly_json := redis_client.get(
+        "rainfall_averages_as_plotly_json"
+    ):
+        ctx_variables_dict["plotlyAveragesJSON"] = rainfall_averages_as_plotly_json
+    else:
+        rainfall_averages_as_plotly_json = aggregate_plotly_json_figures(
+            [
+                api_client.get_rainfall_averages_as_plotly_json(
+                    time_mode=time_mode,
+                    begin_year=BEGIN_YEAR,
+                    end_year=END_YEAR,
+                )
+                for time_mode in ["monthly", "seasonal"]
+            ],
+            layout={
+                "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
+                "yaxis": {"title": "Rainfall (mm)"},
+                "colorway": ["#5bd0d1", "#cb7e5c"],
+            },
+        )
 
-    seasonal_averages = api_client.get_rainfall_averages_as_plotly_json(
-        time_mode="seasonal",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
-
-    fig_averages = aggregate_plotly_json_figures(
-        [monthly_averages, seasonal_averages],
-        layout={
-            "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Rainfall (mm)"},
-            "colorway": ["#5bd0d1", "#cb7e5c"],
-        },
-    )
+        ctx_variables_dict["plotlyAveragesJSON"] = rainfall_averages_as_plotly_json
+        redis_client.set(
+            "rainfall_averages_as_plotly_json", rainfall_averages_as_plotly_json
+        )
 
     ## LinReg slopes ##
 
-    monthly_linreg_slopes = api_client.get_rainfall_linreg_slopes_as_plotly_json(
-        time_mode="monthly",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
+    if linreg_slopes_as_plotly_json := redis_client.get("linreg_slopes_as_plotly_json"):
+        ctx_variables_dict["plotlyLinRegJSON"] = linreg_slopes_as_plotly_json
+    else:
+        linreg_slopes_as_plotly_json = aggregate_plotly_json_figures(
+            [
+                api_client.get_rainfall_linreg_slopes_as_plotly_json(
+                    time_mode=time_mode,
+                    begin_year=BEGIN_YEAR,
+                    end_year=END_YEAR,
+                )
+                for time_mode in ["monthly", "seasonal"]
+            ],
+            layout={
+                "title": f"Average linear regression slope between {BEGIN_YEAR} and {END_YEAR}",
+                "yaxis": {"title": "Linear regression slope (mm/year)"},
+                "colorway": ["#5bd0d1", "#cb7e5c"],
+            },
+        )
 
-    seasonal_linreg_slopes = api_client.get_rainfall_linreg_slopes_as_plotly_json(
-        time_mode="seasonal",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
-
-    fig_linreg_slopes = aggregate_plotly_json_figures(
-        [monthly_linreg_slopes, seasonal_linreg_slopes],
-        layout={
-            "title": f"Average linear regression slope between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Linear regression slope (mm/year)"},
-            "colorway": ["#5bd0d1", "#cb7e5c"],
-        },
-    )
+        ctx_variables_dict["plotlyLinRegJSON"] = linreg_slopes_as_plotly_json
+        redis_client.set("linreg_slopes_as_plotly_json", linreg_slopes_as_plotly_json)
 
     ## Relative distances to normal ##
 
-    monthly_relative_distances_to_normal = (
-        api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-            time_mode="monthly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
+    if relative_distances_to_rainfall_normal_as_plotly_json := redis_client.get(
+        "relative_distances_to_rainfall_normal_as_plotly_json"
+    ):
+        ctx_variables_dict["plotlyRelativeDistance2NormalJSON"] = (
+            relative_distances_to_rainfall_normal_as_plotly_json
         )
-    )
-
-    seasonal_relative_distances_to_normal = (
-        api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-            time_mode="seasonal",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
+    else:
+        relative_distances_to_rainfall_normal_as_plotly_json = aggregate_plotly_json_figures(
+            [
+                api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
+                    time_mode=time_mode,
+                    normal_year=NORMAL_YEAR,
+                    begin_year=BEGIN_YEAR,
+                    end_year=END_YEAR,
+                )
+                for time_mode in ["monthly", "seasonal"]
+            ],
+            layout={
+                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
+                "yaxis": {"title": "Relative distance to normal (%)"},
+                "colorway": ["#5bd0d1", "#cb7e5c"],
+            },
         )
-    )
 
-    fig_relative_distances_to_normal = aggregate_plotly_json_figures(
-        [monthly_relative_distances_to_normal, seasonal_relative_distances_to_normal],
-        layout={
-            "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Relative distance to normal (%)"},
-            "colorway": ["#5bd0d1", "#cb7e5c"],
-        },
-    )
+        ctx_variables_dict["plotlyRelativeDistance2NormalJSON"] = (
+            relative_distances_to_rainfall_normal_as_plotly_json
+        )
+        redis_client.set(
+            "relative_distances_to_rainfall_normal_as_plotly_json",
+            relative_distances_to_rainfall_normal_as_plotly_json,
+        )
 
     return render_template(
         "index.html",
-        plotlySeasonalRainfallsJSON=fig_seasonal_rainfalls,
-        plotlyAveragesJSON=fig_averages,
-        plotlyLinRegJSON=fig_linreg_slopes,
-        plotlyRelativeDistance2NormalJSON=fig_relative_distances_to_normal,
+        **ctx_variables_dict,
     )

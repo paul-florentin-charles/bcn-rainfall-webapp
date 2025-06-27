@@ -5,6 +5,14 @@ webapp:
   port: 5000
   debug: true
 
+# -- Redis server settings -- #
+
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  decode_responses: True
+
 # -- FastAPI base URL (used by API client) -- #
 
 api_base_url: http://127.0.0.1:8000/rest

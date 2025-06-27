@@ -12,6 +12,7 @@ the Barcelona Rainfall API using its client.
 
 - Python 3.12
 - Pip
+- Redis server
 
 ### Get started
 
@@ -24,7 +25,14 @@ pip install uv
 uv sync
 ```
 
-#### Run
+#### Install and run Redis server
+
+```commandline
+sudo apt install redis
+sudo systemctl status redis-server
+```
+
+#### Run Flask server
 
 ```commandline
 uv run run.py
