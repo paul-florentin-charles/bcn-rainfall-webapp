@@ -14,21 +14,31 @@ the Barcelona Rainfall API using its client.
 - Python 3.12
 - Pip
 - Redis server (optional for performance)
+- Node.js
 
 ### Get started
 
-#### Build
+#### Build Python environment
 
-```commandline
+```sh
 git clone https://github.com/paul-florentin-charles/bcn-rainfall-webapp.git
 cd bcn-rainfall-webapp
 pip install uv
 uv sync
 ```
 
+#### Generate JavaScript files from TypeScript files
+
+```sh
+cd bcn_rainfall_webapp/static
+npm install
+cd js
+npx tsc --watch
+```
+
 #### Install and run Redis server
 
-```commandline
+```sh
 sudo apt install redis
 sudo systemctl status redis-server
 ```
@@ -47,14 +57,14 @@ sudo systemctl status redis-server
 
 ### Tests & Coverage
 
-```commandline
+```sh
 uv run coverage run -m pytest
 uv run coverage report
 ```
 
 ### Code quality
 
-```commandline
+```sh
 uv tool run mypy --check-untyped-defs .
 uv tool run ruff check
 uv tool run ruff format
