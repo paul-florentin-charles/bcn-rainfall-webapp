@@ -1,12 +1,14 @@
 <div class="header">
     <div class="pure-g">
-        <div class="pure-u-1">
+        <div class="pure-u-1 header-flex">
             <h2 id="title"><a href="/">Barcelona Rainfall</a></h2>
-        </div>
-    </div>
-    <div class="pure-g">
-        <div class="pure-u-1 flex-center">
-            <div class="pure-menu pure-menu-horizontal">
+            <button class="hamburger" id="hamburger-menu" aria-label="Toggle menu" aria-expanded="false"
+                    aria-controls="main-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="pure-menu pure-menu-horizontal responsive-menu" id="main-menu">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item">
                         <a href="/" class="pure-menu-link">Main panel</a>
@@ -30,7 +32,7 @@
                         <a href="/years_compared_to_normal" class="pure-menu-link">Years compared to normal</a>
                     </li>
                 </ul>
-            </div>
+            </nav>
         </div>
     </div>
 </div>

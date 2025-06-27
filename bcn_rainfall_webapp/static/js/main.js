@@ -32,3 +32,20 @@ scrollToTopBtn.addEventListener('click', () => {
 window.addEventListener('scroll', toggleScrollToTopButton);
 
 /** Toggle hamburger menu for tablets & phones **/
+
+const hamburger = document.getElementById('hamburger-menu');
+const menu = document.getElementById('main-menu');
+
+hamburger.addEventListener('click', function () {
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !expanded);
+    menu.classList.toggle('open');
+});
+
+// Optional: close menu when clicking outside
+document.addEventListener('click', function (e) {
+    if (!hamburger.contains(e.target) && !menu.contains(e.target) && menu.classList.contains('open')) {
+        hamburger.setAttribute('aria-expanded', false);
+        menu.classList.remove('open');
+    }
+});
