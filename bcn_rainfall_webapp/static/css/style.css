@@ -14,7 +14,7 @@
 
 body {
     background-color: var(--background-color);
-    font: 300 16px Khula, sans-serif;
+    font: 300 15px Khula, sans-serif;
     color: white;
     line-height: 0.8em;
     margin: 0;
@@ -30,7 +30,7 @@ h2#title {
 
 .header, .footer {
     text-align: center;
-    width: 75%;
+    width: 80%;
     top: 0.4em;
     z-index: 1;
     background-color: var(--header-background-color);
@@ -43,8 +43,14 @@ h2#title {
 
 .header {
     position: sticky;
-    opacity: 0.75;
+    opacity: 0.8;
 }
+
+.header:hover, .footer:hover {
+    transition: box-shadow 200ms ease-in-out;
+    box-shadow: 0 0 1em var(--link-hover-color);
+}
+
 
 .footer {
     opacity: 0.85;
@@ -58,15 +64,21 @@ h2#title {
     text-decoration: none;
 }
 
-a {
+a, .pure-menu-link {
     color: var(--link-color);
     text-decoration: none;
 }
 
-a:hover {
+a:hover, .pure-menu-link:hover {
     color: var(--link-hover-color);
-    text-decoration: underline;
 }
+
+.pure-menu-link:hover {
+    background-color: transparent;
+    transition: box-shadow 250ms linear;
+    box-shadow: 0 0 0.75em var(--link-hover-color);
+}
+
 
 .flex-center {
     display: flex;
@@ -135,7 +147,7 @@ img.logo:hover {
 
 @media screen and (max-width: 767px) {
     body {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .header, .footer {
@@ -144,6 +156,10 @@ img.logo:hover {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
+    body {
+        font-size: 13px;
+    }
+
     .header, .footer {
         width: 75%;
     }

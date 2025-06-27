@@ -1,4 +1,5 @@
 import plotly.express as px
+import plotly.io
 from flask import Blueprint, render_template
 
 from bcn_rainfall_webapp import BEGIN_YEAR, END_YEAR, NORMAL_YEAR, api_client
@@ -16,7 +17,7 @@ navbar = Blueprint(
 def rainfall_by_year():
     rainfall_by_year_list = []
     for cluster_count in [None, 2, 3]:
-        rainfall_by_year_list.append(
+        fig = plotly.io.from_json(
             api_client.get_rainfall_by_year_as_plotly_json(
                 time_mode="yearly",
                 begin_year=BEGIN_YEAR,
@@ -25,6 +26,11 @@ def rainfall_by_year():
                 kmeans_cluster_count=cluster_count,
             )
         )
+        fig.update_layout(
+            colorway=["#5bd0d1", "#b15bd1", "#c3d15b", "#d15b7e"],
+        )
+
+        rainfall_by_year_list.append(fig.to_json())
 
     monthly_rainfalls = []
     for month in [
@@ -70,23 +76,23 @@ def rainfall_by_year():
 
 @navbar.route("/rainfall_average")
 def rainfall_average():
-    monthly_averages = api_client.get_rainfall_averages_as_plotly_json(
-        time_mode="monthly",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
-
-    seasonal_averages = api_client.get_rainfall_averages_as_plotly_json(
-        time_mode="seasonal",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
-
     fig_averages = aggregate_plotly_json_figures(
-        [monthly_averages, seasonal_averages],
+        [
+            api_client.get_rainfall_averages_as_plotly_json(
+                time_mode="monthly",
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+            ),
+            api_client.get_rainfall_averages_as_plotly_json(
+                time_mode="seasonal",
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+            ),
+        ],
         layout={
             "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
             "yaxis": {"title": "Rainfall (mm)"},
+            "colorway": ["#5bd0d1", "#cb7e5c"],
         },
     )
 
@@ -98,14 +104,31 @@ def rainfall_average():
 
 @navbar.route("/rainfall_relative_distance_to_normal")
 def rainfall_relative_distance_to_normal():
+    fig_rainfall_relative_distances_to_normal = aggregate_plotly_json_figures(
+        [
+            api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
+                time_mode="monthly",
+                normal_year=NORMAL_YEAR,
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+            ),
+            api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
+                time_mode="seasonal",
+                normal_year=NORMAL_YEAR,
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+            ),
+        ],
+        layout={
+            "title": f"Rainfall relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
+            "yaxis": {"title": "Relative distance to normal (%)"},
+            "colorway": ["#5bd0d1", "#cb7e5c"],
+        },
+    )
+
     return render_template(
         "sections/rainfall_relative_distance_to_normal.html",
-        plotlyRainfallRelativeDistance2NormalJSON=api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-            time_mode="monthly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
-        ),
+        plotlyRainfallRelativeDistance2NormalJSON=fig_rainfall_relative_distances_to_normal,
     )
 
 
@@ -176,46 +199,44 @@ def years_compared_to_normal():
 
 @navbar.route("/rainfall_standard_deviation")
 def rainfall_standard_deviation():
-    fig_monthly = api_client.get_rainfall_standard_deviations_as_plotly_json(
-        time_mode="monthly",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
-    fig_seasonal = api_client.get_rainfall_standard_deviations_as_plotly_json(
-        time_mode="seasonal",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-    )
+    traces_json: list[str] = []
+    traces_weighted_json: list[str] = []
+    for time_mode in ["monthly", "seasonal"]:
+        traces_json.append(
+            api_client.get_rainfall_standard_deviations_as_plotly_json(
+                time_mode=time_mode,
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+            )
+        )
 
-    fig_monthly_weighted = api_client.get_rainfall_standard_deviations_as_plotly_json(
-        time_mode="monthly",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-        weigh_by_average=True,
-    )
-    fig_seasonal_weighted = api_client.get_rainfall_standard_deviations_as_plotly_json(
-        time_mode="seasonal",
-        begin_year=BEGIN_YEAR,
-        end_year=END_YEAR,
-        weigh_by_average=True,
-    )
+        traces_weighted_json.append(
+            api_client.get_rainfall_standard_deviations_as_plotly_json(
+                time_mode=time_mode,
+                begin_year=BEGIN_YEAR,
+                end_year=END_YEAR,
+                weigh_by_average=True,
+            )
+        )
 
     return render_template(
         "sections/rainfall_standard_deviation.html",
         plotlyRainfallStandardDeviationJSON=aggregate_plotly_json_figures(
-            [fig_monthly, fig_seasonal],
+            traces_json,
             layout={
                 "title": f"Standard deviation between {BEGIN_YEAR} and {END_YEAR}",
                 "yaxis": {"title": "Standard deviation (mm)"},
+                "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         ),
         plotlyRainfallStandardDeviationWeightedJSON=aggregate_plotly_json_figures(
-            [fig_monthly_weighted, fig_seasonal_weighted],
+            traces_weighted_json,
             layout={
                 "title": f"Standard deviation weighted by average between {BEGIN_YEAR} and {END_YEAR}",
                 "yaxis": {
                     "title": "Standard deviation weighted by average (%)",
                 },
+                "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         ),
     )

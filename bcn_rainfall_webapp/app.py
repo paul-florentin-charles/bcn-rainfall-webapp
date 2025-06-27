@@ -56,6 +56,7 @@ def index():
         layout={
             "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
             "yaxis": {"title": "Rainfall (mm)"},
+            "colorway": ["#5bd0d1", "#cb7e5c"],
         },
     )
 
@@ -78,6 +79,7 @@ def index():
         layout={
             "title": f"Average linear regression slope between {BEGIN_YEAR} and {END_YEAR}",
             "yaxis": {"title": "Linear regression slope (mm/year)"},
+            "colorway": ["#5bd0d1", "#cb7e5c"],
         },
     )
 
@@ -106,6 +108,7 @@ def index():
         layout={
             "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
             "yaxis": {"title": "Relative distance to normal (%)"},
+            "colorway": ["#5bd0d1", "#cb7e5c"],
         },
     )
 

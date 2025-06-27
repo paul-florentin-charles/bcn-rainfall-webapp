@@ -30,3 +30,5 @@ scrollToTopBtn.addEventListener('click', () => {
 });
 
 window.addEventListener('scroll', toggleScrollToTopButton);
+
+/** Toggle hamburger menu for tablets & phones **/
