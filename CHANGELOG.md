@@ -1,5 +1,12 @@
 ## Changelog
 
+### v1.1.0
+_28/06/2025_
+
+- Redis implementation to store and load graphics.
+- To run it, add flag `-db` to command `uv run run.py`.
+  - Otherwise, will disable DB client and always load data from **API**
+
 ### v1.0.4
 _25/06/2025_
 

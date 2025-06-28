@@ -1,3 +1,3 @@
-from .navbar import navbar
+from .sections import sections
 
-__all__ = ["navbar"]
+__all__ = ["sections"]

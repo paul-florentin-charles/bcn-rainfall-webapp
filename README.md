@@ -12,7 +12,7 @@ the Barcelona Rainfall API using its client.
 
 - Python 3.12
 - Pip
-- Redis server
+- Redis server (optional for performance)
 
 ### Get started
 
@@ -34,9 +34,15 @@ sudo systemctl status redis-server
 
 #### Run Flask server
 
-```commandline
-uv run run.py
-```
+1. Without Redis DB client
+    ```commandline
+    uv run run.py
+    ```
+
+2. With Redis DB client
+    ```commandline
+    uv run run.py -db
+    ```
 
 ### Code quality
 
