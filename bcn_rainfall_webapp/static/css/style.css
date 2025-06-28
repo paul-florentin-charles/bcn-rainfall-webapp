@@ -87,6 +87,7 @@ a:hover, .pure-menu-link:hover {
     background-color: transparent;
     transition: box-shadow 250ms linear;
     box-shadow: 0 0 0.75em var(--link-hover-color);
+    border-radius: 0.75em;
 }
 
 

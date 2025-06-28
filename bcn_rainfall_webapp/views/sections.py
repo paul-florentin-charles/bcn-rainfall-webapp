@@ -40,6 +40,8 @@ def rainfall_by_year():
             )
             figure.update_layout(
                 colorway=px.colors.carto.Pastel[::2],
+                xaxis={"title": None, "rangeslider_visible": False},
+                yaxis={"title_standoff": 5},
             )
 
             data = figure.to_json()
@@ -104,8 +106,7 @@ def rainfall_by_year():
         monthly_rainfall_by_year_as_plotly_json_list,
         layout={
             "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each month",
-            "xaxis": {"title": "Year"},
-            "yaxis": {"title": "Rainfall (mm)"},
+            "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": px.colors.cyclical.IceFire[1:],
         },
@@ -155,7 +156,7 @@ def rainfall_average():
             rainfall_averages_as_plotly_json_list,
             layout={
                 "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
-                "yaxis": {"title": "Rainfall (mm)"},
+                "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         ),
@@ -202,7 +203,10 @@ def rainfall_relative_distance_to_normal():
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
                 "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
-                "yaxis": {"title": "Relative distance to normal (%)"},
+                "yaxis": {
+                    "title": "Relative distance to normal (%)",
+                    "title_standoff": 5,
+                },
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         ),
@@ -412,7 +416,7 @@ def rainfall_standard_deviation():
             rainfall_standard_deviations_as_plotly_json_list,
             layout={
                 "title": f"Standard deviation between {BEGIN_YEAR} and {END_YEAR}",
-                "yaxis": {"title": "Standard deviation (mm)"},
+                "yaxis": {"title": "Standard deviation (mm)", "title_standoff": 5},
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         ),
@@ -422,6 +426,7 @@ def rainfall_standard_deviation():
                 "title": f"Standard deviation weighted by average between {BEGIN_YEAR} and {END_YEAR}",
                 "yaxis": {
                     "title": "Standard deviation weighted by average (%)",
+                    "title_standoff": 5,
                 },
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },

@@ -59,8 +59,7 @@ def index():
         seasonal_rainfall_as_plotly_json_list,
         layout={
             "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each season",
-            "xaxis": {"title": "Year"},
-            "yaxis": {"title": "Rainfall (mm)"},
+            "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
         },
@@ -101,7 +100,7 @@ def index():
         rainfall_averages_as_plotly_json_list,
         layout={
             "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Rainfall (mm)"},
+            "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "colorway": ["#5bd0d1", "#cb7e5c"],
         },
     )
@@ -141,7 +140,10 @@ def index():
         rainfall_linreg_slopes_as_plotly_json_list,
         layout={
             "title": f"Average linear regression slope between {BEGIN_YEAR} and {END_YEAR}",
-            "yaxis": {"title": "Linear regression slope (mm/year)"},
+            "yaxis": {
+                "title": "Linear regression slope (mm/year)",
+                "title_standoff": 5,
+            },
             "colorway": ["#5bd0d1", "#cb7e5c"],
         },
     )
@@ -185,7 +187,10 @@ def index():
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
                 "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
-                "yaxis": {"title": "Relative distance to normal (%)"},
+                "yaxis": {
+                    "title": "Relative distance to normal (%)",
+                    "title_standoff": 5,
+                },
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         )
