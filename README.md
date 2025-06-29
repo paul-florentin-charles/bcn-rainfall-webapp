@@ -44,6 +44,13 @@ sudo systemctl status redis-server
     uv run run.py -db
     ```
 
+### Tests & Coverage
+
+```commandline
+uv run coverage run -m pytest
+uv run coverage report
+```
+
 ### Code quality
 
 ```commandline

@@ -7,11 +7,13 @@ requires-python = ">=3.12"
 dependencies = [
     "bcn-rainfall-api-client~=1.0.9",
     "click~=8.1.7",
+    "coverage~=7.9.1",
     "flask~=3.1.0",
     "pandas~=2.2.2",
     "plotly~=5.24.1",
     "pre-commit~=4.0.1",
     "pydantic~=2.8.2",
+    "pytest~=8.4.1",
     "pyyaml~=6.0.2",
     "redis~=6.2.0",
     "requests~=2.32.4",

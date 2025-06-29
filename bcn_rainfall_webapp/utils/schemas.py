@@ -6,7 +6,7 @@ class WebappServerSettings(BaseModel):
 
     host: str
     port: int
-    debug: bool | None = Field(None)
+    debug: bool | None = Field(default=None)
 
 
 class RedisServerSettings(BaseModel):
@@ -14,5 +14,5 @@ class RedisServerSettings(BaseModel):
 
     host: str
     port: int
-    db: int = Field(0)
-    decode_responses: bool = Field(True)
+    db: int = Field(default=0)
+    decode_responses: bool = Field(default=True)
