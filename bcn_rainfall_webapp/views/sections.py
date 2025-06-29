@@ -40,6 +40,7 @@ def rainfall_by_year():
             )
             figure.update_layout(
                 colorway=px.colors.carto.Pastel[::2],
+                title=f"Rainfall between {BEGIN_YEAR} and {END_YEAR}",
                 xaxis={"title": None, "rangeslider_visible": False},
                 yaxis={"title_standoff": 5},
             )

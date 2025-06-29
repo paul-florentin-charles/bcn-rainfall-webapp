@@ -9,7 +9,7 @@ const default_layout_dict = {
     },
     'phone': {
         'font_size': 8,
-        'margin': {'t': 65, 'r': 15, 'b': 30, 'l': 25}
+        'margin': {'t': 65, 'r': 20, 'b': 30, 'l': 25}
     }
 }
 

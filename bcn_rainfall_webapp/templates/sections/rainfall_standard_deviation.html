@@ -45,7 +45,7 @@
         if (window.screen.width < 768) {
             Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
                 graph_json.layout.font.size = 8;
-                graph_json.layout.margin = {'t': 65, 'r': 15, 'b': 25, 'l': 25};
+                graph_json.layout.margin = {'t': 65, 'r': 20, 'b': 25, 'l': 25};
             })
 
             document.getElementById('first-plotly-graph').insertAdjacentElement('afterend', document.getElementById('first-button-group'));
