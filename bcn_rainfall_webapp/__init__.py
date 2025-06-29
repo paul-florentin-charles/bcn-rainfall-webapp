@@ -5,6 +5,7 @@ from bcn_rainfall_webapp.db import DBClient
 
 api_client = APIClient(base_url=Config().get_fastapi_base_url)
 db_client = DBClient.from_config()
+db_client.disable()  # Disable DB client for Render instance
 
 NORMAL_YEAR = 1981
 BEGIN_YEAR = 1995
