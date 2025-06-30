@@ -29,7 +29,7 @@ h2#title {
 }
 
 #main-menu {
-    margin-right: 1.5em;
+    margin-right: 1em;
 }
 
 .header, .footer {
@@ -205,7 +205,7 @@ img.logo:hover {
 
     .responsive-menu.open {
         display: block;
-        animation: fadeIn 0.25s;
+        animation: fadeIn 0.3s;
     }
 
     .responsive-menu .pure-menu-list {
@@ -274,14 +274,14 @@ img.logo:hover {
     .responsive-menu .pure-menu-item {
         width: auto;
         text-align: center;
-        padding: 0 0.25em;
+        padding: 0 0.2em;
     }
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
