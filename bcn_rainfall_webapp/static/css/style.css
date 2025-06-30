@@ -66,6 +66,10 @@ h2#title {
     opacity: 0.85;
 }
 
+#footer-mention {
+    margin: 0.5em;
+}
+
 .menu-father {
     color: var(--link-color);
 }
@@ -123,8 +127,8 @@ img.logo:hover {
 
 .scroll-to-top {
     position: fixed;
-    bottom: 2.3em;
-    right: 2.3em;
+    bottom: 2em;
+    right: 2em;
     background-color: var(--link-color);
     color: black;
     width: 2.5em;

@@ -40,7 +40,7 @@ def rainfall_by_year():
             )
             figure.update_layout(
                 colorway=px.colors.carto.Pastel[::2],
-                title=f"Rainfall between {BEGIN_YEAR} and {END_YEAR}",
+                title=f"Rainfall from {BEGIN_YEAR} to {END_YEAR}",
                 xaxis={"title": None, "rangeslider_visible": False},
                 yaxis={"title_standoff": 5},
             )
@@ -106,7 +106,7 @@ def rainfall_by_year():
     fig_monthly_rainfalls = aggregate_plotly_json_figures(
         monthly_rainfall_by_year_as_plotly_json_list,
         layout={
-            "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each month",
+            "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each month",
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": px.colors.cyclical.IceFire[1:],
@@ -156,7 +156,7 @@ def rainfall_average():
         plotlyRainfallAverageJSON=aggregate_plotly_json_figures(
             rainfall_averages_as_plotly_json_list,
             layout={
-                "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Average rainfall from {BEGIN_YEAR} to {END_YEAR}",
                 "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
@@ -203,7 +203,7 @@ def rainfall_relative_distance_to_normal():
         plotlyRainfallRelativeDistance2NormalJSON=aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
-                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal from {BEGIN_YEAR} to {END_YEAR}",
                 "yaxis": {
                     "title": "Relative distance to normal (%)",
                     "title_standoff": 5,
@@ -260,6 +260,7 @@ def years_compared_to_normal():
                 begin_year=BEGIN_YEAR,
                 end_year=END_YEAR,
                 season=season,
+                percentages_of_normal="0,75,90,110,125,inf",
             )
         ):
             percentage_of_years_compared_to_normal_as_plotly_json_list_2.append(
@@ -315,6 +316,37 @@ def years_compared_to_normal():
 
         percentage_of_years_above_and_below_normal_as_plotly_json = data
 
+    if (
+        percentage_of_years_above_and_below_normal_2_as_plotly_json
+        := db_client.get_percentage_of_years_compared_to_normal_as_plotly_json(
+            time_mode="yearly",
+            normal_year=NORMAL_YEAR,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            percentages_of_normal="0,75,90,110,125,inf",
+        )
+    ):
+        pass
+    else:
+        data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+            time_mode="yearly",
+            normal_year=NORMAL_YEAR,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            percentages_of_normal="0,75,90,110,125,inf",
+        )
+
+        db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
+            time_mode="yearly",
+            normal_year=NORMAL_YEAR,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            data=data,
+            percentages_of_normal="0,75,90,110,125,inf",
+        )
+
+        percentage_of_years_above_and_below_normal_2_as_plotly_json = data
+
     return render_template(
         "sections/years_compared_to_normal.html",
         plotlyYearsAboveNormalSeasonalJSON=aggregate_plotly_json_pie_charts(
@@ -322,7 +354,7 @@ def years_compared_to_normal():
             rows=2,
             cols=2,
             layout={
-                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
             },
             graph_labels=[
                 "Spring",
@@ -336,7 +368,7 @@ def years_compared_to_normal():
             rows=2,
             cols=2,
             layout={
-                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
             },
             graph_labels=[
                 "Spring",
@@ -346,6 +378,7 @@ def years_compared_to_normal():
             ],
         ),
         plotlyYearsAboveNormalJSON=percentage_of_years_above_and_below_normal_as_plotly_json,
+        plotlyYearsAboveNormal2JSON=percentage_of_years_above_and_below_normal_2_as_plotly_json,
     )
 
 
@@ -416,7 +449,7 @@ def rainfall_standard_deviation():
         plotlyRainfallStandardDeviationJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_as_plotly_json_list,
             layout={
-                "title": f"Standard deviation between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Standard deviation from {BEGIN_YEAR} to {END_YEAR}",
                 "yaxis": {"title": "Standard deviation (mm)", "title_standoff": 5},
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
@@ -424,7 +457,7 @@ def rainfall_standard_deviation():
         plotlyRainfallStandardDeviationWeightedJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_weighted_as_plotly_json_list,
             layout={
-                "title": f"Standard deviation weighted by average between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Standard deviation weighted by average from {BEGIN_YEAR} to {END_YEAR}",
                 "yaxis": {
                     "title": "Standard deviation weighted by average (%)",
                     "title_standoff": 5,

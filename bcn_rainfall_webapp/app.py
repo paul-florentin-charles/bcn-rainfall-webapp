@@ -58,7 +58,7 @@ def index():
     ctx_variables_dict["plotlySeasonalRainfallsJSON"] = aggregate_plotly_json_figures(
         seasonal_rainfall_as_plotly_json_list,
         layout={
-            "title": f"Rainfall between {BEGIN_YEAR} and {END_YEAR} for each season",
+            "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each season",
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
@@ -99,7 +99,7 @@ def index():
     ctx_variables_dict["plotlyAveragesJSON"] = aggregate_plotly_json_figures(
         rainfall_averages_as_plotly_json_list,
         layout={
-            "title": f"Average rainfall between {BEGIN_YEAR} and {END_YEAR}",
+            "title": f"Average rainfall from {BEGIN_YEAR} to {END_YEAR}",
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "colorway": ["#5bd0d1", "#cb7e5c"],
         },
@@ -139,7 +139,7 @@ def index():
     ctx_variables_dict["plotlyLinRegJSON"] = aggregate_plotly_json_figures(
         rainfall_linreg_slopes_as_plotly_json_list,
         layout={
-            "title": f"Average linear regression slope between {BEGIN_YEAR} and {END_YEAR}",
+            "title": f"Average linear regression slope from {BEGIN_YEAR} to {END_YEAR}",
             "yaxis": {
                 "title": "Linear regression slope (mm/year)",
                 "title_standoff": 5,
@@ -186,7 +186,7 @@ def index():
         aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
-                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal between {BEGIN_YEAR} and {END_YEAR}",
+                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal from {BEGIN_YEAR} to {END_YEAR}",
                 "yaxis": {
                     "title": "Relative distance to normal (%)",
                     "title_standoff": 5,
