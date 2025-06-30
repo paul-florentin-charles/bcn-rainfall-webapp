@@ -24,9 +24,11 @@ jobs:
         pip install uv
         uv sync
 
-    - name: Run tests with pytest and report coverage with coveragepy
+    - name: |
+        Run tests with pytest and report coverage with coveragepy.
+        Exclude tests that need either the Flask app or theRedis server to be running.
       run: |
-        uv run coverage run -m pytest
+        uv run coverage run -m pytest --ignore=test/test_app.py --ignore=test/views/test_sections.py
         uv run coverage report
 
     - name: Generate coverage badge
