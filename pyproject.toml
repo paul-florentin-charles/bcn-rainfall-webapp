@@ -5,7 +5,7 @@ description = "Webapp run with Flask to display in a user-friendly way rainfall 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "bcn-rainfall-api-client~=1.0.9",
+    "bcn-rainfall-api-client @ git+https://github.com/paul-florentin-charles/bcn-rainfall-api-client.git@v1.0.9",
     "click~=8.1.7",
     "coverage~=7.9.1",
     "flask~=3.1.0",
