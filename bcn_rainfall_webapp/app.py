@@ -5,6 +5,7 @@ Work-in-progress!
 
 from typing import Any
 
+import plotly.io
 from flask import Flask, render_template
 
 from bcn_rainfall_webapp import (
@@ -14,7 +15,10 @@ from bcn_rainfall_webapp import (
     api_client,
     db_client,
 )
-from bcn_rainfall_webapp.utils.graph import aggregate_plotly_json_figures
+from bcn_rainfall_webapp.utils.graph import (
+    aggregate_plotly_json_figures,
+    sorted_vertical_bars_by_y_values,
+)
 from bcn_rainfall_webapp.views import sections
 
 flask_app = Flask(__name__)
@@ -55,7 +59,7 @@ def index():
 
             seasonal_rainfall_as_plotly_json_list.append(data)
 
-    ctx_variables_dict["plotlySeasonalRainfallsJSON"] = aggregate_plotly_json_figures(
+    seasonal_rainfall_by_year_as_plotly_json = aggregate_plotly_json_figures(
         seasonal_rainfall_as_plotly_json_list,
         layout={
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each season",
@@ -64,6 +68,18 @@ def index():
             "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
         },
     )
+
+    ctx_variables_dict["plotlySeasonalRainfallsListJSON"] = [
+        seasonal_rainfall_by_year_as_plotly_json,
+        sorted_vertical_bars_by_y_values(
+            plotly.io.from_json(seasonal_rainfall_by_year_as_plotly_json),
+            descending=True,
+        ).to_json(),
+        sorted_vertical_bars_by_y_values(
+            plotly.io.from_json(seasonal_rainfall_by_year_as_plotly_json),
+            descending=False,
+        ).to_json(),
+    ]
 
     ## Averages ##
 
