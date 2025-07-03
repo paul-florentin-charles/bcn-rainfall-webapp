@@ -29,7 +29,7 @@
         chart_rainfall_relative_distance_to_normal: graph_rainfall_relative_distance_to_normal,
     };
 
-    resizeGraphs(graph_div_id_to_graph_json)
+    resizeGraphsOnLoadAndResize(graph_div_id_to_graph_json)
     colorizeGraphsFontsOnHover(graph_div_id_to_graph_json)
 
     Object.entries({
@@ -38,7 +38,7 @@
         'button-sort-reset': ''
     }).forEach(([button_id, order]) => {
         document.getElementById(button_id).addEventListener('click', function () {
-            sortGraph(graph_rainfall_relative_distance_to_normal, chart_rainfall_relative_distance_to_normal, order);
+            sortGraph(graph_rainfall_relative_distance_to_normal, 'chart_rainfall_relative_distance_to_normal', order);
         })
     })
 </script>

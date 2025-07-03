@@ -26,13 +26,13 @@
 
 <script type='text/javascript'>
     const graph_div_id_to_graph_json = {
-        chart_years_above_normal_seasonal: {{ plotlyYearsAboveNormalSeasonalJSON|safe }},
-        chart_years_above_normal_seasonal_2: {{ plotlyYearsAboveNormalSeasonal2JSON|safe }},
-        chart_years_above_normal: {{ plotlyYearsAboveNormalJSON|safe }},
-        chart_years_above_normal_2: {{ plotlyYearsAboveNormal2JSON|safe }},
-    };
+        'chart_years_above_normal_seasonal': {{ plotlyYearsAboveNormalSeasonalJSON|safe }},
+        'chart_years_above_normal_seasonal_2': {{ plotlyYearsAboveNormalSeasonal2JSON|safe }},
+        'chart_years_above_normal': {{ plotlyYearsAboveNormalJSON|safe }},
+        'chart_years_above_normal_2': {{ plotlyYearsAboveNormal2JSON|safe }},
+    }
 
-    resizeGraphs(graph_div_id_to_graph_json)
+    resizeGraphsOnLoadAndResize(graph_div_id_to_graph_json)
     colorizeGraphsFontsOnHover(graph_div_id_to_graph_json)
 </script>
 

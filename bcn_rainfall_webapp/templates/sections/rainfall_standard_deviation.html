@@ -75,7 +75,7 @@
         'button-sort-reset': ''
     }).forEach(([button_id, order]) => {
         document.getElementById(button_id).addEventListener('click', function () {
-            sortGraph(graph_rainfall_standard_deviation, chart_rainfall_standard_deviation, order);
+            sortGraph(graph_rainfall_standard_deviation, 'chart_rainfall_standard_deviation', order);
         })
     })
 
@@ -85,7 +85,7 @@
         'button-sort-reset-weighted': ''
     }).forEach(([button_id, order]) => {
         document.getElementById(button_id).addEventListener('click', function () {
-            sortGraph(graph_rainfall_standard_deviation_weighted, chart_rainfall_standard_deviation_weighted, order);
+            sortGraph(graph_rainfall_standard_deviation_weighted, 'chart_rainfall_standard_deviation_weighted', order);
         })
     })
 </script>

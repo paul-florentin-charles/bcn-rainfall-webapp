@@ -110,7 +110,7 @@ def rainfall_by_year():
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each month",
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
-            "colorway": px.colors.cyclical.IceFire[1:],
+            "colorway": px.colors.sequential.Turbo,
         },
     )
 

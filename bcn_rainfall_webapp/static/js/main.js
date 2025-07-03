@@ -38,14 +38,14 @@ const menu = document.getElementById('main-menu');
 
 hamburger.addEventListener('click', function () {
     const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', !expanded);
+    hamburger.setAttribute('aria-expanded', (!expanded).toString());
     menu.classList.toggle('open');
 });
 
 // Close menu when clicking outside
 document.addEventListener('click', function (e) {
     if (!hamburger.contains(e.target) && !menu.contains(e.target) && menu.classList.contains('open')) {
-        hamburger.setAttribute('aria-expanded', false);
+        hamburger.setAttribute('aria-expanded', 'false');
         menu.classList.remove('open');
     }
 });
