@@ -5,7 +5,6 @@ Work-in-progress!
 
 from typing import Any
 
-import plotly.io
 from flask import Flask, render_template
 
 from bcn_rainfall_webapp import (
@@ -59,7 +58,7 @@ def index():
 
             seasonal_rainfall_as_plotly_json_list.append(data)
 
-    seasonal_rainfall_by_year_as_plotly_json = aggregate_plotly_json_figures(
+    seasonal_rainfalls_by_year = aggregate_plotly_json_figures(
         seasonal_rainfall_as_plotly_json_list,
         layout={
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each season",
@@ -70,13 +69,13 @@ def index():
     )
 
     ctx_variables_dict["plotlySeasonalRainfallsListJSON"] = [
-        seasonal_rainfall_by_year_as_plotly_json,
+        seasonal_rainfalls_by_year.to_json(),
         sorted_vertical_bars_by_y_values(
-            plotly.io.from_json(seasonal_rainfall_by_year_as_plotly_json),
+            seasonal_rainfalls_by_year,
             descending=True,
         ).to_json(),
         sorted_vertical_bars_by_y_values(
-            plotly.io.from_json(seasonal_rainfall_by_year_as_plotly_json),
+            seasonal_rainfalls_by_year,
             descending=False,
         ).to_json(),
     ]
@@ -119,7 +118,7 @@ def index():
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "colorway": ["#5bd0d1", "#cb7e5c"],
         },
-    )
+    ).to_json()
 
     ## LinReg slopes ##
 
@@ -162,7 +161,7 @@ def index():
             },
             "colorway": ["#5bd0d1", "#cb7e5c"],
         },
-    )
+    ).to_json()
 
     ## Relative distances to normal ##
 
@@ -210,7 +209,7 @@ def index():
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
         )
-    )
+    ).to_json()
 
     return render_template(
         "index.html",

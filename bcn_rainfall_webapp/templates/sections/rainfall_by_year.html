@@ -25,16 +25,29 @@
     </div>
 </div>
 
+<div class="pure-g">
+    <div class="pure-u-1 flex-center">
+        <div class="pure-button-group" role="group" aria-label="...">
+            <button class="pure-button pure-button-primary" onclick="_displayGraphAtIndex(1);">Sort by month &#8593;
+            </button>
+            <button class="pure-button pure-button-primary" onclick="_displayGraphAtIndex(2);">Sort by month &#8595;
+            </button>
+            <button class="pure-button" onclick="_displayGraphAtIndex(0);">Reset</button>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
 
 <script type='text/javascript'>
     var graph_rainfall_by_year_list = {{ plotlyRainfallByYearJSONList|safe }}
+    var graph_monthly_rainfalls_list = {{ plotlyMonthlyRainfallsListJSON|safe }}
 
     const graph_div_id_to_graph_json = {
         chart_rainfall_by_year: JSON.parse(graph_rainfall_by_year_list[0]),
-        chart_monthly_rainfalls: {{ plotlyMonthlyRainfallsJSON|safe }},
+        chart_monthly_rainfalls: JSON.parse(graph_monthly_rainfalls_list[0]),
     };
 
     resizeGraphs(graph_div_id_to_graph_json)
@@ -55,6 +68,10 @@
         }
 
         Plotly.react(chart_rainfall_by_year, graphRainfallByYearNClusters, {}, config);
+    }
+
+    function _displayGraphAtIndex(index) {
+        displayGraphAtIndex('chart_monthly_rainfalls', graph_monthly_rainfalls_list, index)
     }
 </script>
 

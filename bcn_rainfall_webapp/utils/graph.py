@@ -86,14 +86,21 @@ def sorted_vertical_bars_by_y_values(figure: go.Figure, descending=True) -> go.F
             )
         )
 
-    return go.Figure(data=sorted_traces, layout=figure.layout)
+    layout = figure.layout
+    layout.update(
+        legend={
+            "tracegroupgap": 0
+        },  # Somehow legends have a vertical gap between them if we don't set this to 0.
+    )
+
+    return go.Figure(data=sorted_traces, layout=layout)
 
 
 def aggregate_plotly_json_figures(
     traces_json: list[str],
     *,
     layout: dict[str, Any] | None = None,
-) -> str:
+) -> go.Figure:
     figure = go.Figure()
     for trace_json in traces_json:
         figure.add_traces(list(plotly.io.from_json(trace_json).select_traces()))
@@ -102,7 +109,7 @@ def aggregate_plotly_json_figures(
         {**DEFAULT_LAYOUT, **(layout or {})},
     )
 
-    return figure.to_json()
+    return figure
 
 
 def aggregate_plotly_json_pie_charts(
@@ -112,7 +119,7 @@ def aggregate_plotly_json_pie_charts(
     cols: int,
     layout: dict[str, Any] | None = None,
     graph_labels: list[str] | None = None,
-) -> str:
+) -> go.Figure:
     figure = make_subplots(
         rows=rows,
         cols=cols,
@@ -166,4 +173,4 @@ def aggregate_plotly_json_pie_charts(
         },
     )
 
-    return figure.to_json()
+    return figure

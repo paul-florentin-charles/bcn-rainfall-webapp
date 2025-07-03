@@ -80,3 +80,20 @@ function resizeGraph(graph_div_id, graph_json) {
         Plotly.react(graph_div_id, graph_json, {}, config);
     }))
 }
+
+function displayGraphAtIndex(graph_div_id, graph_json_list, index) {
+    var graphSeasonalRainfall = JSON.parse(graph_json_list[index]);
+
+    resizeGraph(graph_div_id, graphSeasonalRainfall);
+    colorizeGraphFontsOnHover(graph_div_id, graphSeasonalRainfall);
+
+    if (window.screen.width < 768) {
+        graphSeasonalRainfall.layout.font.size = default_layout_dict['phone']['font_size'];
+        graphSeasonalRainfall.layout.margin = default_layout_dict['phone']['margin'];
+    } else {
+        graphSeasonalRainfall.layout.font.size = default_layout_dict['computer']['font_size'];
+        graphSeasonalRainfall.layout.margin = default_layout_dict['computer']['margin'];
+    }
+
+    Plotly.react(graph_div_id, graphSeasonalRainfall, {}, config);
+}

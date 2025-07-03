@@ -11,11 +11,11 @@
 <div class="pure-g">
     <div class="pure-u-1 flex-center">
         <div class="pure-button-group" role="group" aria-label="...">
-            <button class="pure-button pure-button-primary" onclick="displayGraphAtIndex(1);">Sort ascending
+            <button class="pure-button pure-button-primary" onclick="_displayGraphAtIndex(1);">Sort by season &#8593;
             </button>
-            <button class="pure-button pure-button-primary" onclick="displayGraphAtIndex(2);">Sort descending
+            <button class="pure-button pure-button-primary" onclick="_displayGraphAtIndex(2);">Sort by season &#8595;
             </button>
-            <button class="pure-button" onclick="displayGraphAtIndex(0);">Reset</button>
+            <button class="pure-button" onclick="_displayGraphAtIndex(0);">Reset</button>
         </div>
     </div>
 </div>
@@ -49,21 +49,8 @@
     resizeGraphs(graph_div_id_to_graph_json)
     colorizeGraphsFontsOnHover(graph_div_id_to_graph_json)
     
-    function displayGraphAtIndex(index) {
-        var graphSeasonalRainfall = JSON.parse(graph_seasonal_rainfalls_list[index]);
-    
-        resizeGraph('chart_seasonal_rainfalls', graphSeasonalRainfall);
-        colorizeGraphFontsOnHover('chart_seasonal_rainfalls', graphSeasonalRainfall);
-    
-        if (window.screen.width < 768) {
-            graphSeasonalRainfall.layout.font.size = default_layout_dict['phone']['font_size'];
-            graphSeasonalRainfall.layout.margin = default_layout_dict['phone']['margin'];
-        } else {
-            graphSeasonalRainfall.layout.font.size = default_layout_dict['computer']['font_size'];
-            graphSeasonalRainfall.layout.margin = default_layout_dict['computer']['margin'];
-        }
-    
-        Plotly.react('chart_seasonal_rainfalls', graphSeasonalRainfall, {}, config);
+    function _displayGraphAtIndex(index) {
+        displayGraphAtIndex('chart_seasonal_rainfalls', graph_seasonal_rainfalls_list, index)
     }
 </script>
 

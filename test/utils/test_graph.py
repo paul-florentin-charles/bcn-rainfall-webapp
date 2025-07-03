@@ -17,8 +17,8 @@ class TestUtilsGraph:
         ]
         result = aggregate_plotly_json_figures(plotly_traces)
 
-        assert isinstance(result, str)
-        assert "scatter" in result
+        assert isinstance(result, go.Figure)
+        assert "scatter" == result.data[0]["type"]
 
     @staticmethod
     def test_aggregate_plotly_json_figures_multiple():
@@ -28,8 +28,8 @@ class TestUtilsGraph:
         ]
         result = aggregate_plotly_json_figures(plotly_traces)
 
-        assert isinstance(result, str)
-        assert "bar" in result and "scatter" in result
+        assert isinstance(result, go.Figure)
+        assert "bar" in result.to_json() and "scatter" in result.to_json()
 
     @staticmethod
     def test_aggregate_plotly_json_figures_with_layout():
@@ -40,8 +40,8 @@ class TestUtilsGraph:
             plotly_traces, layout={"title": "Custom Title"}
         )
 
-        assert isinstance(result, str)
-        assert "Custom Title" in result
+        assert isinstance(result, go.Figure)
+        assert result.layout.title.text == "Custom Title"
 
     @staticmethod
     def test_aggregate_plotly_json_pie_charts_basic():
@@ -56,8 +56,8 @@ class TestUtilsGraph:
         ]
         result = aggregate_plotly_json_pie_charts(pie_jsons, rows=2, cols=2)
 
-        assert isinstance(result, str)
-        assert result.count("pie") >= 4
+        assert isinstance(result, go.Figure)
+        assert result.to_json().count("pie") >= 4
 
     @staticmethod
     def test_aggregate_plotly_json_pie_charts_with_labels():
@@ -76,7 +76,9 @@ class TestUtilsGraph:
         )
 
         for label in labels:
-            assert label in result
+            assert label in " ".join(
+                [result.layout.annotations[idx]["text"] for idx in range(4)]
+            )
 
     @staticmethod
     def test_sorted_vertical_bars_by_y_values_simple():
@@ -107,6 +109,7 @@ class TestUtilsGraph:
             x = bar.x[0]
             y = bar.y[0]
             x_to_ys.setdefault(x, []).append(y)
+
         for ys in x_to_ys.values():
             assert ys == sorted(ys, reverse=True)
 
@@ -116,6 +119,7 @@ class TestUtilsGraph:
             x = bar.x[0]
             y = bar.y[0]
             x_to_ys.setdefault(x, []).append(y)
+
         for ys in x_to_ys.values():
             assert ys == sorted(ys)
 
