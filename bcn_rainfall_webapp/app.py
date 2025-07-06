@@ -64,7 +64,7 @@ def index():
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each season",
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
-            "colorway": ["#3bd330", "#cfe23d", "#ce9a30", "#4d8bae"],
+            "colorway": ["#32a326", "#c4d63a", "#c97632", "#4d8bae"],
         },
     )
 
