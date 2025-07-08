@@ -14,6 +14,7 @@ from bcn_rainfall_webapp import (
     api_client,
     db_client,
 )
+from bcn_rainfall_webapp.utils import SEASONS
 from bcn_rainfall_webapp.utils.graph import (
     aggregate_plotly_json_figures,
     sorted_vertical_bars_by_y_values,
@@ -29,13 +30,16 @@ def index():
     ctx_variables_dict: dict[str, Any] = {}
 
     seasonal_rainfall_as_plotly_json_list: list[str] = []
-    for season in ["spring", "summer", "fall", "winter"]:
+    for season in SEASONS:
+        parameters = dict(
+            season=season,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             seasonal_rainfall_as_plotly_json
             := db_client.get_seasonal_rainfall_as_plotly_json(
-                season=season,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             seasonal_rainfall_as_plotly_json_list.append(
@@ -43,16 +47,12 @@ def index():
             )
         else:
             data = api_client.get_rainfall_by_year_as_plotly_json(
+                **parameters,
                 time_mode="seasonal",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                season=season,
             )
 
             db_client.set_seasonal_rainfall_as_plotly_json(
-                season=season,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 
@@ -84,12 +84,15 @@ def index():
 
     rainfall_averages_as_plotly_json_list: list[str] = []
     for time_mode in ["monthly", "seasonal"]:
+        parameters = dict(
+            time_mode=time_mode,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             rainfall_averages_as_plotly_json
             := db_client.get_rainfall_averages_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             rainfall_averages_as_plotly_json_list.append(
@@ -97,15 +100,11 @@ def index():
             )
         else:
             data = api_client.get_rainfall_averages_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
 
             db_client.set_rainfall_averages_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 
@@ -124,12 +123,15 @@ def index():
 
     rainfall_linreg_slopes_as_plotly_json_list: list[str] = []
     for time_mode in ["monthly", "seasonal"]:
+        parameters = dict(
+            time_mode=time_mode,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             rainfall_linreg_slopes_as_plotly_json
             := db_client.get_rainfall_linreg_slopes_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             rainfall_linreg_slopes_as_plotly_json_list.append(
@@ -137,15 +139,11 @@ def index():
             )
         else:
             data = api_client.get_rainfall_linreg_slopes_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
 
             db_client.set_rainfall_linreg_slopes_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 
@@ -167,13 +165,16 @@ def index():
 
     relative_distances_to_rainfall_normal_as_plotly_json_list: list[str] = []
     for time_mode in ["monthly", "seasonal"]:
+        parameters = dict(
+            time_mode=time_mode,
+            normal_year=NORMAL_YEAR,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             relative_distances_to_rainfall_normal_as_plotly_json
             := db_client.get_relative_distances_to_rainfall_normal_as_plotly_json(
-                time_mode=time_mode,
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             relative_distances_to_rainfall_normal_as_plotly_json_list.append(
@@ -181,17 +182,11 @@ def index():
             )
         else:
             data = api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-                time_mode=time_mode,
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
 
             db_client.set_relative_distances_to_rainfall_normal_as_plotly_json(
-                time_mode=time_mode,
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 

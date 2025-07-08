@@ -12,4 +12,10 @@ END_YEAR = 2024
 
 __version__ = "1.1.0"
 
-__all__ = ["api_client", "db_client", "NORMAL_YEAR", "BEGIN_YEAR", "END_YEAR"]
+__all__ = [
+    "api_client",
+    "db_client",
+    "NORMAL_YEAR",
+    "BEGIN_YEAR",
+    "END_YEAR",
+]

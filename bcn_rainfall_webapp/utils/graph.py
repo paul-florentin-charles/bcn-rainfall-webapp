@@ -133,8 +133,11 @@ def aggregate_plotly_json_pie_charts(
                     traces_json[row - 1 + (col - 1) * rows]
                 ).select_traces()
             )
+            trace = traces[0]  # We assume every Figure has only one trace in it
+            trace["name"] = ""  # Remove trace name
+
             figure.add_trace(
-                traces[0],  # We assume every Figure has only one trace in it
+                trace,
                 row=row,
                 col=col,
             )
@@ -143,7 +146,7 @@ def aggregate_plotly_json_pie_charts(
 
     annotations: list[dict] = []
     if graph_labels:
-        traces_options["hole"] = 0.3
+        traces_options["hole"] = 0.33
         for row in range(1, rows + 1):
             for col in range(1, cols + 1):
                 annotations.append(

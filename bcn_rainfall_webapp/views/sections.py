@@ -2,7 +2,14 @@ import plotly.express as px
 import plotly.io
 from flask import Blueprint, render_template
 
-from bcn_rainfall_webapp import BEGIN_YEAR, END_YEAR, NORMAL_YEAR, api_client, db_client
+from bcn_rainfall_webapp import (
+    BEGIN_YEAR,
+    END_YEAR,
+    NORMAL_YEAR,
+    api_client,
+    db_client,
+)
+from bcn_rainfall_webapp.utils import MONTHS, SEASONS
 from bcn_rainfall_webapp.utils.graph import (
     aggregate_plotly_json_figures,
     aggregate_plotly_json_pie_charts,
@@ -18,25 +25,24 @@ sections = Blueprint(
 def rainfall_by_year():
     rainfall_by_year_as_plotly_json_list = []
     for cluster_count in [None, 2, 3, 4]:
+        parameters = dict(
+            time_mode="yearly",
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            plot_average=True,
+            kmeans_cluster_count=cluster_count,
+        )
         if (
             rainfall_by_year_as_plotly_json
             := db_client.get_rainfall_by_year_as_plotly_json(
-                time_mode="yearly",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                plot_average=True,
-                kmeans_cluster_count=cluster_count,
+                **parameters,
             )
         ):
             rainfall_by_year_as_plotly_json_list.append(rainfall_by_year_as_plotly_json)
         else:
             figure = plotly.io.from_json(
                 api_client.get_rainfall_by_year_as_plotly_json(
-                    time_mode="yearly",
-                    begin_year=BEGIN_YEAR,
-                    end_year=END_YEAR,
-                    plot_average=True,
-                    kmeans_cluster_count=cluster_count,
+                    **parameters,
                 )
             )
             figure.update_layout(
@@ -49,38 +55,24 @@ def rainfall_by_year():
             data = figure.to_json()
 
             db_client.set_rainfall_by_year_as_plotly_json(
-                time_mode="yearly",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
-                plot_average=True,
-                kmeans_cluster_count=cluster_count,
             )
 
             rainfall_by_year_as_plotly_json_list.append(data)
 
     monthly_rainfall_by_year_as_plotly_json_list = []
-    for month in [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ]:
+    for month in MONTHS:
+        parameters = dict(
+            time_mode="monthly",
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            month=month,
+        )
         if (
             monthly_rainfall_by_year_as_plotly_json
             := db_client.get_rainfall_by_year_as_plotly_json(
-                time_mode="monthly",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                month=month,
+                **parameters,
             )
         ):
             monthly_rainfall_by_year_as_plotly_json_list.append(
@@ -88,18 +80,12 @@ def rainfall_by_year():
             )
         else:
             data = api_client.get_rainfall_by_year_as_plotly_json(
-                time_mode="monthly",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                month=month,
+                **parameters,
             )
 
             db_client.set_rainfall_by_year_as_plotly_json(
-                time_mode="monthly",
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
-                month=month,
             )
 
             monthly_rainfall_by_year_as_plotly_json_list.append(data)
@@ -135,12 +121,15 @@ def rainfall_by_year():
 def rainfall_average():
     rainfall_averages_as_plotly_json_list: list[str] = []
     for time_mode in ["monthly", "seasonal"]:
+        parameters = dict(
+            time_mode=time_mode,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             rainfall_averages_as_plotly_json
             := db_client.get_rainfall_averages_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             rainfall_averages_as_plotly_json_list.append(
@@ -148,15 +137,11 @@ def rainfall_average():
             )
         else:
             data = api_client.get_rainfall_averages_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
 
             db_client.set_rainfall_averages_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 
@@ -179,13 +164,16 @@ def rainfall_average():
 def rainfall_relative_distance_to_normal():
     relative_distances_to_rainfall_normal_as_plotly_json_list: list[str] = []
     for time_mode in ["monthly", "seasonal"]:
+        parameters = dict(
+            time_mode=time_mode,
+            normal_year=NORMAL_YEAR,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             relative_distances_to_rainfall_normal_as_plotly_json
             := db_client.get_relative_distances_to_rainfall_normal_as_plotly_json(
-                time_mode=time_mode,
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             relative_distances_to_rainfall_normal_as_plotly_json_list.append(
@@ -193,17 +181,11 @@ def rainfall_relative_distance_to_normal():
             )
         else:
             data = api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-                time_mode=time_mode,
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
 
             db_client.set_relative_distances_to_rainfall_normal_as_plotly_json(
-                time_mode=time_mode,
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 
@@ -229,15 +211,18 @@ def rainfall_relative_distance_to_normal():
 def years_compared_to_normal():
     percentage_of_years_compared_to_normal_as_plotly_json_list: list[str] = []
     percentage_of_years_compared_to_normal_as_plotly_json_list_2: list[str] = []
-    for season in ["spring", "summer", "fall", "winter"]:
+    for season in SEASONS:
+        parameters = dict(
+            time_mode="seasonal",
+            normal_year=NORMAL_YEAR,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+            season=season,
+        )
         if (
             seasonal_percentage_of_years_compared_to_normal_as_plotly_json
             := db_client.get_percentage_of_years_compared_to_normal_as_plotly_json(
-                time_mode="seasonal",
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                season=season,
+                **parameters,
             )
         ):
             percentage_of_years_compared_to_normal_as_plotly_json_list.append(
@@ -245,20 +230,12 @@ def years_compared_to_normal():
             )
         else:
             data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                time_mode="seasonal",
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                season=season,
+                **parameters,
             )
 
             db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
-                time_mode="seasonal",
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
-                season=season,
             )
 
             percentage_of_years_compared_to_normal_as_plotly_json_list.append(data)
@@ -266,11 +243,7 @@ def years_compared_to_normal():
         if (
             seasonal_percentage_of_years_compared_to_normal_as_plotly_json_2
             := db_client.get_percentage_of_years_compared_to_normal_as_plotly_json(
-                time_mode="seasonal",
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                season=season,
+                **parameters,
                 percentages_of_normal="0,75,90,110,125,inf",
             )
         ):
@@ -279,84 +252,49 @@ def years_compared_to_normal():
             )
         else:
             data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                time_mode="seasonal",
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
-                season=season,
+                **parameters,
                 percentages_of_normal="0,75,90,110,125,inf",
             )
 
             db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
-                time_mode="seasonal",
-                normal_year=NORMAL_YEAR,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
-                season=season,
                 percentages_of_normal="0,75,90,110,125,inf",
             )
 
             percentage_of_years_compared_to_normal_as_plotly_json_list_2.append(data)
 
-    if (
-        percentage_of_years_above_and_below_normal_as_plotly_json
-        := db_client.get_percentage_of_years_compared_to_normal_as_plotly_json(
+    plotly_data_ctx_dict: dict[str, str] = {}
+    for key, percentages_of_normal in [
+        ("plotlyYearsAboveNormalJSON", None),
+        ("plotlyYearsAboveNormal2JSON", "0,75,90,110,125,inf"),
+    ]:
+        parameters = dict(
             time_mode="yearly",
             normal_year=NORMAL_YEAR,
             begin_year=BEGIN_YEAR,
             end_year=END_YEAR,
-        )
-    ):
-        pass
-    else:
-        data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-            time_mode="yearly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
+            percentages_of_normal=percentages_of_normal,
         )
 
-        db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
-            time_mode="yearly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
-            data=data,
-        )
+        if (
+            db_data
+            := db_client.get_percentage_of_years_compared_to_normal_as_plotly_json(
+                **parameters,
+            )
+        ):
+            plotly_data_ctx_dict[key] = db_data
+        else:
+            data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+                **parameters,
+            )
 
-        percentage_of_years_above_and_below_normal_as_plotly_json = data
+            db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
+                **parameters,
+                data=data,
+            )
 
-    if (
-        percentage_of_years_above_and_below_normal_2_as_plotly_json
-        := db_client.get_percentage_of_years_compared_to_normal_as_plotly_json(
-            time_mode="yearly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
-            percentages_of_normal="0,75,90,110,125,inf",
-        )
-    ):
-        pass
-    else:
-        data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-            time_mode="yearly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
-            percentages_of_normal="0,75,90,110,125,inf",
-        )
-
-        db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
-            time_mode="yearly",
-            normal_year=NORMAL_YEAR,
-            begin_year=BEGIN_YEAR,
-            end_year=END_YEAR,
-            data=data,
-            percentages_of_normal="0,75,90,110,125,inf",
-        )
-
-        percentage_of_years_above_and_below_normal_2_as_plotly_json = data
+            plotly_data_ctx_dict[key] = data
 
     return render_template(
         "sections/years_compared_to_normal.html",
@@ -367,12 +305,7 @@ def years_compared_to_normal():
             layout={
                 "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
             },
-            graph_labels=[
-                "Spring",
-                "Summer",
-                "Fall",
-                "Winter",
-            ],
+            graph_labels=[season.capitalize() for season in SEASONS],
         ).to_json(),
         plotlyYearsAboveNormalSeasonal2JSON=aggregate_plotly_json_pie_charts(
             percentage_of_years_compared_to_normal_as_plotly_json_list_2,
@@ -381,15 +314,9 @@ def years_compared_to_normal():
             layout={
                 "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
             },
-            graph_labels=[
-                "Spring",
-                "Summer",
-                "Fall",
-                "Winter",
-            ],
+            graph_labels=[season.capitalize() for season in SEASONS],
         ).to_json(),
-        plotlyYearsAboveNormalJSON=percentage_of_years_above_and_below_normal_as_plotly_json,
-        plotlyYearsAboveNormal2JSON=percentage_of_years_above_and_below_normal_2_as_plotly_json,
+        **plotly_data_ctx_dict,
     )
 
 
@@ -398,12 +325,15 @@ def rainfall_standard_deviation():
     rainfall_standard_deviations_as_plotly_json_list: list[str] = []
     rainfall_standard_deviations_weighted_as_plotly_json_list: list[str] = []
     for time_mode in ["monthly", "seasonal"]:
+        parameters = dict(
+            time_mode=time_mode,
+            begin_year=BEGIN_YEAR,
+            end_year=END_YEAR,
+        )
         if (
             rainfall_standard_deviations_as_plotly_json
             := db_client.get_rainfall_standard_deviations_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
         ):
             rainfall_standard_deviations_as_plotly_json_list.append(
@@ -411,15 +341,11 @@ def rainfall_standard_deviation():
             )
         else:
             data = api_client.get_rainfall_standard_deviations_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
             )
 
             db_client.set_rainfall_standard_deviations_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
             )
 
@@ -439,16 +365,12 @@ def rainfall_standard_deviation():
             )
         else:
             data = api_client.get_rainfall_standard_deviations_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 weigh_by_average=True,
             )
 
             db_client.set_rainfall_standard_deviations_as_plotly_json(
-                time_mode=time_mode,
-                begin_year=BEGIN_YEAR,
-                end_year=END_YEAR,
+                **parameters,
                 data=data,
                 weigh_by_average=True,
             )
