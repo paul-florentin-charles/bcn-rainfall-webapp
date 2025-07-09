@@ -1,14 +1,14 @@
 :root {
     --body-font-color: white;
-    --background-color: #554038;
-    --header-background-color: #2b251f;
-    --link-color: #dfd0c1;
-    --link-hover-color: #d6ae77;
-    --scroll-button-hover-color: #af9b8a;
-    --graph-border-color: rgba(85, 78, 71, 0.65);
-    --header-border-color: rgba(182, 130, 62, 0.65);
+    --background-color: #422d05;
+    --header-background-color: #25201a;
+    --link-color: #e3c6b2;
+    --link-hover-color: #f4ac5f;
+    --scroll-button-hover-color: #887565;
+    --graph-border-color: rgba(67, 60, 53, 0.75);
+    --header-border-color: rgba(182, 130, 62, 0.75);
     --scroll-arrow-color: #4c382d;
-    --scroll-arrow-hover-color: #836859;
+    --scroll-arrow-hover-color: #d8bda8;
 }
 
 * {
@@ -114,7 +114,7 @@ a:hover, .pure-menu-link:hover {
     border: 1px solid var(--graph-border-color);
     height: 30em;
     width: 100% !important;
-    border-radius: 1em;
+    border-radius: 0.5em;
     margin: 0.25em;
     overflow: hidden;
 }

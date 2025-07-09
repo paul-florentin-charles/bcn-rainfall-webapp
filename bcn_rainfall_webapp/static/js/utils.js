@@ -1,7 +1,7 @@
 const default_layout_dict = {
     'computer': {
         'font_size': 11,
-        'margin': {'t': 65, 'r': 30, 'b': 45, 'l': 65}
+        'margin': {'t': 75, 'r': 30, 'b': 45, 'l': 65}
     },
     'tablet': {
         'font_size': 10,

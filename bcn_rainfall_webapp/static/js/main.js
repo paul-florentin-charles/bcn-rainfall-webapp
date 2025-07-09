@@ -3,6 +3,7 @@
 const config = {
     responsive: true,
     scrollZoom: true,
+    displayLogo: false
 };
 
 /** Document style **/
