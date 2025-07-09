@@ -29,6 +29,7 @@ body {
 
 h2#title {
     margin-left: 1.5em;
+    font-weight: normal;
 }
 
 h2#title a:hover {
@@ -91,6 +92,10 @@ a:hover, .pure-menu-link:hover {
     color: var(--link-hover-color);
 }
 
+.pure-button-group {
+    margin: 0.25em auto;
+}
+
 .pure-menu-link:hover {
     background-color: transparent;
     transition: box-shadow 250ms linear;
@@ -127,8 +132,8 @@ img#website-logo {
 
 img.logo {
     height: 1.8em;
-    margin: 0 0.25em;
-    padding-bottom: 0.3em;
+    margin: 0 0.3em;
+    padding-bottom: 0.25em;
     vertical-align: middle;
     filter: brightness(0) saturate(100%) invert(99%) sepia(33%) saturate(2112%) hue-rotate(304deg) brightness(119%) contrast(81%);
 }
@@ -163,7 +168,7 @@ img.logo:hover {
     transform: translateY(0);
 }
 
-.scroll-to-top:hover, .scroll-to-top:active {
+.scroll-to-top:hover {
     background-color: var(--scroll-button-hover-color);
     color: var(--scroll-arrow-hover-color);
 }

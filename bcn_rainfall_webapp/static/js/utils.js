@@ -5,11 +5,11 @@ const default_layout_dict = {
     },
     'tablet': {
         'font_size': 10,
-        'margin': {'t': 65, 'r': 25, 'b': 40, 'l': 55}
+        'margin': {'t': 65, 'r': 30, 'b': 35, 'l': 55}
     },
     'phone': {
         'font_size': 8,
-        'margin': {'t': 65, 'r': 20, 'b': 30, 'l': 25}
+        'margin': {'t': 65, 'r': 25, 'b': 25, 'l': 25}
     }
 }
 
