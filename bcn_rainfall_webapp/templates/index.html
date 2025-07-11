@@ -46,11 +46,12 @@
         'chart_relative_distance_to_normal': {{ plotlyRelativeDistance2NormalJSON|safe }},
     }
 
+    plotGraphs(graph_div_id_to_graph_json)
     resizeGraphsOnLoadAndResize(graph_div_id_to_graph_json)
     colorizeGraphsFontsOnHover(graph_div_id_to_graph_json)
     
     function _plotGraphAtIndex(index) {
-        plotGraph('chart_seasonal_rainfalls', JSON.parse(graph_seasonal_rainfalls_list[index]))
+        replotGraph('chart_seasonal_rainfalls', JSON.parse(graph_seasonal_rainfalls_list[index]))
     }
 </script>
 

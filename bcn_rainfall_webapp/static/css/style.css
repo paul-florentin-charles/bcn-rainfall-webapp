@@ -103,7 +103,6 @@ a:hover, .pure-menu-link:hover {
     border-radius: 0.75em;
 }
 
-
 .flex-center {
     display: flex;
     align-items: center;
@@ -117,6 +116,7 @@ a:hover, .pure-menu-link:hover {
     border-radius: 0.5em;
     margin: 0.25em;
     overflow: hidden;
+    touch-action: pan-y; /* allow vertical scrolling */
 }
 
 .plotly-graph:hover {

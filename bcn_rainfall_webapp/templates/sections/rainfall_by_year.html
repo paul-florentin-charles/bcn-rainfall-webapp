@@ -50,6 +50,7 @@
         'chart_monthly_rainfalls': JSON.parse(graph_monthly_rainfalls_list[0]),
     };
 
+    plotGraphs(graph_div_id_to_graph_json)
     resizeGraphsOnLoadAndResize(graph_div_id_to_graph_json)
     colorizeGraphsFontsOnHover(graph_div_id_to_graph_json)
 
@@ -67,11 +68,11 @@
             graphRainfallByYearNClusters.layout.margin = default_layout_dict['computer']['margin'];
         }
 
-        Plotly.react('chart_rainfall_by_year', graphRainfallByYearNClusters, {}, config);
+        Plotly.react('chart_rainfall_by_year', graphRainfallByYearNClusters.data, graphRainfallByYearNClusters.layout);
     }
 
     function _plotGraphAtIndex(index) {
-        plotGraph('chart_monthly_rainfalls', JSON.parse(graph_monthly_rainfalls_list[index]))
+        replotGraph('chart_monthly_rainfalls', JSON.parse(graph_monthly_rainfalls_list[index]))
     }
 </script>
 

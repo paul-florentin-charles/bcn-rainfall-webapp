@@ -62,6 +62,7 @@ def index():
         seasonal_rainfall_as_plotly_json_list,
         layout={
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each season",
+            "xaxis": {"rangeslider_visible": True},
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": ["#32a326", "#c4d63a", "#c97632", "#4d8bae"],

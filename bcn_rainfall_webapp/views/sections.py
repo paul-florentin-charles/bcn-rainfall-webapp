@@ -94,6 +94,7 @@ def rainfall_by_year():
         monthly_rainfall_by_year_as_plotly_json_list,
         layout={
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each month",
+            "xaxis": {"rangeslider_visible": True},
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": px.colors.sequential.Turbo,

@@ -41,20 +41,20 @@
         chart_rainfall_standard_deviation_weighted: graph_rainfall_standard_deviation_weighted,
     };
 
-    ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
-        if (window.screen.width < 768) {
-            Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
-                graph_json.layout.font.size = 8;
-                graph_json.layout.margin = {'t': 65, 'r': 20, 'b': 25, 'l': 25};
-            })
+    plotGraphs(graph_div_id_to_graph_json);
 
+    ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
+        let device = getDevice();
+        Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
+            graph_json.layout.font.size = default_layout_dict[device]['font_size'];
+            graph_json.layout.margin = default_layout_dict[device]['margin'];
+            graph_json.layout.dragmode = default_layout_dict[device]['dragmode'];
+
+        })
+
+        if (window.screen.width < 768) {
             document.getElementById('first-plotly-graph').insertAdjacentElement('afterend', document.getElementById('first-button-group'));
         } else {
-            Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
-                graph_json.layout.font.size = 11;
-                graph_json.layout.margin = {'t': 65, 'r': 30, 'b': 45, 'l': 65};
-            })
-
             if (window.screen.width < 1024) {
                 document.getElementById('first-plotly-graph').insertAdjacentElement('afterend', document.getElementById('first-button-group'));
             } else {
@@ -63,7 +63,7 @@
         }
 
         Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
-            Plotly.react(graph_div_id, graph_json, {}, config);
+            Plotly.react(graph_div_id, graph_json);
         })
     }))
 

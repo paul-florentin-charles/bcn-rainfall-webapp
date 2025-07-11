@@ -1,9 +1,10 @@
 /** Plotly main configuration **/
 
-const config = {
+const default_plotly_config = {
+    displaylogo: false,
+    modeBarButtonsToRemove: ['select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d'],
     responsive: true,
-    scrollZoom: true,
-    displayLogo: false
+    scrollZoom: false,
 };
 
 /** Document style **/
