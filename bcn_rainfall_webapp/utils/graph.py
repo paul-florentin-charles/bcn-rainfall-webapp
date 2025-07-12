@@ -170,6 +170,7 @@ def aggregate_plotly_json_pie_charts(
                 "y": 0.5,
                 "xanchor": "center",
                 "x": 0.5,
+                "bgcolor": "rgba(35, 35, 35, 0.75)",
             },
             "annotations": annotations,
             **(layout or {}),
