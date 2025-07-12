@@ -11,6 +11,7 @@ from bcn_rainfall_webapp import (
 )
 from bcn_rainfall_webapp.utils import MONTHS, SEASONS
 from bcn_rainfall_webapp.utils.graph import (
+    DEFAULT_LAYOUT,
     aggregate_plotly_json_figures,
     aggregate_plotly_json_pie_charts,
     sorted_vertical_bars_by_y_values,
@@ -46,6 +47,7 @@ def rainfall_by_year():
                 )
             )
             figure.update_layout(
+                **DEFAULT_LAYOUT,
                 colorway=px.colors.carto.Pastel[::2],
                 title=f"Rainfall from {BEGIN_YEAR} to {END_YEAR}",
                 xaxis={"title": None, "rangeslider_visible": True},
@@ -94,7 +96,6 @@ def rainfall_by_year():
         monthly_rainfall_by_year_as_plotly_json_list,
         layout={
             "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each month",
-            "xaxis": {"rangeslider_visible": True},
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": px.colors.sequential.Turbo,
@@ -289,6 +290,12 @@ def years_compared_to_normal():
             data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
                 **parameters,
             )
+
+            figure = plotly.io.from_json(data)
+            figure.update_layout(
+                **DEFAULT_LAYOUT,
+            )
+            data = figure.to_json()
 
             db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
                 **parameters,

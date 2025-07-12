@@ -5,8 +5,8 @@
     --link-color: #e3c6b2;
     --link-hover-color: #f4ac5f;
     --scroll-button-hover-color: #887565;
-    --graph-border-color: rgba(67, 60, 53, 0.75);
-    --header-border-color: rgba(182, 130, 62, 0.75);
+    --graph-border-color: #433c35;
+    --header-border-color: #b6823e;
     --scroll-arrow-color: #4c382d;
     --scroll-arrow-hover-color: #d8bda8;
 }
@@ -99,7 +99,7 @@ a:hover, .pure-menu-link:hover {
 .pure-menu-link:hover {
     background-color: transparent;
     transition: box-shadow 250ms linear;
-    box-shadow: 0 0 0.75em var(--link-hover-color);
+    box-shadow: 0 0 0.5em var(--link-hover-color);
     border-radius: 0.75em;
 }
 
@@ -120,8 +120,8 @@ a:hover, .pure-menu-link:hover {
 }
 
 .plotly-graph:hover {
-    transition: box-shadow 300ms ease-in-out;
-    box-shadow: 0 0 0.5em var(--link-hover-color);
+    transition: box-shadow 250ms ease-in-out;
+    box-shadow: 0 0 0.4em var(--link-hover-color);
 }
 
 img#website-logo {

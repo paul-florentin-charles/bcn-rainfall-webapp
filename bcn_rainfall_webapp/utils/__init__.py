@@ -1,4 +1,5 @@
 from bcn_rainfall_webapp.utils.base_config import BaseConfig
+from bcn_rainfall_webapp.utils.graph import DEFAULT_LAYOUT
 from bcn_rainfall_webapp.utils.schemas import RedisServerSettings, WebappServerSettings
 
 MONTHS = [
@@ -24,4 +25,5 @@ __all__ = [
     "WebappServerSettings",
     "MONTHS",
     "SEASONS",
+    "DEFAULT_LAYOUT",
 ]
