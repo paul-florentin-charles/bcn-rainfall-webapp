@@ -11,6 +11,19 @@
     --scroll-arrow-hover-color: #d8bda8;
 }
 
+body.light-mode {
+    --body-font-color: #2d261c;
+    --background-color: #d8cfc0;
+    --header-background-color: #dac09d;
+    --link-color: #5a3f1a;
+    --link-hover-color: #ba7328;
+    --scroll-button-hover-color: #d3b19b;
+    --graph-border-color: #e3c6b2;
+    --header-border-color: #cda065;
+    --scroll-arrow-color: #ddc0ab;
+    --scroll-arrow-hover-color: #af7c39;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -21,6 +34,7 @@ body {
     color: var(--body-font-color);
     line-height: 0.8em;
     margin: 0;
+    transition: background-color 0.4s, color 0.4s;
 }
 
 .body {
@@ -37,7 +51,7 @@ h2#title a:hover {
 }
 
 #main-menu {
-    margin-right: 1em;
+    margin-right: 4.5em;
 }
 
 .header, .footer {
@@ -53,6 +67,7 @@ h2#title a:hover {
     margin: 0 auto 0.4em auto;
     padding: 0.2em;
     border-bottom: 1px solid var(--header-border-color);
+    transition: background-color 0.4s, box-shadow 0.3s;
 }
 
 .footer {
@@ -86,6 +101,7 @@ h2#title a:hover {
 a, .pure-menu-link {
     color: var(--link-color);
     text-decoration: none;
+    transition: background-color 0.4s, color 0.4s;
 }
 
 a:hover, .pure-menu-link:hover {
@@ -177,6 +193,67 @@ img.logo:hover {
     transform: translateY(-4px);
 }
 
+.theme-switch {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 1.5em;
+    top: 52%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0.5em;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.theme-switch svg {
+    width: 1.8em;
+    height: 1.8em;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.theme-switch #sun, .theme-switch #moon {
+    position: absolute;
+    right: 0.5em;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.theme-switch #sun svg {
+    stroke: #fff;
+    filter: none;
+}
+
+body.light-mode .theme-switch #sun svg {
+    stroke: #b6823e;
+    filter: none;
+}
+
+.theme-switch #moon {
+    opacity: 0;
+    transform: scale(0.8) rotate(-30deg);
+}
+
+body.light-mode .theme-switch #moon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+body.light-mode .theme-switch #sun {
+    opacity: 0;
+    transform: scale(0.8) rotate(30deg);
+}
+
+body:not(.light-mode) .theme-switch #sun {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+body:not(.light-mode) .theme-switch #moon {
+    opacity: 0;
+    transform: scale(0.8) rotate(-30deg);
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -209,7 +286,7 @@ img.logo:hover {
     .responsive-menu {
         display: none;
         position: absolute;
-        top: 4em;
+        top: 4.5em;
         right: 0;
         left: 0;
         margin: 0 auto;
@@ -243,7 +320,7 @@ img.logo:hover {
     .hamburger {
         width: 28px;
         height: 28px;
-        margin-right: 1.5em;
+        margin-right: 5em;
     }
 
     .hamburger span {
@@ -291,7 +368,7 @@ img.logo:hover {
     .responsive-menu .pure-menu-item {
         width: auto;
         text-align: center;
-        padding: 0 0.2em;
+        padding: 0 0.15em;
     }
 }
 

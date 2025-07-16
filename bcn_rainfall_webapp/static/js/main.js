@@ -51,3 +51,30 @@ document.addEventListener('click', function (e) {
         menu.classList.remove('open');
     }
 });
+
+/* Switch between light mode and dark mode */
+const themeSwitch = document.getElementById('theme-switch');
+
+function setTheme(light) {
+    if (light) {
+        document.body.classList.add('light-mode');
+    } else {
+        document.body.classList.remove('light-mode');
+    }
+}
+
+// Load theme from localStorage
+const storedTheme = localStorage.getItem('theme');
+if (storedTheme === 'light') {
+    setTheme(true);
+} else if (storedTheme === 'dark') {
+    setTheme(false);
+}
+
+if (themeSwitch) {
+    themeSwitch.addEventListener('click', () => {
+        const isLight = !document.body.classList.contains('light-mode');
+        setTheme(isLight);
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+}
