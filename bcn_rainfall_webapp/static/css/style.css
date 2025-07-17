@@ -6,6 +6,7 @@
     --link-hover-color: #f4ac5f;
     --scroll-button-hover-color: #887565;
     --graph-border-color: #433c35;
+    --legend-background-color: rgba(45, 45, 45, 0.75);
     --header-border-color: #b6823e;
     --scroll-arrow-color: #4c382d;
     --scroll-arrow-hover-color: #d8bda8;
@@ -13,15 +14,16 @@
 
 body.light-mode {
     --body-font-color: #2d261c;
-    --background-color: #d8cfc0;
-    --header-background-color: #dac09d;
-    --link-color: #5a3f1a;
-    --link-hover-color: #ba7328;
+    --background-color: #e4ddd2;
+    --header-background-color: #e1caab;
+    --link-color: #734c18;
+    --link-hover-color: #af6718;
     --scroll-button-hover-color: #d3b19b;
-    --graph-border-color: #e3c6b2;
-    --header-border-color: #cda065;
-    --scroll-arrow-color: #ddc0ab;
-    --scroll-arrow-hover-color: #af7c39;
+    --graph-border-color: #e4cab7;
+    --legend-background-color: rgba(200, 200, 200, 0.75);
+    --header-border-color: #d8ab70;
+    --scroll-arrow-color: #e4c9b4;
+    --scroll-arrow-hover-color: #ac6e1e;
 }
 
 * {

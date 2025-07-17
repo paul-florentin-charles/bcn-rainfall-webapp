@@ -52,6 +52,54 @@ function colorizeGraphFontsOnHover(graph_div_id, graph_json) {
     })
 }
 
+function colorizeGraphOnLoadAndThemeSwitch(graph_div_id, graph_json) {
+    window.addEventListener('load', () => {
+        graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+        graph_json.layout.font.color = style.getPropertyValue('--link-color');
+        graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+        graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+
+        Plotly.animate(graph_div_id, {
+            layout: graph_json.layout
+        }, {
+            transition: {
+                duration: 400,
+                easing: 'ease-in-out'
+            },
+            frame: {
+                duration: 400
+            }
+        });
+
+    });
+
+    document.getElementById('theme-switch').addEventListener('click', () => {
+        graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+        graph_json.layout.font.color = style.getPropertyValue('--link-color');
+        graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+        graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+
+        Plotly.animate(graph_div_id, {
+            layout: graph_json.layout
+        }, {
+            transition: {
+                duration: 250,
+                easing: 'ease-in-out'
+            },
+            frame: {
+                duration: 250
+            }
+        });
+
+    });
+}
+
+function colorizeGraphsOnLoadAndThemeSwitch(graph_div_id_to_graph_json) {
+    Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
+        colorizeGraphOnLoadAndThemeSwitch(graph_div_id, graph_json);
+    })
+}
+
 function resizeGraphsOnLoadAndResize(graph_div_id_to_graph_json) {
     Object.entries(graph_div_id_to_graph_json).forEach(([graph_div_id, graph_json]) => {
         resizeGraphOnLoadAndResize(graph_div_id, graph_json);

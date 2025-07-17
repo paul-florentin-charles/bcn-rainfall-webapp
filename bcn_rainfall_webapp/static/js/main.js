@@ -53,8 +53,6 @@ document.addEventListener('click', function (e) {
 });
 
 /* Switch between light mode and dark mode */
-const themeSwitch = document.getElementById('theme-switch');
-
 function setTheme(light) {
     if (light) {
         document.body.classList.add('light-mode');
@@ -71,10 +69,8 @@ if (storedTheme === 'light') {
     setTheme(false);
 }
 
-if (themeSwitch) {
-    themeSwitch.addEventListener('click', () => {
-        const isLight = !document.body.classList.contains('light-mode');
-        setTheme(isLight);
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    });
-}
+document.getElementById('theme-switch').addEventListener('click', () => {
+    const isLight = !document.body.classList.contains('light-mode');
+    setTheme(isLight);
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
