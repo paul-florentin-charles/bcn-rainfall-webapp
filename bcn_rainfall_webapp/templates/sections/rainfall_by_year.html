@@ -69,6 +69,11 @@
             graphRainfallByYearNClusters.layout.margin = default_layout_dict['computer']['margin'];
         }
 
+        graphRainfallByYearNClusters.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+        graphRainfallByYearNClusters.layout.font.color = style.getPropertyValue('--link-color');
+        graphRainfallByYearNClusters.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+        graphRainfallByYearNClusters.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+
         Plotly.react('chart_rainfall_by_year', graphRainfallByYearNClusters.data, graphRainfallByYearNClusters.layout);
     }
 

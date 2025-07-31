@@ -17,7 +17,7 @@ body.light-mode {
     --background-color: #e4ddd2;
     --header-background-color: #e1caab;
     --link-color: #734c18;
-    --link-hover-color: #af6718;
+    --link-hover-color: #ac5f08;
     --scroll-button-hover-color: #d3b19b;
     --graph-border-color: #e4cab7;
     --legend-background-color: rgba(200, 200, 200, 0.75);
@@ -220,6 +220,7 @@ img.logo:hover {
     position: absolute;
     right: 0.5em;
     transition: opacity 0.3s, transform 0.3s;
+    color: var(--link-color);
 }
 
 .theme-switch #sun svg {
@@ -242,6 +243,10 @@ body.light-mode .theme-switch #moon {
     transform: scale(1) rotate(0deg);
 }
 
+body.light-mode .theme-switch #moon:hover {
+    color: var(--link-hover-color);
+}
+
 body.light-mode .theme-switch #sun {
     opacity: 0;
     transform: scale(0.8) rotate(30deg);
@@ -251,6 +256,11 @@ body:not(.light-mode) .theme-switch #sun {
     opacity: 1;
     transform: scale(1) rotate(0deg);
 }
+
+body:not(.light-mode) .theme-switch #sun:hover {
+    color: var(--link-hover-color);
+}
+
 body:not(.light-mode) .theme-switch #moon {
     opacity: 0;
     transform: scale(0.8) rotate(-30deg);

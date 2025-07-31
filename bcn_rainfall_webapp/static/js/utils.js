@@ -52,45 +52,32 @@ function colorizeGraphFontsOnHover(graph_div_id, graph_json) {
     })
 }
 
+function colorizeGraphWithThemeColors(graph_div_id, graph_json) {
+    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+    graph_json.layout.font.color = style.getPropertyValue('--link-color');
+    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+
+    Plotly.animate(graph_div_id, {
+        layout: graph_json.layout
+    }, {
+        transition: {
+            duration: 300,
+            easing: 'ease-in-out'
+        },
+        frame: {
+            duration: 300
+        }
+    });
+}
+
 function colorizeGraphOnLoadAndThemeSwitch(graph_div_id, graph_json) {
     window.addEventListener('load', () => {
-        graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
-        graph_json.layout.font.color = style.getPropertyValue('--link-color');
-        graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
-        graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
-
-        Plotly.animate(graph_div_id, {
-            layout: graph_json.layout
-        }, {
-            transition: {
-                duration: 400,
-                easing: 'ease-in-out'
-            },
-            frame: {
-                duration: 400
-            }
-        });
-
+        colorizeGraphWithThemeColors(graph_div_id, graph_json);
     });
 
     document.getElementById('theme-switch').addEventListener('click', () => {
-        graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
-        graph_json.layout.font.color = style.getPropertyValue('--link-color');
-        graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
-        graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
-
-        Plotly.animate(graph_div_id, {
-            layout: graph_json.layout
-        }, {
-            transition: {
-                duration: 250,
-                easing: 'ease-in-out'
-            },
-            frame: {
-                duration: 250
-            }
-        });
-
+        colorizeGraphWithThemeColors(graph_div_id, graph_json);
     });
 }
 
@@ -125,6 +112,10 @@ function replotGraph(graph_div_id, graph_json) {
     graph_json.layout.font.size = default_layout_dict[device]['font_size'];
     graph_json.layout.margin = default_layout_dict[device]['margin'];
     graph_json.layout.dragmode = default_layout_dict[device]['dragmode'];
+    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+    graph_json.layout.font.color = style.getPropertyValue('--link-color');
+    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
 
     Plotly.react(graph_div_id, graph_json.data, graph_json.layout);
 }
@@ -136,5 +127,10 @@ function plotGraphs(graph_div_id_to_graph_json) {
 }
 
 function plotGraph(graph_div_id, graph_json) {
+    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+    graph_json.layout.font.color = style.getPropertyValue('--link-color');
+    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+
     Plotly.newPlot(graph_div_id, graph_json.data, graph_json.layout, default_plotly_config);
 }
