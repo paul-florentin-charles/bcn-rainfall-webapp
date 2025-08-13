@@ -54,8 +54,16 @@ uv run coverage report
 
 ### Code quality
 
+#### Python
 ```commandline
 uv tool run mypy --check-untyped-defs .
 uv tool run ruff check
 uv tool run ruff format
+```
+
+#### JavaScript
+```commandline
+cd bcn_rainfall_webapp/static
+npm install
+npx eslint js
 ```

@@ -62,11 +62,11 @@
         colorizeGraphFontsOnHover('chart_rainfall_by_year', graphRainfallByYearNClusters);
 
         if (window.screen.width < 768) {
-            graphRainfallByYearNClusters.layout.font.size = default_layout_dict['phone']['font_size'];
-            graphRainfallByYearNClusters.layout.margin = default_layout_dict['phone']['margin'];
+            graphRainfallByYearNClusters.layout.font.size = defaultLayoutDict['phone']['font_size'];
+            graphRainfallByYearNClusters.layout.margin = defaultLayoutDict['phone']['margin'];
         } else {
-            graphRainfallByYearNClusters.layout.font.size = default_layout_dict['computer']['font_size'];
-            graphRainfallByYearNClusters.layout.margin = default_layout_dict['computer']['margin'];
+            graphRainfallByYearNClusters.layout.font.size = defaultLayoutDict['computer']['font_size'];
+            graphRainfallByYearNClusters.layout.margin = defaultLayoutDict['computer']['margin'];
         }
 
         graphRainfallByYearNClusters.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');

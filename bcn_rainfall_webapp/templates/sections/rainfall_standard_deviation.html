@@ -46,9 +46,9 @@
     ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
         let device = getDevice();
         Object.values(graph_div_id_to_graph_json).forEach((graph_json) => {
-            graph_json.layout.font.size = default_layout_dict[device]['font_size'];
-            graph_json.layout.margin = default_layout_dict[device]['margin'];
-            graph_json.layout.dragmode = default_layout_dict[device]['dragmode'];
+            graph_json.layout.font.size = defaultLayoutDict[device]['font_size'];
+            graph_json.layout.margin = defaultLayoutDict[device]['margin'];
+            graph_json.layout.dragmode = defaultLayoutDict[device]['dragmode'];
 
         })
 

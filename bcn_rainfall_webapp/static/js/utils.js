@@ -1,4 +1,4 @@
-const default_layout_dict = {
+const defaultLayoutDict = {
     'computer': {
         'font_size': 11,
         'margin': {'t': 75, 'r': 30, 'b': 45, 'l': 65},
@@ -14,6 +14,21 @@ const default_layout_dict = {
         'margin': {'t': 65, 'r': 25, 'b': 25, 'l': 25},
         'dragmode': false,
     }
+}
+
+function updateWithDefaultLayout(graph_json) {
+    let device = getDevice();
+
+    graph_json.layout.font.size = defaultLayoutDict[device]['font_size'];
+    graph_json.layout.margin = defaultLayoutDict[device]['margin'];
+    graph_json.layout.dragmode = defaultLayoutDict[device]['dragmode'];
+}
+
+function updateLayoutWithCSSProperties(graph_json) {
+    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
+    graph_json.layout.font.color = style.getPropertyValue('--link-color');
+    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
+    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
 }
 
 function getDevice() {
@@ -53,10 +68,7 @@ function colorizeGraphFontsOnHover(graph_div_id, graph_json) {
 }
 
 function colorizeGraphWithThemeColors(graph_div_id, graph_json) {
-    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
-    graph_json.layout.font.color = style.getPropertyValue('--link-color');
-    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
-    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+    updateLayoutWithCSSProperties(graph_json);
 
     Plotly.animate(graph_div_id, {
         layout: graph_json.layout
@@ -95,10 +107,7 @@ function resizeGraphsOnLoadAndResize(graph_div_id_to_graph_json) {
 
 function resizeGraphOnLoadAndResize(graph_div_id, graph_json) {
     ['load', 'resize'].forEach(event => window.addEventListener(event, function () {
-        let device = getDevice();
-        graph_json.layout.font.size = default_layout_dict[device]['font_size'];
-        graph_json.layout.margin = default_layout_dict[device]['margin'];
-        graph_json.layout.dragmode = default_layout_dict[device]['dragmode'];
+        updateWithDefaultLayout(graph_json);
 
         Plotly.react(graph_div_id, graph_json.data, graph_json.layout);
     }))
@@ -108,14 +117,8 @@ function replotGraph(graph_div_id, graph_json) {
     resizeGraphOnLoadAndResize(graph_div_id, graph_json);
     colorizeGraphFontsOnHover(graph_div_id, graph_json);
 
-    let device = getDevice();
-    graph_json.layout.font.size = default_layout_dict[device]['font_size'];
-    graph_json.layout.margin = default_layout_dict[device]['margin'];
-    graph_json.layout.dragmode = default_layout_dict[device]['dragmode'];
-    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
-    graph_json.layout.font.color = style.getPropertyValue('--link-color');
-    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
-    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+    updateWithDefaultLayout(graph_json);
+    updateLayoutWithCSSProperties(graph_json);
 
     Plotly.react(graph_div_id, graph_json.data, graph_json.layout);
 }
@@ -127,10 +130,7 @@ function plotGraphs(graph_div_id_to_graph_json) {
 }
 
 function plotGraph(graph_div_id, graph_json) {
-    graph_json.layout.legend.bgcolor = style.getPropertyValue('--legend-background-color');
-    graph_json.layout.font.color = style.getPropertyValue('--link-color');
-    graph_json.layout.paper_bgcolor = style.getPropertyValue('--header-background-color');
-    graph_json.layout.plot_bgcolor = style.getPropertyValue('--background-color');
+    updateLayoutWithCSSProperties(graph_json);
 
-    Plotly.newPlot(graph_div_id, graph_json.data, graph_json.layout, default_plotly_config);
+    Plotly.newPlot(graph_div_id, graph_json.data, graph_json.layout, defaultPlotlyConfig);
 }

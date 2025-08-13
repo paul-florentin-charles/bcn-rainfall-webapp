@@ -1,5 +1,11 @@
 ## Changelog
 
+### v1.1.1
+_13/08/2025_
+
+- Some refactoring of JavaScript files.
+- Ultimate release before mergin with API project.
+
 ### v1.1.0
 _28/06/2025_
 

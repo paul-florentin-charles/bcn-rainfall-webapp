@@ -1,6 +1,6 @@
 /** Plotly main configuration **/
 
-const default_plotly_config = {
+const defaultPlotlyConfig = {
     displaylogo: false,
     modeBarButtonsToRemove: ['select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d'],
     responsive: true,
@@ -61,16 +61,19 @@ function setTheme(light) {
     }
 }
 
+const lightTheme = 'light';
+const darkTheme = 'dark';
+
 // Load theme from localStorage
 const storedTheme = localStorage.getItem('theme');
-if (storedTheme === 'light') {
+if (storedTheme === lightTheme) {
     setTheme(true);
-} else if (storedTheme === 'dark') {
+} else if (storedTheme === darkTheme) {
     setTheme(false);
 }
 
 document.getElementById('theme-switch').addEventListener('click', () => {
     const isLight = !document.body.classList.contains('light-mode');
     setTheme(isLight);
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    localStorage.setItem('theme', isLight ? lightTheme : darkTheme);
 });

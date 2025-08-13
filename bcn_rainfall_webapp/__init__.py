@@ -10,7 +10,7 @@ NORMAL_YEAR = 1981
 BEGIN_YEAR = 1995
 END_YEAR = 2024
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 __all__ = [
     "api_client",
