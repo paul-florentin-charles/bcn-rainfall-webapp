@@ -7,14 +7,12 @@ Script to run Flask server.
 import sys
 
 import click
-from a2wsgi import ASGIMiddleware
 from redis.exceptions import ConnectionError as RedisConnectionError
-from werkzeug import run_simple
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from requests.exceptions import ConnectionError as RequestsConnectionError
 
-from bcn_rainfall_webapp import Config, db_client
-from bcn_rainfall_webapp.api.app import fastapi_app
+from bcn_rainfall_webapp import api_client, db_client
 from bcn_rainfall_webapp.app import flask_app
+from bcn_rainfall_webapp.config import Config
 
 
 @click.command()
@@ -25,7 +23,15 @@ from bcn_rainfall_webapp.app import flask_app
     help="Whether to use a running Redis DB to store API data or not.",
 )
 def run(use_redis_db):
-    # 1. Make sure DB is running if `use_redis_db` is True, otherwise disable DB client.
+    # 1. Make sure API is running so that we can retrieve data.
+    try:
+        api_client.head_api("/", timeout=3)
+    except RequestsConnectionError:
+        sys.exit(
+            f"Cannot connect to API at '{api_client.base_url}', make sure it is running."
+        )
+
+    # 2. Make sure DB is running if `use_redis_db` is True, otherwise disable DB client.
     if use_redis_db:
         try:
             db_client.client.ping()
@@ -36,22 +42,8 @@ def run(use_redis_db):
     else:
         db_client.disable()
 
-    # 2. Mount both Flask and FastAPI applications together
-    app = DispatcherMiddleware(
-        flask_app,
-        # Convert FastAPI app from ASGI to WSGI
-        {"/rest": ASGIMiddleware(fastapi_app)},  # type: ignore
-    )
-
-    # 3. Run final mounted application
-    config = Config()
-    run_simple(
-        config.get_webapp_server_settings.host,
-        config.get_webapp_server_settings.port,
-        app,
-        use_reloader=config.get_webapp_server_settings.debug or False,
-        threaded=True,
-    )
+    # 3. Run Webapp
+    flask_app.run(**Config().get_webapp_server_settings.model_dump())
 
 
 if __name__ == "__main__":

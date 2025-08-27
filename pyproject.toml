@@ -5,26 +5,18 @@ description = "Webapp run with Flask to display in a user-friendly way rainfall 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "a2wsgi~=1.10.10",
-    "asgiref~=3.9.1",
     "bcn-rainfall-api-client @ git+https://github.com/paul-florentin-charles/bcn-rainfall-api-client.git@v1.0.9",
-    "bcn-rainfall-core @ git+https://github.com/paul-florentin-charles/bcn-rainfall-core.git@v1.0.7",
     "click~=8.1.7",
-    "coverage~=7.6.9",
-    "fastapi~=0.115.5",
+    "coverage~=7.9.1",
     "flask~=3.1.0",
-    "httpx~=0.28.1",
     "pandas~=2.2.2",
     "plotly~=5.24.1",
     "pre-commit~=4.0.1",
     "pydantic~=2.8.2",
-    "pytest~=8.3.4",
+    "pytest~=8.4.1",
     "pyyaml~=6.0.2",
     "redis~=6.2.0",
     "requests~=2.32.4",
-    "starlette~=0.41.3",
-    "uvicorn~=0.32.1",
-    "werkzeug>=3.1.3",
 ]
 authors = [{name = "Paul Charles", email = "paul.charles@tutanota.com"}]
 

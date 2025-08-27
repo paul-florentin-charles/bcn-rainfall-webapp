@@ -63,28 +63,3 @@ class Config(BaseConfig):
         Example: "https://bcn-rainfall-api.onrender.com/rest".
         """
         return self.yaml_config["api_base_url"]
-
-    @cached_property
-    def get_api_settings(self):
-        """
-        Return both FastAPI settings and Uvicorn server settings to run FastAPI app.
-
-        Example:
-        {
-            "fastapi": {
-                "debug": True,
-                "root_path": "/api",
-                "title": "Barcelona Rainfall API",
-                "summary": "An API that provides rainfall-related data of the city of Barcelona.",
-            },
-            "server": {
-                "host": "127.0.0.1",
-                "port": 8000,
-                "reload": True,
-            },
-        }
-
-        """
-        from bcn_rainfall_webapp.api.utils import APISettings
-
-        return APISettings(**self.yaml_config["api"])
