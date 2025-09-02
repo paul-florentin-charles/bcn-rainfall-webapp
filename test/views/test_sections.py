@@ -1,18 +1,18 @@
 import pytest
 
-from bcn_rainfall_webapp.app import flask_app
-from bcn_rainfall_webapp.views import sections
+from bcn_rainfall_webapp.app import openapi_app
+from bcn_rainfall_webapp.views import webapp_blueprint
 
 
-class TestViewsSections:
+class TestViewsWebapp:
     @staticmethod
     @pytest.fixture
     def client():
-        return flask_app.test_client()
+        return openapi_app.test_client()
 
     @staticmethod
     def test_blueprint_name():
-        assert sections.name == "navbar"
+        assert webapp_blueprint.name == "webapp"
 
     @staticmethod
     def test_rainfall_by_year(client):

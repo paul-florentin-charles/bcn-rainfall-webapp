@@ -11,7 +11,7 @@ from redis.exceptions import ConnectionError as RedisConnectionError
 from requests.exceptions import ConnectionError as RequestsConnectionError
 
 from bcn_rainfall_webapp import api_client, db_client
-from bcn_rainfall_webapp.app import flask_app
+from bcn_rainfall_webapp.app import openapi_app
 from bcn_rainfall_webapp.config import Config
 
 
@@ -43,7 +43,7 @@ def run(use_redis_db):
         db_client.disable()
 
     # 3. Run Webapp
-    flask_app.run(**Config().get_webapp_server_settings.model_dump())
+    openapi_app.run(**Config().get_webapp_server_settings.model_dump())
 
 
 if __name__ == "__main__":

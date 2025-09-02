@@ -1,5 +1,6 @@
 # bcn-rainfall-webapp
 
+[![GitHub version](https://badge.fury.io/gh/paul-florentin-charles%2Fbcn-rainfall-webapp.svg)](https://badge.fury.io/gh/paul-florentin-charles%2Fbcn-rainfall-webapp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![coverage badge](coverage.svg)](https://github.com/nedbat/coveragepy)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -44,6 +45,9 @@ sudo systemctl status redis-server
     ```commandline
     uv run run.py -db
     ```
+   
+**API docs** are available at `{server_base_url}/openapi`.
+
 
 ### Tests & Coverage
 

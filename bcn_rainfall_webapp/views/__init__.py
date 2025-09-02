@@ -1,3 +1,3 @@
-from .sections import sections
+from bcn_rainfall_webapp.views.sections import webapp_blueprint
 
-__all__ = ["sections"]
+__all__ = ["webapp_blueprint"]

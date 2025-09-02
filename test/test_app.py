@@ -1,13 +1,13 @@
 import pytest
 
-from bcn_rainfall_webapp.app import flask_app
+from bcn_rainfall_webapp.app import openapi_app
 
 
 class TestFlaskApp:
     @staticmethod
     @pytest.fixture
     def client():
-        return flask_app.test_client()
+        return openapi_app.test_client()
 
     @staticmethod
     def test_index(client):
