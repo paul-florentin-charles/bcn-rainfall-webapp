@@ -28,14 +28,14 @@ pip install uv
 uv sync
 ```
 
-#### Install and run Redis server
+#### Install and run Redis server (optional)
 
 ```commandline
 sudo apt install redis
 sudo systemctl status redis-server
 ```
 
-#### Run Flask server
+#### Run Webapp server
 
  ```commandline
  uv run run.py [--use-redis-db] [--for-production]
