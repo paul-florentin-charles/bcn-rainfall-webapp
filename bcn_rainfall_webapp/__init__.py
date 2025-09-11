@@ -9,6 +9,7 @@ END_YEAR = 2024
 __version__ = "1.1.2"
 
 __all__ = [
+    "__version__",
     "db_client",
     "NORMAL_YEAR",
     "BEGIN_YEAR",
