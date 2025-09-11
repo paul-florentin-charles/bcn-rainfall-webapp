@@ -1,12 +1,19 @@
 from pydantic import BaseModel, Field
 
 
-class WebappServerSettings(BaseModel):
+class DevelopmentServerSettings(BaseModel):
     """Type definition for Flask server settings."""
 
     host: str
     port: int
     debug: bool | None = Field(default=None)
+
+
+class ProductionServerSettings(BaseModel):
+    """Type definition for Waitress server settings."""
+
+    host: str
+    port: int
 
 
 class RedisServerSettings(BaseModel):

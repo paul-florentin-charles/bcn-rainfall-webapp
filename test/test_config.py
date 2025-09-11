@@ -5,8 +5,14 @@ config = Config()
 
 class TestConfig:
     @staticmethod
-    def test_get_webapp_server_settings():
-        settings = config.get_webapp_server_settings
+    def test_get_production_server_settings():
+        settings = config.get_production_server_settings
+        for attr in ["host", "port"]:
+            assert hasattr(settings, attr)
+
+    @staticmethod
+    def test_get_development_server_settings():
+        settings = config.get_development_server_settings
         for attr in ["host", "port", "debug"]:
             assert hasattr(settings, attr)
 

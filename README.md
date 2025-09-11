@@ -37,16 +37,10 @@ sudo systemctl status redis-server
 
 #### Run Flask server
 
-1. Without Redis DB client
-    ```commandline
-    uv run run.py
-    ```
+ ```commandline
+ uv run run.py [--use-redis-db] [--for-production]
+ ```
 
-2. With Redis DB client
-    ```commandline
-    uv run run.py -db
-    ```
-   
 **API docs** are available at `{server_base_url}/openapi`.
 
 

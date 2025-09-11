@@ -8,8 +8,9 @@ from typing import Optional
 from bcn_rainfall_webapp.utils import (
     APISettings,
     BaseConfig,
+    DevelopmentServerSettings,
+    ProductionServerSettings,
     RedisServerSettings,
-    WebappServerSettings,
 )
 
 
@@ -26,7 +27,21 @@ class Config(BaseConfig):
         return super().__new__(cls, path=path)
 
     @cached_property
-    def get_webapp_server_settings(self) -> WebappServerSettings:
+    def get_production_server_settings(self) -> ProductionServerSettings:
+        """
+        Return Waitress server settings.
+
+        Example:
+        {
+            "host": "127.0.0.1",
+            "port": 8080,
+        }
+        """
+
+        return ProductionServerSettings(**self.yaml_config["server"]["prod"])
+
+    @cached_property
+    def get_development_server_settings(self) -> DevelopmentServerSettings:
         """
         Return Flask server settings.
 
@@ -38,7 +53,7 @@ class Config(BaseConfig):
         }
         """
 
-        return WebappServerSettings(**self.yaml_config["webapp"])
+        return DevelopmentServerSettings(**self.yaml_config["server"]["dev"])
 
     @cached_property
     def get_redis_server_settings(self) -> RedisServerSettings:

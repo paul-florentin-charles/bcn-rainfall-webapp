@@ -1,9 +1,14 @@
-# -- Flask server settings -- #
+# -- Server settings -- #
 
-webapp:
-  host: 127.0.0.1
-  port: 5000
-  debug: true
+server:
+  prod:
+    host: 127.0.0.1
+    port: 8080
+  dev:
+    host: 127.0.0.1
+    port: 5000
+    debug: true
+
 
 # -- Redis server settings -- #
 

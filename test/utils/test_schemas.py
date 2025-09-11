@@ -1,10 +1,13 @@
-from bcn_rainfall_webapp.utils.schemas import RedisServerSettings, WebappServerSettings
+from bcn_rainfall_webapp.utils.schemas import (
+    DevelopmentServerSettings,
+    RedisServerSettings,
+)
 
 
 class TestUtilsSchemas:
     @staticmethod
     def test_webapp_server_settings_fields():
-        webapp_settings = WebappServerSettings(host="127.0.0.1", port=5000)
+        webapp_settings = DevelopmentServerSettings(host="127.0.0.1", port=5000)
 
         assert webapp_settings.host == "127.0.0.1"
         assert webapp_settings.port == 5000
