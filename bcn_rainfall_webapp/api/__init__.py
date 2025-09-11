@@ -2,8 +2,8 @@ from bcn_rainfall_core import Rainfall
 from flask import jsonify
 from flask_openapi3 import APIBlueprint
 
-from bcn_rainfall_webapp import Config
 from bcn_rainfall_webapp.api.routers import populate_blueprint
+from bcn_rainfall_webapp.config import Config
 
 all_rainfall = Rainfall.from_config()
 

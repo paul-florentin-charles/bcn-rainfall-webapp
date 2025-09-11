@@ -12,10 +12,6 @@ redis:
   port: 6379
   db: 0
 
-# TODELETE when migration finished: -- FastAPI base URL (used by API client) -- #
-
-api_base_url: http://127.0.0.1:8000/rest
-
 # --  API settings -- #
 
 api:

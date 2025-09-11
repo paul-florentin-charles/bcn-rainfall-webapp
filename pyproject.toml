@@ -1,16 +1,15 @@
 [project]
 name = "bcn-rainfall-webapp"
-version = "1.1.1"
+version = "1.1.2"
 description = "Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona, Catalunya."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "bcn-rainfall-api-client @ git+https://github.com/paul-florentin-charles/bcn-rainfall-api-client.git@v1.0.9",
     "bcn-rainfall-core @ git+https://github.com/paul-florentin-charles/bcn-rainfall-core.git@v1.0.7",
     "click~=8.1.7",
     "coverage>=7.6.9",
     "flask~=3.1.0",
-    "flask-openapi3[swagger]~=4.2.1",
+    "flask-openapi3[swagger, scalar, redoc]~=4.2.1",
     "pandas~=2.2.2",
     "plotly~=5.24.1",
     "pre-commit~=4.0.1",

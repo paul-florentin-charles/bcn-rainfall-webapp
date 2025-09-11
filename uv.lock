@@ -15,29 +15,6 @@ wheels = [
 ]
 
 [[package]]
-name = "api-session"
-version = "1.4.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/9a/e5/713ad926308018462cbe4abf1042c40d0c430b018b1e990d1ef6df8cde38/api_session-1.4.2.tar.gz", hash = "sha256:1fbbd497b247c8d405ba3fb606be9a4ba28ad46ece347b120a50cbaf167d901c", size = 4717 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4b/2a/23cf1af55efc160cc4892b7ca17cf655a66517cb17ec607429a916e147b7/api_session-1.4.2-py3-none-any.whl", hash = "sha256:650cfcba61dd58aee3b70c386cc9ac87d82580b15591d0c2741c80d929fe7ba6", size = 5381 },
-]
-
-[[package]]
-name = "bcn-rainfall-api-client"
-version = "1.0.9"
-source = { git = "https://github.com/paul-florentin-charles/bcn-rainfall-api-client.git?rev=v1.0.9#59ac187440eedd66ca31957fd7efc32e2779d48f" }
-dependencies = [
-    { name = "api-session" },
-    { name = "pre-commit" },
-    { name = "pydantic" },
-    { name = "pyyaml" },
-]
-
-[[package]]
 name = "bcn-rainfall-core"
 version = "1.0.7"
 source = { git = "https://github.com/paul-florentin-charles/bcn-rainfall-core.git?rev=v1.0.7#c812a38627e9122bef5c8207dd95d520eb0a79fd" }
@@ -56,15 +33,14 @@ dependencies = [
 
 [[package]]
 name = "bcn-rainfall-webapp"
-version = "1.1.1"
+version = "1.1.2"
 source = { virtual = "." }
 dependencies = [
-    { name = "bcn-rainfall-api-client" },
     { name = "bcn-rainfall-core" },
     { name = "click" },
     { name = "coverage" },
     { name = "flask" },
-    { name = "flask-openapi3", extra = ["swagger"] },
+    { name = "flask-openapi3", extra = ["redoc", "scalar", "swagger"] },
     { name = "pandas" },
     { name = "plotly" },
     { name = "pre-commit" },
@@ -77,12 +53,11 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bcn-rainfall-api-client", git = "https://github.com/paul-florentin-charles/bcn-rainfall-api-client.git?rev=v1.0.9" },
     { name = "bcn-rainfall-core", git = "https://github.com/paul-florentin-charles/bcn-rainfall-core.git?rev=v1.0.7" },
     { name = "click", specifier = "~=8.1.7" },
     { name = "coverage", specifier = ">=7.6.9" },
     { name = "flask", specifier = "~=3.1.0" },
-    { name = "flask-openapi3", extras = ["swagger"], specifier = "~=4.2.1" },
+    { name = "flask-openapi3", extras = ["swagger", "scalar", "redoc"], specifier = "~=4.2.1" },
     { name = "pandas", specifier = "~=2.2.2" },
     { name = "plotly", specifier = "~=5.24.1" },
     { name = "pre-commit", specifier = "~=4.0.1" },
@@ -263,8 +238,38 @@ wheels = [
 ]
 
 [package.optional-dependencies]
+redoc = [
+    { name = "flask-openapi3-redoc" },
+]
+scalar = [
+    { name = "flask-openapi3-scalar" },
+]
 swagger = [
     { name = "flask-openapi3-swagger" },
+]
+
+[[package]]
+name = "flask-openapi3-redoc"
+version = "2.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask-openapi3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/35/d7/c30eb265524747240cbb54c7f45e9ab9e7131f4886f434df8ddd3b701b95/flask_openapi3_redoc-2.5.0.tar.gz", hash = "sha256:57a56eafc8ef6abfc4b05743cb5eb0dcf0ca4ae8d644c089e516ddcec7acd9e0", size = 282021 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7f/07/0473eb9ed6bce98f21e88e1c659bd7154ea73bc3cb9d439fabcb6722f8b2/flask_openapi3_redoc-2.5.0-py3-none-any.whl", hash = "sha256:eb838cfc5365e7d135d0e4c53591a8570c8abe76197c9d9cfe130e7c17e64219", size = 283171 },
+]
+
+[[package]]
+name = "flask-openapi3-scalar"
+version = "1.35.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask-openapi3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3b/95/23908994a1dbf4b923e8bd5e8a77e971c87f45506b31f5bd781a9435df3b/flask_openapi3_scalar-1.35.3.tar.gz", hash = "sha256:913548c20d84270e2605bc787fb8f7f8792a2bc071d3aa5cca901a62837aea5c", size = 839432 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/0e/3e07b36c639309b3b3ef1f0adb0d95320887a9bf8c904f35b41ce4b082a6/flask_openapi3_scalar-1.35.3-py3-none-any.whl", hash = "sha256:c84893fa9a5caed07d2bd86f30653e52e5f56990e786d00926bbdb55fd18fe26", size = 842202 },
 ]
 
 [[package]]

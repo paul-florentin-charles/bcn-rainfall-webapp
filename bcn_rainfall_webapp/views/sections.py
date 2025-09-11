@@ -2,16 +2,17 @@ from typing import Any
 
 import plotly.express as px
 import plotly.io
+from bcn_rainfall_core.utils import Month, Season, TimeMode
 from flask import Blueprint, render_template
 
+import bcn_rainfall_webapp.api.routers.graph as graphs
+import bcn_rainfall_webapp.api.schemas as api_schemas
 from bcn_rainfall_webapp import (
     BEGIN_YEAR,
     END_YEAR,
     NORMAL_YEAR,
-    api_client,
     db_client,
 )
-from bcn_rainfall_webapp.utils import MONTHS, SEASONS
 from bcn_rainfall_webapp.utils.graph import (
     DEFAULT_LAYOUT,
     aggregate_plotly_json_figures,
@@ -29,7 +30,7 @@ def index():
     ctx_variables_dict: dict[str, Any] = {}
 
     seasonal_rainfall_as_plotly_json_list: list[str] = []
-    for season in SEASONS:
+    for season in Season:
         parameters = dict(
             season=season,
             begin_year=BEGIN_YEAR,
@@ -45,9 +46,10 @@ def index():
                 seasonal_rainfall_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_by_year_as_plotly_json(
-                **parameters,
-                time_mode="seasonal",
+            data = graphs.get_rainfall_by_year_as_plotly_json(
+                api_schemas.APIQueryParametersForRainfallByYear(
+                    **parameters, time_mode=TimeMode.SEASONAL
+                ),
             )
 
             db_client.set_seasonal_rainfall_as_plotly_json(
@@ -83,7 +85,7 @@ def index():
     ## Averages ##
 
     rainfall_averages_as_plotly_json_list: list[str] = []
-    for time_mode in ["monthly", "seasonal"]:
+    for time_mode in [TimeMode.MONTHLY, TimeMode.SEASONAL]:
         parameters = dict(
             time_mode=time_mode,
             begin_year=BEGIN_YEAR,
@@ -99,8 +101,8 @@ def index():
                 rainfall_averages_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_averages_as_plotly_json(
-                **parameters,
+            data = graphs.get_rainfall_averages_as_plotly_json(
+                api_schemas.APIQueryParametersMinimal(**parameters),
             )
 
             db_client.set_rainfall_averages_as_plotly_json(
@@ -122,7 +124,7 @@ def index():
     ## LinReg slopes ##
 
     rainfall_linreg_slopes_as_plotly_json_list: list[str] = []
-    for time_mode in ["monthly", "seasonal"]:
+    for time_mode in [TimeMode.MONTHLY, TimeMode.SEASONAL]:
         parameters = dict(
             time_mode=time_mode,
             begin_year=BEGIN_YEAR,
@@ -138,8 +140,8 @@ def index():
                 rainfall_linreg_slopes_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_linreg_slopes_as_plotly_json(
-                **parameters,
+            data = graphs.get_rainfall_linreg_slopes_as_plotly_json(
+                api_schemas.APIQueryParametersMinimal(**parameters),
             )
 
             db_client.set_rainfall_linreg_slopes_as_plotly_json(
@@ -164,7 +166,7 @@ def index():
     ## Relative distances to normal ##
 
     relative_distances_to_rainfall_normal_as_plotly_json_list: list[str] = []
-    for time_mode in ["monthly", "seasonal"]:
+    for time_mode in [TimeMode.MONTHLY, TimeMode.SEASONAL]:
         parameters = dict(
             time_mode=time_mode,
             normal_year=NORMAL_YEAR,
@@ -181,8 +183,8 @@ def index():
                 relative_distances_to_rainfall_normal_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-                **parameters,
+            data = graphs.get_relative_distances_to_rainfall_normal_as_plotly_json(
+                api_schemas.APIQueryParametersMinimalWithNormal(**parameters),
             )
 
             db_client.set_relative_distances_to_rainfall_normal_as_plotly_json(
@@ -217,7 +219,7 @@ def rainfall_by_year():
     rainfall_by_year_as_plotly_json_list = []
     for cluster_count in [None, 2, 3, 4]:
         parameters = dict(
-            time_mode="yearly",
+            time_mode=TimeMode.YEARLY,
             begin_year=BEGIN_YEAR,
             end_year=END_YEAR,
             plot_average=True,
@@ -232,8 +234,8 @@ def rainfall_by_year():
             rainfall_by_year_as_plotly_json_list.append(rainfall_by_year_as_plotly_json)
         else:
             figure = plotly.io.from_json(
-                api_client.get_rainfall_by_year_as_plotly_json(
-                    **parameters,
+                graphs.get_rainfall_by_year_as_plotly_json(
+                    api_schemas.APIQueryParametersForRainfallByYear(**parameters),
                 )
             )
             figure.update_layout(
@@ -254,9 +256,9 @@ def rainfall_by_year():
             rainfall_by_year_as_plotly_json_list.append(data)
 
     monthly_rainfall_by_year_as_plotly_json_list = []
-    for month in MONTHS:
+    for month in Month.values():
         parameters = dict(
-            time_mode="monthly",
+            time_mode=TimeMode.MONTHLY,
             begin_year=BEGIN_YEAR,
             end_year=END_YEAR,
             month=month,
@@ -271,8 +273,8 @@ def rainfall_by_year():
                 monthly_rainfall_by_year_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_by_year_as_plotly_json(
-                **parameters,
+            data = graphs.get_rainfall_by_year_as_plotly_json(
+                api_schemas.APIQueryParametersForRainfallByYear(**parameters),
             )
 
             db_client.set_rainfall_by_year_as_plotly_json(
@@ -312,7 +314,7 @@ def rainfall_by_year():
 @webapp_blueprint.route("/rainfall_average")
 def rainfall_average():
     rainfall_averages_as_plotly_json_list: list[str] = []
-    for time_mode in ["monthly", "seasonal"]:
+    for time_mode in [TimeMode.MONTHLY, TimeMode.SEASONAL]:
         parameters = dict(
             time_mode=time_mode,
             begin_year=BEGIN_YEAR,
@@ -328,8 +330,8 @@ def rainfall_average():
                 rainfall_averages_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_averages_as_plotly_json(
-                **parameters,
+            data = graphs.get_rainfall_averages_as_plotly_json(
+                api_schemas.APIQueryParametersMinimal(**parameters),
             )
 
             db_client.set_rainfall_averages_as_plotly_json(
@@ -355,7 +357,7 @@ def rainfall_average():
 @webapp_blueprint.route("/rainfall_relative_distance_to_normal")
 def rainfall_relative_distance_to_normal():
     relative_distances_to_rainfall_normal_as_plotly_json_list: list[str] = []
-    for time_mode in ["monthly", "seasonal"]:
+    for time_mode in [TimeMode.MONTHLY, TimeMode.SEASONAL]:
         parameters = dict(
             time_mode=time_mode,
             normal_year=NORMAL_YEAR,
@@ -372,8 +374,8 @@ def rainfall_relative_distance_to_normal():
                 relative_distances_to_rainfall_normal_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_relative_distances_to_normal_as_plotly_json(
-                **parameters,
+            data = graphs.get_relative_distances_to_rainfall_normal_as_plotly_json(
+                api_schemas.APIQueryParametersMinimalWithNormal(**parameters),
             )
 
             db_client.set_relative_distances_to_rainfall_normal_as_plotly_json(
@@ -403,9 +405,9 @@ def rainfall_relative_distance_to_normal():
 def years_compared_to_normal():
     percentage_of_years_compared_to_normal_as_plotly_json_list: list[str] = []
     percentage_of_years_compared_to_normal_as_plotly_json_list_2: list[str] = []
-    for season in SEASONS:
+    for season in Season.values():
         parameters = dict(
-            time_mode="seasonal",
+            time_mode=TimeMode.SEASONAL,
             normal_year=NORMAL_YEAR,
             begin_year=BEGIN_YEAR,
             end_year=END_YEAR,
@@ -421,8 +423,8 @@ def years_compared_to_normal():
                 seasonal_percentage_of_years_compared_to_normal_as_plotly_json
             )
         else:
-            data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                **parameters,
+            data = graphs.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+                api_schemas.APIQueryParametersWithPercentagesOfNormal(**parameters),
             )
 
             db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
@@ -443,9 +445,10 @@ def years_compared_to_normal():
                 seasonal_percentage_of_years_compared_to_normal_as_plotly_json_2
             )
         else:
-            data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                **parameters,
-                percentages_of_normal="0,75,90,110,125,inf",
+            data = graphs.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+                api_schemas.APIQueryParametersWithPercentagesOfNormal(
+                    **parameters, percentages_of_normal="0,75,90,110,125,inf"
+                ),
             )
 
             db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
@@ -458,11 +461,11 @@ def years_compared_to_normal():
 
     plotly_data_ctx_dict: dict[str, str] = {}
     for key, percentages_of_normal in [
-        ("plotlyYearsAboveNormalJSON", None),
+        ("plotlyYearsAboveNormalJSON", "0,80,120,inf"),
         ("plotlyYearsAboveNormal2JSON", "0,75,90,110,125,inf"),
     ]:
         parameters = dict(
-            time_mode="yearly",
+            time_mode=TimeMode.YEARLY,
             normal_year=NORMAL_YEAR,
             begin_year=BEGIN_YEAR,
             end_year=END_YEAR,
@@ -477,8 +480,8 @@ def years_compared_to_normal():
         ):
             plotly_data_ctx_dict[key] = db_data
         else:
-            data = api_client.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                **parameters,
+            data = graphs.get_percentage_of_years_above_and_below_normal_as_plotly_json(
+                api_schemas.APIQueryParametersWithPercentagesOfNormal(**parameters),
             )
 
             figure = plotly.io.from_json(data)
@@ -503,7 +506,7 @@ def years_compared_to_normal():
             layout={
                 "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
             },
-            graph_labels=[season.capitalize() for season in SEASONS],
+            graph_labels=[season.capitalize() for season in Season.values()],
         ).to_json(),
         plotlyYearsAboveNormalSeasonal2JSON=aggregate_plotly_json_pie_charts(
             percentage_of_years_compared_to_normal_as_plotly_json_list_2,
@@ -512,7 +515,7 @@ def years_compared_to_normal():
             layout={
                 "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
             },
-            graph_labels=[season.capitalize() for season in SEASONS],
+            graph_labels=[season.capitalize() for season in Season.values()],
         ).to_json(),
         **plotly_data_ctx_dict,
     )
@@ -522,7 +525,7 @@ def years_compared_to_normal():
 def rainfall_standard_deviation():
     rainfall_standard_deviations_as_plotly_json_list: list[str] = []
     rainfall_standard_deviations_weighted_as_plotly_json_list: list[str] = []
-    for time_mode in ["monthly", "seasonal"]:
+    for time_mode in [TimeMode.MONTHLY, TimeMode.SEASONAL]:
         parameters = dict(
             time_mode=time_mode,
             begin_year=BEGIN_YEAR,
@@ -538,8 +541,8 @@ def rainfall_standard_deviation():
                 rainfall_standard_deviations_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_standard_deviations_as_plotly_json(
-                **parameters,
+            data = graphs.get_rainfall_standard_deviations_as_plotly_json(
+                api_schemas.APIQueryParametersMinimalWithWeighByAverage(**parameters),
             )
 
             db_client.set_rainfall_standard_deviations_as_plotly_json(
@@ -562,9 +565,11 @@ def rainfall_standard_deviation():
                 rainfall_standard_deviations_weighted_as_plotly_json
             )
         else:
-            data = api_client.get_rainfall_standard_deviations_as_plotly_json(
-                **parameters,
-                weigh_by_average=True,
+            data = graphs.get_rainfall_standard_deviations_as_plotly_json(
+                api_schemas.APIQueryParametersMinimalWithWeighByAverage(
+                    **parameters,
+                    weigh_by_average=True,
+                )
             )
 
             db_client.set_rainfall_standard_deviations_as_plotly_json(

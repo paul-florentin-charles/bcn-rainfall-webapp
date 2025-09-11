@@ -5,8 +5,9 @@ Work-in-progress!
 
 from flask_openapi3 import Info, OpenAPI
 
-from bcn_rainfall_webapp import Config, __version__
+from bcn_rainfall_webapp import __version__
 from bcn_rainfall_webapp.api import api_blueprint
+from bcn_rainfall_webapp.config import Config
 from bcn_rainfall_webapp.views import webapp_blueprint
 
 api_settings = Config().get_api_settings

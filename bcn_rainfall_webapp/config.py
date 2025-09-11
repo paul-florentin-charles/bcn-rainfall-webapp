@@ -71,12 +71,3 @@ class Config(BaseConfig):
         """
 
         return APISettings(**self.yaml_config["api"])
-
-    @cached_property
-    def get_fastapi_base_url(self) -> str:  # TODELETE when migration finished
-        """
-        Return FastAPI base URL.
-
-        Example: "https://bcn-rainfall-api.onrender.com/rest".
-        """
-        return self.yaml_config["api_base_url"]

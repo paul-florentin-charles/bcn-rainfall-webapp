@@ -1,5 +1,11 @@
 ## Changelog
 
+### v1.1.2
+_11/09/2025_
+
+- Migrate external *API* within **Webapp** thanks to [flask-openapi3](https://pypi.org/project/flask-openapi3/) library.
+  - Remove consequently dependency to *bcn-rainfall-api-client*.
+
 ### v1.1.1
 _13/08/2025_
 
