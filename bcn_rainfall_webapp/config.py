@@ -6,6 +6,7 @@ from functools import cached_property
 from typing import Optional
 
 from bcn_rainfall_webapp.utils import (
+    APISettings,
     BaseConfig,
     RedisServerSettings,
     WebappServerSettings,
@@ -56,10 +57,17 @@ class Config(BaseConfig):
         return RedisServerSettings(**self.yaml_config["redis"])
 
     @cached_property
-    def get_fastapi_base_url(self) -> str:
+    def get_api_settings(self) -> APISettings:
         """
-        Return FastAPI base URL.
+        Return API settings.
 
-        Example: "https://bcn-rainfall-api.onrender.com/rest".
+        Example:
+        {
+            "root_path": "/rest",
+            "title": "Barcelona Rainfall API",
+            "summary": "An API that provides rainfall-related data of the city of Barcelona.",
+        }
+
         """
-        return self.yaml_config["api_base_url"]
+
+        return APISettings(**self.yaml_config["api"])

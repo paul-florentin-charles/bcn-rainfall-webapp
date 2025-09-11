@@ -1,3 +1,4 @@
+from bcn_rainfall_core.utils import Season, TimeMode
 from redis import Redis
 
 from bcn_rainfall_webapp.db.utils import get_hash_key, get_seconds_until_end_of_the_day
@@ -42,7 +43,7 @@ class DBClient:
     def get_rainfall_by_year_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
         **kwargs,
@@ -50,7 +51,7 @@ class DBClient:
         return self._get(
             get_hash_key(
                 name="rainfall_by_year_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
                 **kwargs,
@@ -60,7 +61,7 @@ class DBClient:
     def set_rainfall_by_year_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
         data: str,
@@ -69,7 +70,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="rainfall_by_year_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
                 **kwargs,
@@ -78,12 +79,12 @@ class DBClient:
         )
 
     def get_seasonal_rainfall_as_plotly_json(
-        self, *, season: str, begin_year: int, end_year: int
+        self, *, season: Season, begin_year: int, end_year: int
     ) -> str | None:
         return self._get(
             get_hash_key(
                 name="seasonal_rainfall_as_plotly_json",
-                season=season,
+                season=season.value,
                 begin_year=begin_year,
                 end_year=end_year,
             )
@@ -92,7 +93,7 @@ class DBClient:
     def set_seasonal_rainfall_as_plotly_json(
         self,
         *,
-        season: str,
+        season: Season,
         begin_year: int,
         end_year: int,
         data: str,
@@ -100,7 +101,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="seasonal_rainfall_as_plotly_json",
-                season=season,
+                season=season.value,
                 begin_year=begin_year,
                 end_year=end_year,
             ),
@@ -110,14 +111,14 @@ class DBClient:
     def get_rainfall_averages_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
     ):
         return self._get(
             get_hash_key(
                 name="rainfall_averages_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
             )
@@ -126,7 +127,7 @@ class DBClient:
     def set_rainfall_averages_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
         data: str,
@@ -134,7 +135,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="rainfall_averages_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
             ),
@@ -144,14 +145,14 @@ class DBClient:
     def get_rainfall_linreg_slopes_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
     ):
         return self._get(
             get_hash_key(
                 name="rainfall_linreg_slopes_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
             )
@@ -160,7 +161,7 @@ class DBClient:
     def set_rainfall_linreg_slopes_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
         data: str,
@@ -168,7 +169,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="rainfall_linreg_slopes_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
             ),
@@ -178,7 +179,7 @@ class DBClient:
     def get_relative_distances_to_rainfall_normal_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         normal_year: int,
         begin_year: int,
         end_year: int,
@@ -186,7 +187,7 @@ class DBClient:
         return self._get(
             get_hash_key(
                 name="relative_distances_to_rainfall_normal_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 normal_year=normal_year,
                 begin_year=begin_year,
                 end_year=end_year,
@@ -196,7 +197,7 @@ class DBClient:
     def set_relative_distances_to_rainfall_normal_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         normal_year: int,
         begin_year: int,
         end_year: int,
@@ -205,7 +206,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="relative_distances_to_rainfall_normal_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 normal_year=normal_year,
                 begin_year=begin_year,
                 end_year=end_year,
@@ -216,7 +217,7 @@ class DBClient:
     def get_rainfall_standard_deviations_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
         weigh_by_average=False,
@@ -224,7 +225,7 @@ class DBClient:
         return self._get(
             get_hash_key(
                 name="rainfall_standard_deviations_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
                 weigh_by_average=weigh_by_average,
@@ -234,7 +235,7 @@ class DBClient:
     def set_rainfall_standard_deviations_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         begin_year: int,
         end_year: int,
         data: str,
@@ -243,7 +244,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="rainfall_standard_deviations_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 begin_year=begin_year,
                 end_year=end_year,
                 weigh_by_average=weigh_by_average,
@@ -254,7 +255,7 @@ class DBClient:
     def get_percentage_of_years_compared_to_normal_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         normal_year: int,
         begin_year: int,
         end_year: int,
@@ -263,7 +264,7 @@ class DBClient:
         return self._get(
             get_hash_key(
                 name="percentage_of_years_compared_to_normal_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 normal_year=normal_year,
                 begin_year=begin_year,
                 end_year=end_year,
@@ -274,7 +275,7 @@ class DBClient:
     def set_percentage_of_years_compared_to_normal_as_plotly_json(
         self,
         *,
-        time_mode: str,
+        time_mode: TimeMode,
         normal_year: int,
         begin_year: int,
         end_year: int,
@@ -284,7 +285,7 @@ class DBClient:
         self._set(
             get_hash_key(
                 name="percentage_of_years_compared_to_normal_as_plotly_json",
-                time_mode=time_mode,
+                time_mode=time_mode.value,
                 normal_year=normal_year,
                 begin_year=begin_year,
                 end_year=end_year,

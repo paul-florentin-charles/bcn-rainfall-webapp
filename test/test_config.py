@@ -17,5 +17,7 @@ class TestConfig:
             assert hasattr(settings, attr)
 
     @staticmethod
-    def test_get_fastapi_base_url():
-        assert isinstance(config.get_fastapi_base_url, str)
+    def test_get_api_settings():
+        settings = config.get_api_settings
+        for attr in ["root_path", "title", "summary"]:
+            assert hasattr(settings, attr)

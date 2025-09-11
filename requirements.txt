@@ -1,6 +1,8 @@
-bcn-rainfall-api-client~=1.0.9
+bcn-rainfall-core~=1.0.6
 click~=8.1.7
 flask~=3.1.0
+flask-openapi3~=4.2.1
+flask-openapi3[swagger, scalar, redoc]~=4.2.1
 gunicorn~=23.0.0
 pandas~=2.2.2
 plotly~=5.24.1

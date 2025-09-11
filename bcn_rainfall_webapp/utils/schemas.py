@@ -16,3 +16,11 @@ class RedisServerSettings(BaseModel):
     port: int
     db: int = Field(default=0)
     decode_responses: bool = Field(default=True)
+
+
+class APISettings(BaseModel):
+    """Type definition for API settings"""
+
+    root_path: str
+    title: str
+    summary: str | None = Field(None)
