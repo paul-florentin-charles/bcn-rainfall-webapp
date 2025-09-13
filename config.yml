@@ -1,4 +1,4 @@
-# -- Server settings -- #
+# -- Webapp server settings -- #
 
 server:
   prod:

@@ -2,15 +2,16 @@ from bcn_rainfall_core.utils import Label, TimeMode
 from flask import abort
 from flask_openapi3 import APIBlueprint, Tag
 
-from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, all_rainfall
+from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, bcn_rainfall
 from bcn_rainfall_webapp.api.schemas import (
-    APIQueryParametersForRainfallByYear,
-    APIQueryParametersMinimal,
-    APIQueryParametersMinimalWithNormal,
-    APIQueryParametersMinimalWithWeighByAverage,
-    APIQueryParametersWithPercentagesOfNormal,
+    APIQueryBeginEnd,
+    APIQueryBeginEndMonthSeasonPlotAveragePlotLinearRegressionKmeans,
+    APIQueryBeginEndWeighByAverage,
+    APIQueryNormalBeginEnd,
+    APIQueryNormalBeginEndMonthSeasonPercentagesOfNormal,
 )
 from bcn_rainfall_webapp.api.utils import (
+    graph_as_json_responses,
     raise_time_mode_error_or_do_nothing,
     raise_year_related_error_or_do_nothing,
 )
@@ -25,27 +26,18 @@ graph_blueprint = APIBlueprint(
     summary="Retrieve rainfall by year as a JSON.",
     description="Could either be for rainfall upon a whole year, a specific month or a given season.<br>"
     f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
-    responses={
-        "200": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                    }
-                }
-            },
-            "description": "Plotly graph as JSON",
-        }
-    },
+    responses=graph_as_json_responses,
 )
-def get_rainfall_by_year_as_plotly_json(query: APIQueryParametersForRainfallByYear):
+def get_rainfall_by_year_as_plotly_json(
+    query: APIQueryBeginEndMonthSeasonPlotAveragePlotLinearRegressionKmeans,
+):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    figure = all_rainfall.get_bar_figure_of_rainfall_according_to_year(
+    figure = bcn_rainfall.get_bar_figure_of_rainfall_according_to_year(
         query.time_mode,
         begin_year=query.begin_year,
         end_year=query.end_year,
@@ -70,20 +62,9 @@ def get_rainfall_by_year_as_plotly_json(query: APIQueryParametersForRainfallByYe
     summary="Retrieve rainfall monthly or seasonal averages of data as a JSON.",
     description=f"Time mode should be either '{TimeMode.MONTHLY.value}' or '{TimeMode.SEASONAL.value}'.<br>"
     f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
-    responses={
-        "200": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                    }
-                }
-            },
-            "description": "Plotly graph as JSON",
-        }
-    },
+    responses=graph_as_json_responses,
 )
-def get_rainfall_averages_as_plotly_json(query: APIQueryParametersMinimal):
+def get_rainfall_averages_as_plotly_json(query: APIQueryBeginEnd):
     if query.time_mode == TimeMode.YEARLY:
         abort(
             400,
@@ -95,7 +76,7 @@ def get_rainfall_averages_as_plotly_json(query: APIQueryParametersMinimal):
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
 
-    return all_rainfall.get_bar_figure_of_rainfall_averages(
+    return bcn_rainfall.get_bar_figure_of_rainfall_averages(
         time_mode=query.time_mode, begin_year=query.begin_year, end_year=query.end_year
     ).to_json()
 
@@ -105,20 +86,9 @@ def get_rainfall_averages_as_plotly_json(query: APIQueryParametersMinimal):
     summary="Retrieve rainfall monthly or seasonal linear regression slopes of data as a JSON.",
     description=f"Time mode should be either '{TimeMode.MONTHLY.value}' or '{TimeMode.SEASONAL.value}'.<br>"
     f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
-    responses={
-        "200": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                    }
-                }
-            },
-            "description": "Plotly graph as JSON",
-        }
-    },
+    responses=graph_as_json_responses,
 )
-def get_rainfall_linreg_slopes_as_plotly_json(query: APIQueryParametersMinimal):
+def get_rainfall_linreg_slopes_as_plotly_json(query: APIQueryBeginEnd):
     if query.time_mode == TimeMode.YEARLY:
         abort(
             400,
@@ -130,7 +100,7 @@ def get_rainfall_linreg_slopes_as_plotly_json(query: APIQueryParametersMinimal):
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
 
-    return all_rainfall.get_bar_figure_of_rainfall_linreg_slopes(
+    return bcn_rainfall.get_bar_figure_of_rainfall_linreg_slopes(
         time_mode=query.time_mode, begin_year=query.begin_year, end_year=query.end_year
     ).to_json()
 
@@ -140,21 +110,10 @@ def get_rainfall_linreg_slopes_as_plotly_json(query: APIQueryParametersMinimal):
     summary="Retrieve monthly or seasonal relative distances to normal (%) of data as a JSON.",
     description=f"Time mode should be either '{TimeMode.MONTHLY.value}' or '{TimeMode.SEASONAL.value}'.<br>"
     f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
-    responses={
-        "200": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                    }
-                }
-            },
-            "description": "Plotly graph as JSON",
-        }
-    },
+    responses=graph_as_json_responses,
 )
 def get_relative_distances_to_rainfall_normal_as_plotly_json(
-    query: APIQueryParametersMinimalWithNormal,
+    query: APIQueryNormalBeginEnd,
 ):
     if query.time_mode == TimeMode.YEARLY:
         abort(
@@ -167,7 +126,7 @@ def get_relative_distances_to_rainfall_normal_as_plotly_json(
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
 
-    return all_rainfall.get_bar_figure_of_relative_distance_to_normal(
+    return bcn_rainfall.get_bar_figure_of_relative_distance_to_normal(
         time_mode=query.time_mode,
         normal_year=query.normal_year,
         begin_year=query.begin_year,
@@ -180,21 +139,10 @@ def get_relative_distances_to_rainfall_normal_as_plotly_json(
     summary="Retrieve monthly or seasonal standard deviations (mm) of data as a JSON.",
     description=f"Time mode should be either '{TimeMode.MONTHLY.value}' or '{TimeMode.SEASONAL.value}'.<br>"
     f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
-    responses={
-        "200": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                    }
-                }
-            },
-            "description": "Plotly graph as JSON",
-        }
-    },
+    responses=graph_as_json_responses,
 )
 def get_rainfall_standard_deviations_as_plotly_json(
-    query: APIQueryParametersMinimalWithWeighByAverage,
+    query: APIQueryBeginEndWeighByAverage,
 ):
     if query.time_mode == TimeMode.YEARLY:
         abort(
@@ -207,7 +155,7 @@ def get_rainfall_standard_deviations_as_plotly_json(
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
 
-    return all_rainfall.get_bar_figure_of_standard_deviations(
+    return bcn_rainfall.get_bar_figure_of_standard_deviations(
         time_mode=query.time_mode,
         begin_year=query.begin_year,
         end_year=query.end_year,
@@ -219,21 +167,10 @@ def get_rainfall_standard_deviations_as_plotly_json(
     "/percentage_of_years_above_and_below_normal",
     summary="Retrieve pie chart of years above compared to years below normal (%) of data as a JSON.",
     description=f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
-    responses={
-        "200": {
-            "content": {
-                "application/json": {
-                    "schema": {
-                        "type": "object",
-                    }
-                }
-            },
-            "description": "Plotly graph as JSON",
-        }
-    },
+    responses=graph_as_json_responses,
 )
 def get_percentage_of_years_above_and_below_normal_as_plotly_json(
-    query: APIQueryParametersWithPercentagesOfNormal,
+    query: APIQueryNormalBeginEndMonthSeasonPercentagesOfNormal,
 ):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
@@ -241,7 +178,7 @@ def get_percentage_of_years_above_and_below_normal_as_plotly_json(
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    return all_rainfall.get_pie_figure_of_years_above_and_below_normal(
+    return bcn_rainfall.get_pie_figure_of_years_above_and_below_normal(
         time_mode=query.time_mode,
         normal_year=query.normal_year,
         begin_year=query.begin_year,

@@ -47,7 +47,7 @@ def index():
             )
         else:
             data = graphs.get_rainfall_by_year_as_plotly_json(
-                api_schemas.APIQueryParametersForRainfallByYear(
+                api_schemas.APIQueryBeginEndMonthSeasonPlotAveragePlotLinearRegressionKmeans(
                     **parameters, time_mode=TimeMode.SEASONAL
                 ),
             )
@@ -102,7 +102,7 @@ def index():
             )
         else:
             data = graphs.get_rainfall_averages_as_plotly_json(
-                api_schemas.APIQueryParametersMinimal(**parameters),
+                api_schemas.APIQueryBeginEnd(**parameters),
             )
 
             db_client.set_rainfall_averages_as_plotly_json(
@@ -141,7 +141,7 @@ def index():
             )
         else:
             data = graphs.get_rainfall_linreg_slopes_as_plotly_json(
-                api_schemas.APIQueryParametersMinimal(**parameters),
+                api_schemas.APIQueryBeginEnd(**parameters),
             )
 
             db_client.set_rainfall_linreg_slopes_as_plotly_json(
@@ -184,7 +184,7 @@ def index():
             )
         else:
             data = graphs.get_relative_distances_to_rainfall_normal_as_plotly_json(
-                api_schemas.APIQueryParametersMinimalWithNormal(**parameters),
+                api_schemas.APIQueryNormalBeginEnd(**parameters),
             )
 
             db_client.set_relative_distances_to_rainfall_normal_as_plotly_json(
@@ -210,6 +210,7 @@ def index():
 
     return render_template(
         "index.html",
+        title="Home - BCN Rainfall",
         **ctx_variables_dict,
     )
 
@@ -235,7 +236,9 @@ def rainfall_by_year():
         else:
             figure = plotly.io.from_json(
                 graphs.get_rainfall_by_year_as_plotly_json(
-                    api_schemas.APIQueryParametersForRainfallByYear(**parameters),
+                    api_schemas.APIQueryBeginEndMonthSeasonPlotAveragePlotLinearRegressionKmeans(
+                        **parameters
+                    ),
                 )
             )
             figure.update_layout(
@@ -274,7 +277,9 @@ def rainfall_by_year():
             )
         else:
             data = graphs.get_rainfall_by_year_as_plotly_json(
-                api_schemas.APIQueryParametersForRainfallByYear(**parameters),
+                api_schemas.APIQueryBeginEndMonthSeasonPlotAveragePlotLinearRegressionKmeans(
+                    **parameters
+                ),
             )
 
             db_client.set_rainfall_by_year_as_plotly_json(
@@ -296,6 +301,7 @@ def rainfall_by_year():
 
     return render_template(
         "sections/rainfall_by_year.html",
+        title="Rainfall by year - BCN Rainfall",
         plotlyRainfallByYearJSONList=rainfall_by_year_as_plotly_json_list,
         plotlyMonthlyRainfallsListJSON=[
             fig_monthly_rainfalls.to_json(),
@@ -331,7 +337,7 @@ def rainfall_average():
             )
         else:
             data = graphs.get_rainfall_averages_as_plotly_json(
-                api_schemas.APIQueryParametersMinimal(**parameters),
+                api_schemas.APIQueryBeginEnd(**parameters),
             )
 
             db_client.set_rainfall_averages_as_plotly_json(
@@ -343,6 +349,7 @@ def rainfall_average():
 
     return render_template(
         "sections/rainfall_average.html",
+        title="Rainfall average - BCN Rainfall",
         plotlyRainfallAverageJSON=aggregate_plotly_json_figures(
             rainfall_averages_as_plotly_json_list,
             layout={
@@ -375,7 +382,7 @@ def rainfall_relative_distance_to_normal():
             )
         else:
             data = graphs.get_relative_distances_to_rainfall_normal_as_plotly_json(
-                api_schemas.APIQueryParametersMinimalWithNormal(**parameters),
+                api_schemas.APIQueryNormalBeginEnd(**parameters),
             )
 
             db_client.set_relative_distances_to_rainfall_normal_as_plotly_json(
@@ -387,6 +394,7 @@ def rainfall_relative_distance_to_normal():
 
     return render_template(
         "sections/rainfall_relative_distance_to_normal.html",
+        title="Relative distance to normal - BCN Rainfall",
         plotlyRainfallRelativeDistance2NormalJSON=aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
@@ -424,7 +432,9 @@ def years_compared_to_normal():
             )
         else:
             data = graphs.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                api_schemas.APIQueryParametersWithPercentagesOfNormal(**parameters),
+                api_schemas.APIQueryNormalBeginEndMonthSeasonPercentagesOfNormal(
+                    **parameters
+                ),
             )
 
             db_client.set_percentage_of_years_compared_to_normal_as_plotly_json(
@@ -446,7 +456,7 @@ def years_compared_to_normal():
             )
         else:
             data = graphs.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                api_schemas.APIQueryParametersWithPercentagesOfNormal(
+                api_schemas.APIQueryNormalBeginEndMonthSeasonPercentagesOfNormal(
                     **parameters, percentages_of_normal="0,75,90,110,125,inf"
                 ),
             )
@@ -481,7 +491,9 @@ def years_compared_to_normal():
             plotly_data_ctx_dict[key] = db_data
         else:
             data = graphs.get_percentage_of_years_above_and_below_normal_as_plotly_json(
-                api_schemas.APIQueryParametersWithPercentagesOfNormal(**parameters),
+                api_schemas.APIQueryNormalBeginEndMonthSeasonPercentagesOfNormal(
+                    **parameters
+                ),
             )
 
             figure = plotly.io.from_json(data)
@@ -499,6 +511,7 @@ def years_compared_to_normal():
 
     return render_template(
         "sections/years_compared_to_normal.html",
+        title="Years compared to normal - BCN Rainfall",
         plotlyYearsAboveNormalSeasonalJSON=aggregate_plotly_json_pie_charts(
             percentage_of_years_compared_to_normal_as_plotly_json_list,
             rows=2,
@@ -542,7 +555,7 @@ def rainfall_standard_deviation():
             )
         else:
             data = graphs.get_rainfall_standard_deviations_as_plotly_json(
-                api_schemas.APIQueryParametersMinimalWithWeighByAverage(**parameters),
+                api_schemas.APIQueryBeginEndWeighByAverage(**parameters),
             )
 
             db_client.set_rainfall_standard_deviations_as_plotly_json(
@@ -566,7 +579,7 @@ def rainfall_standard_deviation():
             )
         else:
             data = graphs.get_rainfall_standard_deviations_as_plotly_json(
-                api_schemas.APIQueryParametersMinimalWithWeighByAverage(
+                api_schemas.APIQueryBeginEndWeighByAverage(
                     **parameters,
                     weigh_by_average=True,
                 )
@@ -582,6 +595,7 @@ def rainfall_standard_deviation():
 
     return render_template(
         "sections/rainfall_standard_deviation.html",
+        title="Standard deviation - BCN Rainfall",
         plotlyRainfallStandardDeviationJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_as_plotly_json_list,
             layout={

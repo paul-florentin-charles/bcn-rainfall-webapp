@@ -2,8 +2,8 @@ from bcn_rainfall_core.utils import TimeMode
 from flask import Response
 from flask_openapi3 import APIBlueprint, Tag
 
-from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, all_rainfall
-from bcn_rainfall_webapp.api.schemas import APIQueryParameters
+from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, bcn_rainfall
+from bcn_rainfall_webapp.api.schemas import APIQueryBeginEndMonthSeason
 from bcn_rainfall_webapp.api.utils import (
     raise_time_mode_error_or_do_nothing,
     raise_year_related_error_or_do_nothing,
@@ -26,14 +26,14 @@ csv_blueprint = APIBlueprint(
         }
     },
 )
-def get_rainfall_by_year_as_csv(query: APIQueryParameters):
+def get_rainfall_by_year_as_csv(query: APIQueryBeginEndMonthSeason):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    csv_str = all_rainfall.export_as_csv(
+    csv_str = bcn_rainfall.export_as_csv(
         query.time_mode,
         begin_year=query.begin_year,
         end_year=query.end_year,

@@ -7,7 +7,9 @@ import plotly.graph_objs as go
 import plotly.io
 from plotly.subplots import make_subplots
 
-DEFAULT_LAYOUT: dict[str, Any] = dict(
+from bcn_rainfall_webapp.utils.base_config import JSONDict
+
+DEFAULT_LAYOUT: JSONDict = dict(
     legend={
         "yanchor": "top",
         "y": 0.99,

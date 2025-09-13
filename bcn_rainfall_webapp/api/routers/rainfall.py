@@ -1,12 +1,12 @@
 from bcn_rainfall_core.utils import TimeMode
 from flask_openapi3 import APIBlueprint, Tag
 
-from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, all_rainfall
+from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, bcn_rainfall
 from bcn_rainfall_webapp.api.schemas import (
-    APIQueryParameters,
-    APIQueryParametersWithNormal,
-    APIQueryParametersWithoutEndYear,
-    APIQueryParametersWithWeighByAverage,
+    APIQueryBeginEndMonthSeason,
+    APIQueryBeginEndMonthSeasonWeighByAverage,
+    APIQueryBeginMonthSeason,
+    APIQueryNormalBeginEndMonthSeason,
 )
 from bcn_rainfall_webapp.api.utils import (
     RainfallModel,
@@ -25,14 +25,14 @@ rainfall_blueprint = APIBlueprint(
     description=f"If no ending year is precised, most recent year available is taken: {MAX_YEAR_AVAILABLE}.",
     responses={"200": RainfallModel},
 )
-def get_rainfall_average(query: APIQueryParameters):
+def get_rainfall_average(query: APIQueryBeginEndMonthSeason):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
 
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    rainfall_average = all_rainfall.get_rainfall_average(
+    rainfall_average = bcn_rainfall.get_rainfall_average(
         query.time_mode,
         begin_year=query.begin_year,
         end_year=query.end_year,
@@ -57,10 +57,10 @@ def get_rainfall_average(query: APIQueryParameters):
     description="Commonly called rainfall normal.",
     responses={"200": RainfallModel},
 )
-def get_rainfall_normal(query: APIQueryParametersWithoutEndYear):
+def get_rainfall_normal(query: APIQueryBeginMonthSeason):
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    normal = all_rainfall.get_normal(
+    normal = bcn_rainfall.get_normal(
         query.time_mode,
         begin_year=query.begin_year,
         month=query.month,
@@ -91,7 +91,7 @@ def get_rainfall_normal(query: APIQueryParametersWithoutEndYear):
     responses={"200": RainfallModel},
 )
 def get_rainfall_relative_distance_to_normal(
-    query: APIQueryParametersWithNormal,
+    query: APIQueryNormalBeginEndMonthSeason,
 ):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
@@ -99,7 +99,7 @@ def get_rainfall_relative_distance_to_normal(
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    relative_distance_to_normal = all_rainfall.get_relative_distance_to_normal(
+    relative_distance_to_normal = bcn_rainfall.get_relative_distance_to_normal(
         query.time_mode,
         normal_year=query.normal_year,
         begin_year=query.begin_year,
@@ -127,7 +127,7 @@ def get_rainfall_relative_distance_to_normal(
     responses={"200": RainfallModel},
 )
 def get_rainfall_standard_deviation(
-    query: APIQueryParametersWithWeighByAverage,
+    query: APIQueryBeginEndMonthSeasonWeighByAverage,
 ):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
@@ -135,7 +135,7 @@ def get_rainfall_standard_deviation(
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    rainfall_standard_deviation = all_rainfall.get_rainfall_standard_deviation(
+    rainfall_standard_deviation = bcn_rainfall.get_rainfall_standard_deviation(
         query.time_mode,
         begin_year=query.begin_year,
         end_year=query.end_year,

@@ -1,8 +1,8 @@
 from bcn_rainfall_core.utils import TimeMode
 from flask_openapi3 import APIBlueprint, Tag
 
-from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, all_rainfall
-from bcn_rainfall_webapp.api.schemas import APIQueryParametersWithNormal
+from bcn_rainfall_webapp.api import MAX_YEAR_AVAILABLE, bcn_rainfall
+from bcn_rainfall_webapp.api.schemas import APIQueryNormalBeginEndMonthSeason
 from bcn_rainfall_webapp.api.utils import (
     RainfallModel,
     raise_time_mode_error_or_do_nothing,
@@ -23,7 +23,7 @@ year_blueprint = APIBlueprint(
     responses={"200": RainfallModel},
 )
 def get_years_below_normal(
-    query: APIQueryParametersWithNormal,
+    query: APIQueryNormalBeginEndMonthSeason,
 ):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
@@ -31,7 +31,7 @@ def get_years_below_normal(
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    years_below_normal = all_rainfall.get_years_below_normal(
+    years_below_normal = bcn_rainfall.get_years_below_normal(
         query.time_mode,
         normal_year=query.normal_year,
         begin_year=query.begin_year,
@@ -61,7 +61,7 @@ def get_years_below_normal(
     responses={"200": RainfallModel},
 )
 def get_years_above_normal(
-    query: APIQueryParametersWithNormal,
+    query: APIQueryNormalBeginEndMonthSeason,
 ):
     if query.end_year is None:
         query.end_year = MAX_YEAR_AVAILABLE
@@ -69,7 +69,7 @@ def get_years_above_normal(
     raise_year_related_error_or_do_nothing(query.begin_year, query.end_year)
     raise_time_mode_error_or_do_nothing(query.time_mode, query.month, query.season)
 
-    years_above_normal = all_rainfall.get_years_above_normal(
+    years_above_normal = bcn_rainfall.get_years_above_normal(
         query.time_mode,
         normal_year=query.normal_year,
         begin_year=query.begin_year,

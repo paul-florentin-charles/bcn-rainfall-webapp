@@ -1,6 +1,20 @@
 from bcn_rainfall_core.utils import Month, Season, TimeMode
 from flask import abort
+from flask_openapi3.types import ResponseDict
 from pydantic import BaseModel
+
+graph_as_json_responses: ResponseDict = {
+    "200": {
+        "content": {
+            "application/json": {
+                "schema": {
+                    "type": "object",
+                }
+            }
+        },
+        "description": "Plotly graph as JSON",
+    }
+}
 
 
 class RainfallModel(BaseModel):

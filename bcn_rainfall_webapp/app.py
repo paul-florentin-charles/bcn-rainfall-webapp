@@ -10,12 +10,12 @@ from bcn_rainfall_webapp.api import api_blueprint
 from bcn_rainfall_webapp.config import Config
 from bcn_rainfall_webapp.views import webapp_blueprint
 
-api_settings = Config().get_api_settings
-
 openapi_app = OpenAPI(
     __name__,
     info=Info(
-        title=api_settings.title, summary=api_settings.summary, version=__version__
+        title=Config().get_api_settings.title,
+        summary=Config().get_api_settings.summary,
+        version=__version__,
     ),
 )
 

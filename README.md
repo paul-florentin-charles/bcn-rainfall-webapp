@@ -58,6 +58,7 @@ uv run coverage report
 uv tool run mypy --check-untyped-defs .
 uv tool run ruff check
 uv tool run ruff format
+uv tool run pyupgrade --py312-plus **/*.py
 ```
 
 #### JavaScript
