@@ -5,7 +5,7 @@ from flask_openapi3 import APIBlueprint
 from bcn_rainfall_webapp.api.routers import populate_blueprint
 from bcn_rainfall_webapp.config import Config
 
-bcn_rainfall = Rainfall.from_config()
+bcn_rainfall = Rainfall.from_config(from_file=True)
 
 MIN_YEAR_AVAILABLE: int = bcn_rainfall.starting_year
 MAX_YEAR_AVAILABLE: int = bcn_rainfall.get_last_year()

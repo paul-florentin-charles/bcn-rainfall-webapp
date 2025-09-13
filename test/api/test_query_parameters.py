@@ -1,5 +1,3 @@
-"""Test the query parameters in bcn_rainfall_webapp/api/query_parameters.py."""
-
 import pytest
 from pydantic.fields import FieldInfo
 

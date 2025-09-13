@@ -1,5 +1,3 @@
-"""Test the utils in bcn_rainfall_webapp/api/utils.py."""
-
 import pytest
 from bcn_rainfall_core.utils import Month, Season, TimeMode
 from werkzeug.exceptions import HTTPException
@@ -12,7 +10,6 @@ from bcn_rainfall_webapp.api.utils import (
 
 
 def test_rainfall_model():
-    """Test the RainfallModel."""
     model = RainfallModel(
         name="test",
         value=10.0,
