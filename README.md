@@ -1,10 +1,10 @@
 # bcn-rainfall-webapp
 
-[![GitHub version](https://badge.fury.io/gh/paul-florentin-charles%2Fbcn-rainfall-webapp.svg)](https://badge.fury.io/gh/paul-florentin-charles%2Fbcn-rainfall-webapp)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
-[![coverage badge](coverage.svg)](https://github.com/nedbat/coveragepy)  
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)  
-[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)  
+[![GitHub version](https://badge.fury.io/gh/paul-florentin-charles%2Fbcn-rainfall-webapp.svg)](https://badge.fury.io/gh/paul-florentin-charles%2Fbcn-rainfall-webapp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![coverage badge](coverage.svg)](https://github.com/nedbat/coveragepy)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
 Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona.
