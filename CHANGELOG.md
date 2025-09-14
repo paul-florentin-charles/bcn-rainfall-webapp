@@ -1,5 +1,12 @@
 ## Changelog
 
+### v1.1.3
+_14/09/2025_
+
+- Add Docker integration.
+  - Main container running the **Flask** server.
+  - Dependency container running the **Redis** server.
+
 ### v1.1.2
 _11/09/2025_
 

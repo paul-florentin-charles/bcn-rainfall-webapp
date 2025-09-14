@@ -1,3 +1,5 @@
+import os
+
 from bcn_rainfall_core.utils import Season, TimeMode
 from redis import Redis
 
@@ -17,7 +19,14 @@ class DBClient:
     def from_config(cls, path="config.yml"):
         from bcn_rainfall_webapp.config import Config
 
-        return cls(**Config(path=path).get_redis_server_settings.model_dump())
+        # Use env vars set in docker-compose.yml
+        redis_settings = Config(path=path).get_redis_server_settings
+        if env__redis_host := os.getenv("REDIS_HOST"):
+            redis_settings.host = env__redis_host
+        if env__redis_port := os.getenv("REDIS_PORT"):
+            redis_settings.port = int(env__redis_port)
+
+        return cls(**redis_settings.model_dump())
 
     def disable(self):
         self.enabled = False
