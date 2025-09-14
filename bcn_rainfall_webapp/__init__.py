@@ -2,6 +2,7 @@ from bcn_rainfall_webapp.db import DBClient
 
 db_client = DBClient.from_config()
 
+# TODO: these variables should not be fixed but set up dynamically from UI
 NORMAL_YEAR = 1981
 BEGIN_YEAR = 1995
 END_YEAR = 2024
