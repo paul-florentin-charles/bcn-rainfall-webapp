@@ -53,7 +53,7 @@ h2#title a:hover {
 }
 
 #main-menu {
-    margin-right: 4.5em;
+    margin-right: 5em;
 }
 
 .header, .footer {
@@ -65,9 +65,9 @@ h2#title a:hover {
 .header {
     position: sticky;
     opacity: 0.8;
-    top: 0.001em;
+    top: 0.0001em;
     margin: 0 auto 0.4em auto;
-    padding: 0.2em;
+    padding: 0.1em;
     border-bottom: 1px solid var(--header-border-color);
     transition: background-color 0.4s, box-shadow 0.3s;
 }
@@ -106,6 +106,13 @@ a, .pure-menu-link {
     transition: background-color 0.4s, color 0.4s;
 }
 
+.highlight-link {
+    color: var(--header-background-color);
+    border: 1px solid var(--link-color);
+    background-color: var(--link-color);
+    border-radius: 0.75em;
+}
+
 a:hover, .pure-menu-link:hover {
     color: var(--link-hover-color);
 }
@@ -114,8 +121,12 @@ a:hover, .pure-menu-link:hover {
     margin: 0.25em auto;
 }
 
-.pure-menu-link:hover {
+
+.pure-menu-link:hover:active, .pure-menu-link:hover {
     background-color: transparent;
+}
+
+.pure-menu-link:hover {
     transition: box-shadow 250ms linear;
     box-shadow: 0 0 0.5em var(--link-hover-color);
     border-radius: 0.75em;
