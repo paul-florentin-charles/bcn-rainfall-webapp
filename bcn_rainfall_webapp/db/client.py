@@ -1,5 +1,6 @@
 import os
 
+import redis
 from bcn_rainfall_core.utils import Season, TimeMode
 from redis import Redis
 
@@ -7,12 +8,17 @@ from bcn_rainfall_webapp.db.utils import get_hash_key, get_seconds_until_end_of_
 
 
 class DBClient:
-    def __init__(self, *, host: str, port: int, db: int, **kwargs):
-        self.client = Redis(host=host, port=port, db=db, **kwargs)
+    def __init__(
+        self, *, host: str, port: int, db: int, url: str | None = None, **kwargs
+    ):
+        if url:
+            self.client = redis.from_url(url, **kwargs)
+        else:
+            self.client = Redis(host=host, port=port, db=db, **kwargs)
+
         self.host = host
         self.port = port
         self.db = db
-
         self.enabled = True
 
     @classmethod
@@ -20,16 +26,15 @@ class DBClient:
         from bcn_rainfall_webapp.config import Config
 
         # Check for railway variables beforehand
-        if os.getenv("REDIS_URL"):
+        if url := os.getenv("REDIS_URL"):
             return cls(
                 host=os.getenv("REDISHOST"),  # type: ignore
                 port=int(os.getenv("REDISPORT")),  # type: ignore
                 db=0,
-                password=os.getenv("REDISPASSWORD"),
-                username=os.getenv("REDISUSER"),
+                url=url,
             )
 
-        # Check for variables set in .env
+        # Check for variables set in .env for Docker Compose deploy
         redis_settings = Config(path=path).get_redis_server_settings
         if env__redis_host := os.getenv("REDIS_HOST"):
             redis_settings.host = env__redis_host
