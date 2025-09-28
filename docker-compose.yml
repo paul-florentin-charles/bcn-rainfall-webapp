@@ -4,10 +4,7 @@ services:
     container_name: flask_app
     ports:
       - "8080:8080"
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      PYTHONUNBUFFERED: 1
+    env_file: ".env"
     depends_on:
       - redis
 
