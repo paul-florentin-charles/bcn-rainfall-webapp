@@ -11,6 +11,8 @@ class DBClient:
     def __init__(
         self, *, host: str, port: int, db: int, url: str | None = None, **kwargs
     ):
+        kwargs.setdefault("decode_responses", True)
+
         if url:
             self.client = redis.from_url(url, **kwargs)
         else:
