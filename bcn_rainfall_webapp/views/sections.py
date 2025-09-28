@@ -66,7 +66,7 @@ def index():
             "xaxis": {"rangeslider_visible": True},
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
-            "colorway": ["#32a326", "#c4d63a", "#c97632", "#4d8bae"],
+            "colorway": ["#4d8bae", "#32a326", "#c4d63a", "#c97632"],
         },
     )
 
