@@ -19,7 +19,7 @@ It exposes an **API** whose docs can be found at `/openapi`.
 
 ## Get started
 
-### With Docker
+### With Docker (production)
 
 ```commandline
 git clone https://github.com/paul-florentin-charles/bcn-rainfall-webapp.git  
@@ -27,7 +27,7 @@ cd bcn-rainfall-webapp
 docker compose up --build
 ```
 
-### Without
+### Without (production/development)
 
 #### Build
 
