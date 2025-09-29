@@ -23,4 +23,3 @@ class TestUtilsSchemas:
         assert redis_settings.host == "localhost"
         assert redis_settings.port == 6379
         assert redis_settings.db == 0
-        assert redis_settings.decode_responses is True

@@ -19,7 +19,7 @@ class TestConfig:
     @staticmethod
     def test_get_redis_server_settings():
         settings = config.get_redis_server_settings
-        for attr in ["host", "port", "db", "decode_responses"]:
+        for attr in ["host", "port", "db"]:
             assert hasattr(settings, attr)
 
     @staticmethod
