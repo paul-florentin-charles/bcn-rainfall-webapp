@@ -22,7 +22,6 @@ class RedisServerSettings(BaseModel):
     host: str
     port: int
     db: int = Field(default=0)
-    decode_responses: bool = Field(default=True)
 
 
 class APISettings(BaseModel):

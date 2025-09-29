@@ -1,7 +1,6 @@
 from bcn_rainfall_webapp.db import DBClient
 
 db_client = DBClient.from_config()
-db_client.client.flushdb()
 
 # TODO: these variables should not be fixed but set up dynamically from UI
 NORMAL_YEAR = 1981
