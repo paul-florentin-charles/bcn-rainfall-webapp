@@ -78,7 +78,7 @@ class Config(BaseConfig):
         Example:
         {
             "root_path": "/rest",
-            "title": "Barcelona Rainfall API",
+            "title": "BarnaPluja API",
             "summary": "An API that provides rainfall-related data of the city of Barcelona.",
         }
 

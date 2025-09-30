@@ -62,7 +62,10 @@ def index():
     seasonal_rainfalls_by_year = aggregate_plotly_json_figures(
         seasonal_rainfall_as_plotly_json_list,
         layout={
-            "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each season",
+            "title": {
+                "text": "Rainfall for each season",
+                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+            },
             "xaxis": {"rangeslider_visible": True},
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
@@ -115,7 +118,10 @@ def index():
     ctx_variables_dict["plotlyAveragesJSON"] = aggregate_plotly_json_figures(
         rainfall_averages_as_plotly_json_list,
         layout={
-            "title": f"Average rainfall from {BEGIN_YEAR} to {END_YEAR}",
+            "title": {
+                "text": "Average rainfall",
+                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+            },
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "colorway": ["#5bd0d1", "#cb7e5c"],
         },
@@ -154,7 +160,10 @@ def index():
     ctx_variables_dict["plotlyLinRegJSON"] = aggregate_plotly_json_figures(
         rainfall_linreg_slopes_as_plotly_json_list,
         layout={
-            "title": f"Average linear regression slope from {BEGIN_YEAR} to {END_YEAR}",
+            "title": {
+                "text": "Average linear regression slope",
+                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+            },
             "yaxis": {
                 "title": "Linear regression slope (mm/year)",
                 "title_standoff": 5,
@@ -198,7 +207,10 @@ def index():
         aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
-                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
                 "yaxis": {
                     "title": "Relative distance to normal (%)",
                     "title_standoff": 5,
@@ -210,7 +222,7 @@ def index():
 
     return render_template(
         "index.html",
-        title="Home - BCN Rainfall",
+        title="Home - BarnaPluja",
         **ctx_variables_dict,
     )
 
@@ -244,7 +256,10 @@ def rainfall_by_year():
             figure.update_layout(
                 **DEFAULT_LAYOUT,
                 colorway=px.colors.carto.Pastel[::2],
-                title=f"Rainfall from {BEGIN_YEAR} to {END_YEAR}",
+                title={
+                    "text": "Rainfall",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
                 xaxis={"title": None, "rangeslider_visible": True},
                 yaxis={"title_standoff": 5},
             )
@@ -292,7 +307,11 @@ def rainfall_by_year():
     fig_monthly_rainfalls = aggregate_plotly_json_figures(
         monthly_rainfall_by_year_as_plotly_json_list,
         layout={
-            "title": f"Rainfall from {BEGIN_YEAR} to {END_YEAR} for each month",
+            "title": {
+                "text": "Rainfall for each month",
+                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+            },
+            "xaxis": {"rangeslider_visible": True},
             "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
             "barmode": "stack",
             "colorway": px.colors.sequential.Turbo,
@@ -301,7 +320,7 @@ def rainfall_by_year():
 
     return render_template(
         "sections/rainfall_by_year.html",
-        title="Rainfall by year - BCN Rainfall",
+        title="Rainfall by year - BarnaPluja",
         plotlyRainfallByYearJSONList=rainfall_by_year_as_plotly_json_list,
         plotlyMonthlyRainfallsListJSON=[
             fig_monthly_rainfalls.to_json(),
@@ -349,11 +368,14 @@ def rainfall_average():
 
     return render_template(
         "sections/rainfall_average.html",
-        title="Rainfall average - BCN Rainfall",
+        title="Rainfall average - BarnaPluja",
         plotlyRainfallAverageJSON=aggregate_plotly_json_figures(
             rainfall_averages_as_plotly_json_list,
             layout={
-                "title": f"Average rainfall from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": "Average rainfall",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
                 "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
@@ -394,11 +416,14 @@ def rainfall_relative_distance_to_normal():
 
     return render_template(
         "sections/rainfall_relative_distance_to_normal.html",
-        title="Relative distance to normal - BCN Rainfall",
+        title="Relative distance to normal - BarnaPluja",
         plotlyRainfallRelativeDistance2NormalJSON=aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
             layout={
-                "title": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
                 "yaxis": {
                     "title": "Relative distance to normal (%)",
                     "title_standoff": 5,
@@ -499,6 +524,10 @@ def years_compared_to_normal():
             figure = plotly.io.from_json(data)
             figure.update_layout(
                 **DEFAULT_LAYOUT,
+                title={
+                    "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
             )
             data = figure.to_json()
 
@@ -511,13 +540,16 @@ def years_compared_to_normal():
 
     return render_template(
         "sections/years_compared_to_normal.html",
-        title="Years compared to normal - BCN Rainfall",
+        title="Years compared to normal - BarnaPluja",
         plotlyYearsAboveNormalSeasonalJSON=aggregate_plotly_json_pie_charts(
             percentage_of_years_compared_to_normal_as_plotly_json_list,
             rows=2,
             cols=2,
             layout={
-                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
             },
             graph_labels=[season.capitalize() for season in Season.values()],
         ).to_json(),
@@ -526,7 +558,10 @@ def years_compared_to_normal():
             rows=2,
             cols=2,
             layout={
-                "title": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
             },
             graph_labels=[season.capitalize() for season in Season.values()],
         ).to_json(),
@@ -595,11 +630,14 @@ def rainfall_standard_deviation():
 
     return render_template(
         "sections/rainfall_standard_deviation.html",
-        title="Standard deviation - BCN Rainfall",
+        title="Standard deviation - BarnaPluja",
         plotlyRainfallStandardDeviationJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_as_plotly_json_list,
             layout={
-                "title": f"Standard deviation from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": "Standard deviation",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
                 "yaxis": {"title": "Standard deviation (mm)", "title_standoff": 5},
                 "colorway": ["#5bd0d1", "#cb7e5c"],
             },
@@ -607,7 +645,10 @@ def rainfall_standard_deviation():
         plotlyRainfallStandardDeviationWeightedJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_weighted_as_plotly_json_list,
             layout={
-                "title": f"Standard deviation weighted by average from {BEGIN_YEAR} to {END_YEAR}",
+                "title": {
+                    "text": "Standard deviation weighted by average",
+                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                },
                 "yaxis": {
                     "title": "Standard deviation weighted by average (%)",
                     "title_standoff": 5,

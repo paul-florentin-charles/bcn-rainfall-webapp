@@ -15,4 +15,4 @@ class TestFlaskApp:
         data = response.data.decode("utf-8")
 
         assert response.status_code == 200
-        assert "Barcelona Rainfall" in data
+        assert "BarnaPluja" in data

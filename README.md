@@ -64,7 +64,7 @@ uv run coverage report
 
 ```commandline  
 uv tool run mypy --check-untyped-defs .  
-uv tool run ruff check  
+uv tool run ruff check --fix
 uv tool run ruff format  
 uv tool run pyupgrade --py312-plus **/*.py  
 ```  
