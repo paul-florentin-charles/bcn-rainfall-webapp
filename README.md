@@ -7,7 +7,7 @@
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 
-Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona.
+Webapp run with Flask to display in a user-friendly way rainfall data from the city of Barcelona, Catalonia.
 
 It exposes an **API** whose docs can be found at `/openapi`.
 

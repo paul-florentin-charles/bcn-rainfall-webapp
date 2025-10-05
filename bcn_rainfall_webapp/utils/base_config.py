@@ -2,11 +2,10 @@
 Provides base class to inherit from to load YAML configuration file to retrieve parameters.
 """
 
-from typing import Any, Optional
+from typing import Optional
 
+from bcn_rainfall_core.utils.base_config import JSONDict
 from yaml import parser, safe_load
-
-JSONDict = dict[str, Any]
 
 
 class BaseConfig:

@@ -4,32 +4,40 @@ import redis
 from bcn_rainfall_core.utils import Season, TimeMode
 from redis import Redis
 
-from bcn_rainfall_webapp.db.utils import get_hash_key, get_seconds_until_end_of_the_day
+from bcn_rainfall_webapp.db.utils import (
+    get_hash_key,
+    get_redis_server_settings_from_url,
+    get_seconds_until_end_of_the_day,
+)
 
 
 class DBClient:
     def __init__(
         self,
         *,
-        host: str,
-        port: int,
-        db: int,
         url: str | None = None,
+        host="localhost",
+        port=6379,
+        db=0,
         decode_responses=True,
         **kwargs,
     ):
         if url:
+            settings = get_redis_server_settings_from_url(url)
             self.client = redis.from_url(
                 url, decode_responses=decode_responses, **kwargs
             )
+            self.host = settings.host
+            self.port = settings.port
+            self.db = settings.db
         else:
             self.client = Redis(
                 host=host, port=port, db=db, decode_responses=decode_responses, **kwargs
             )
+            self.host = host
+            self.port = port
+            self.db = db
 
-        self.host = host
-        self.port = port
-        self.db = db
         self.enabled = True
 
     @classmethod
@@ -38,12 +46,7 @@ class DBClient:
 
         # Check for Railway REDIS_URL env variable beforehand
         if url := os.getenv("REDIS_URL"):
-            return cls(
-                host=os.getenv("REDISHOST"),  # type: ignore
-                port=int(os.getenv("REDISPORT")),  # type: ignore
-                db=0,
-                url=url,
-            )
+            return cls(url=url)
 
         redis_settings = Config(path=path).get_redis_server_settings
 
@@ -52,6 +55,8 @@ class DBClient:
             redis_settings.host = env__redis_host
         if env__redis_port := os.getenv("REDIS_PORT"):
             redis_settings.port = int(env__redis_port)
+        if env__redis_db := os.getenv("REDIS_DB"):
+            redis_settings.db = int(env__redis_db)
 
         return cls(**redis_settings.model_dump())
 

@@ -5,9 +5,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
 import plotly.io
+from bcn_rainfall_core.utils.base_config import JSONDict
 from plotly.subplots import make_subplots
-
-from bcn_rainfall_webapp.utils.base_config import JSONDict
 
 DEFAULT_LAYOUT: JSONDict = dict(
     legend={
@@ -29,6 +28,29 @@ DEFAULT_LAYOUT: JSONDict = dict(
 )
 
 
+def get_layout(
+    title: str,
+    *,
+    subtitle="",
+    x_title="",
+    y_title="Rainfall (mm)",
+    y_title_standoff=5,
+    display_x_slider=False,
+    bar_mode="group",
+    colorway=px.colors.qualitative.Plotly,
+) -> JSONDict:
+    return dict(
+        title={
+            "text": title,
+            "subtitle_text": subtitle,
+        },
+        yaxis={"title": y_title, "title_standoff": y_title_standoff},
+        xaxis={"title": x_title, "rangeslider_visible": display_x_slider},
+        barmode=bar_mode,
+        colorway=colorway,
+    )
+
+
 def sorted_vertical_bars_by_y_values(figure: go.Figure, descending=True) -> go.Figure:
     # 1. Extract vertical bar traces
     data_frames: list[pd.DataFrame] = []
@@ -45,7 +67,7 @@ def sorted_vertical_bars_by_y_values(figure: go.Figure, descending=True) -> go.F
     df_all = reduce(lambda df1, df2: df1.merge(df2, on="x", how="outer"), data_frames)
 
     # 3. Get color list from layout or use default Plotly palette
-    colorway: list[str] = px.colors.qualitative.Plotly
+    colorway = px.colors.qualitative.Plotly
     if figure.layout.colorway:
         colorway = figure.layout.colorway
 

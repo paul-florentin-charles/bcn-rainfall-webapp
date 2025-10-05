@@ -2,6 +2,8 @@ import hashlib
 import json
 from datetime import datetime
 
+from bcn_rainfall_webapp.utils import RedisServerSettings
+
 
 def get_hash_key(**kwargs) -> str:
     """
@@ -23,3 +25,17 @@ def get_seconds_until_end_of_the_day() -> int:
     end_of_day = datetime.combine(now.date(), datetime.max.time())  # End of the day
 
     return int((end_of_day - now).total_seconds())
+
+
+def get_redis_server_settings_from_url(url: str) -> RedisServerSettings:
+    host, port, db = (*url.split("@")[1].split(":"), "0")
+    if "/" in port:
+        port, db = port.split("/")
+    elif "?db=" in port:
+        port, db = port.split("?db=")
+
+    return RedisServerSettings(
+        host=host,
+        port=int(port),
+        db=int(db),
+    )

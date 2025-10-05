@@ -3,6 +3,7 @@ from typing import Any
 import plotly.express as px
 import plotly.io
 from bcn_rainfall_core.utils import Month, Season, TimeMode
+from bcn_rainfall_core.utils.base_config import JSONDict
 from flask import Blueprint, render_template
 
 import bcn_rainfall_webapp.api.routers.graph as graphs
@@ -17,8 +18,10 @@ from bcn_rainfall_webapp.utils.graph import (
     DEFAULT_LAYOUT,
     aggregate_plotly_json_figures,
     aggregate_plotly_json_pie_charts,
+    get_layout,
     sorted_vertical_bars_by_y_values,
 )
+from bcn_rainfall_webapp.views.utils import MONTHLY_SEASONAL_COLORWAY, DATE_SUBTITLE
 
 webapp_blueprint = Blueprint(
     "webapp", __name__, static_folder="static", template_folder="templates"
@@ -61,16 +64,13 @@ def index():
 
     seasonal_rainfalls_by_year = aggregate_plotly_json_figures(
         seasonal_rainfall_as_plotly_json_list,
-        layout={
-            "title": {
-                "text": "Rainfall for each season",
-                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-            },
-            "xaxis": {"rangeslider_visible": True},
-            "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
-            "barmode": "stack",
-            "colorway": ["#4d8bae", "#32a326", "#c4d63a", "#c97632"],
-        },
+        layout=get_layout(
+            "Rainfall for each season",
+            subtitle=DATE_SUBTITLE,
+            display_x_slider=True,
+            bar_mode="stack",
+            colorway=["#4d8bae", "#32a326", "#c4d63a", "#c97632"],
+        ),
     )
 
     ctx_variables_dict["plotlySeasonalRainfallsListJSON"] = [
@@ -117,14 +117,11 @@ def index():
 
     ctx_variables_dict["plotlyAveragesJSON"] = aggregate_plotly_json_figures(
         rainfall_averages_as_plotly_json_list,
-        layout={
-            "title": {
-                "text": "Average rainfall",
-                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-            },
-            "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
-            "colorway": ["#5bd0d1", "#cb7e5c"],
-        },
+        layout=get_layout(
+            "Average rainfall",
+            subtitle=DATE_SUBTITLE,
+            colorway=MONTHLY_SEASONAL_COLORWAY,
+        ),
     ).to_json()
 
     ## LinReg slopes ##
@@ -159,17 +156,12 @@ def index():
 
     ctx_variables_dict["plotlyLinRegJSON"] = aggregate_plotly_json_figures(
         rainfall_linreg_slopes_as_plotly_json_list,
-        layout={
-            "title": {
-                "text": "Average linear regression slope",
-                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-            },
-            "yaxis": {
-                "title": "Linear regression slope (mm/year)",
-                "title_standoff": 5,
-            },
-            "colorway": ["#5bd0d1", "#cb7e5c"],
-        },
+        layout=get_layout(
+            "Average linear regression slope",
+            subtitle=DATE_SUBTITLE,
+            y_title="Linear regression slope (mm/year)",
+            colorway=MONTHLY_SEASONAL_COLORWAY,
+        ),
     ).to_json()
 
     ## Relative distances to normal ##
@@ -206,17 +198,12 @@ def index():
     ctx_variables_dict["plotlyRelativeDistance2NormalJSON"] = (
         aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
-            layout={
-                "title": {
-                    "text": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-                "yaxis": {
-                    "title": "Relative distance to normal (%)",
-                    "title_standoff": 5,
-                },
-                "colorway": ["#5bd0d1", "#cb7e5c"],
-            },
+            layout=get_layout(
+                f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
+                subtitle=DATE_SUBTITLE,
+                y_title="Relative distance to normal (%)",
+                colorway=MONTHLY_SEASONAL_COLORWAY,
+            ),
         )
     ).to_json()
 
@@ -255,13 +242,12 @@ def rainfall_by_year():
             )
             figure.update_layout(
                 **DEFAULT_LAYOUT,
-                colorway=px.colors.carto.Pastel[::2],
-                title={
-                    "text": "Rainfall",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-                xaxis={"title": None, "rangeslider_visible": True},
-                yaxis={"title_standoff": 5},
+                **get_layout(
+                    title="Rainfall",
+                    subtitle=DATE_SUBTITLE,
+                    display_x_slider=True,
+                    colorway=px.colors.carto.Pastel[::2],
+                ),
             )
 
             data = figure.to_json()
@@ -306,16 +292,13 @@ def rainfall_by_year():
 
     fig_monthly_rainfalls = aggregate_plotly_json_figures(
         monthly_rainfall_by_year_as_plotly_json_list,
-        layout={
-            "title": {
-                "text": "Rainfall for each month",
-                "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-            },
-            "xaxis": {"rangeslider_visible": True},
-            "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
-            "barmode": "stack",
-            "colorway": px.colors.sequential.Turbo,
-        },
+        layout=get_layout(
+            title="Rainfall for each month",
+            subtitle=DATE_SUBTITLE,
+            display_x_slider=True,
+            bar_mode="stack",
+            colorway=px.colors.sequential.Turbo,
+        ),
     )
 
     return render_template(
@@ -371,14 +354,11 @@ def rainfall_average():
         title="Rainfall average - BarnaPluja",
         plotlyRainfallAverageJSON=aggregate_plotly_json_figures(
             rainfall_averages_as_plotly_json_list,
-            layout={
-                "title": {
-                    "text": "Average rainfall",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-                "yaxis": {"title": "Rainfall (mm)", "title_standoff": 5},
-                "colorway": ["#5bd0d1", "#cb7e5c"],
-            },
+            layout=get_layout(
+                title="Average rainfall",
+                subtitle=DATE_SUBTITLE,
+                colorway=MONTHLY_SEASONAL_COLORWAY,
+            ),
         ).to_json(),
     )
 
@@ -419,17 +399,12 @@ def rainfall_relative_distance_to_normal():
         title="Relative distance to normal - BarnaPluja",
         plotlyRainfallRelativeDistance2NormalJSON=aggregate_plotly_json_figures(
             relative_distances_to_rainfall_normal_as_plotly_json_list,
-            layout={
-                "title": {
-                    "text": f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-                "yaxis": {
-                    "title": "Relative distance to normal (%)",
-                    "title_standoff": 5,
-                },
-                "colorway": ["#5bd0d1", "#cb7e5c"],
-            },
+            layout=get_layout(
+                title=f"Relative distance to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
+                subtitle=DATE_SUBTITLE,
+                y_title="Relative distance to normal (%)",
+                colorway=MONTHLY_SEASONAL_COLORWAY,
+            ),
         ).to_json(),
     )
 
@@ -526,7 +501,7 @@ def years_compared_to_normal():
                 **DEFAULT_LAYOUT,
                 title={
                     "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
+                    "subtitle_text": DATE_SUBTITLE,
                 },
             )
             data = figure.to_json()
@@ -538,32 +513,28 @@ def years_compared_to_normal():
 
             plotly_data_ctx_dict[key] = data
 
+    aggregate_args: JSONDict = dict(
+        rows=2,
+        cols=2,
+        layout=dict(
+            title={
+                "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season",
+                "subtitle_text": DATE_SUBTITLE,
+            }
+        ),
+        graph_labels=[season.capitalize() for season in Season.values()],
+    )
+
     return render_template(
         "sections/years_compared_to_normal.html",
         title="Years compared to normal - BarnaPluja",
         plotlyYearsAboveNormalSeasonalJSON=aggregate_plotly_json_pie_charts(
             percentage_of_years_compared_to_normal_as_plotly_json_list,
-            rows=2,
-            cols=2,
-            layout={
-                "title": {
-                    "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-            },
-            graph_labels=[season.capitalize() for season in Season.values()],
+            **aggregate_args,
         ).to_json(),
         plotlyYearsAboveNormalSeasonal2JSON=aggregate_plotly_json_pie_charts(
             percentage_of_years_compared_to_normal_as_plotly_json_list_2,
-            rows=2,
-            cols=2,
-            layout={
-                "title": {
-                    "text": f"Years compared to {NORMAL_YEAR}-{NORMAL_YEAR + 29} normal for each season",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-            },
-            graph_labels=[season.capitalize() for season in Season.values()],
+            **aggregate_args,
         ).to_json(),
         **plotly_data_ctx_dict,
     )
@@ -633,27 +604,20 @@ def rainfall_standard_deviation():
         title="Standard deviation - BarnaPluja",
         plotlyRainfallStandardDeviationJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_as_plotly_json_list,
-            layout={
-                "title": {
-                    "text": "Standard deviation",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-                "yaxis": {"title": "Standard deviation (mm)", "title_standoff": 5},
-                "colorway": ["#5bd0d1", "#cb7e5c"],
-            },
+            layout=get_layout(
+                "Standard deviation",
+                subtitle=DATE_SUBTITLE,
+                y_title="Standard deviation (mm)",
+                colorway=MONTHLY_SEASONAL_COLORWAY,
+            ),
         ).to_json(),
         plotlyRainfallStandardDeviationWeightedJSON=aggregate_plotly_json_figures(
             rainfall_standard_deviations_weighted_as_plotly_json_list,
-            layout={
-                "title": {
-                    "text": "Standard deviation weighted by average",
-                    "subtitle_text": f"{BEGIN_YEAR} - {END_YEAR}",
-                },
-                "yaxis": {
-                    "title": "Standard deviation weighted by average (%)",
-                    "title_standoff": 5,
-                },
-                "colorway": ["#5bd0d1", "#cb7e5c"],
-            },
+            layout=get_layout(
+                "Standard deviation weighted by average",
+                subtitle=DATE_SUBTITLE,
+                y_title="Standard deviation weighted by average (%)",
+                colorway=MONTHLY_SEASONAL_COLORWAY,
+            ),
         ).to_json(),
     )
