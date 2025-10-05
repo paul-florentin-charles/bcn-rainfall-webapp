@@ -6,12 +6,12 @@ const defaultLayoutDict = {
     },
     'tablet': {
         'font_size': 10,
-        'margin': {'t': 65, 'r': 30, 'b': 35, 'l': 55},
+        'margin': {'t': 65, 'r': 25, 'b': 35, 'l': 55},
         'dragmode': false,
     },
     'phone': {
         'font_size': 8,
-        'margin': {'t': 65, 'r': 25, 'b': 25, 'l': 25},
+        'margin': {'t': 55, 'r': 20, 'b': 25, 'l': 25},
         'dragmode': false,
     }
 }
