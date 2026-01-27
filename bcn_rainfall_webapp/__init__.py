@@ -4,8 +4,8 @@ db_client = DBClient.from_config()
 
 # TODO: these variables should not be fixed but set up dynamically from UI
 NORMAL_YEAR = 1981
-BEGIN_YEAR = 1995
-END_YEAR = 2024
+END_YEAR = 2025
+BEGIN_YEAR = END_YEAR - 29  # To match 30-years range used to compute rainfall normal
 
 __version__ = "1.1.3"
 
