@@ -36,7 +36,6 @@ body {
     color: var(--body-font-color);
     line-height: 0.8em;
     margin: 0;
-    transition: background-color 0.4s, color 0.4s;
 }
 
 .body {
@@ -69,7 +68,7 @@ h2#title a:hover {
     margin: 0 auto 0.4em auto;
     padding: 0.1em;
     border-bottom: 1px solid var(--header-border-color);
-    transition: background-color 0.4s, box-shadow 0.3s;
+    transition: background-color 0.25s, box-shadow 0.2s;
 }
 
 .footer {
@@ -103,7 +102,7 @@ h2#title a:hover {
 a, .pure-menu-link {
     color: var(--link-color);
     text-decoration: none;
-    transition: background-color 0.4s, color 0.4s;
+    transition: background-color 0.25s, color 0.25s;
 }
 
 .highlight-link {
@@ -218,19 +217,19 @@ img.logo:hover {
     cursor: pointer;
     padding: 0 0.5em;
     z-index: 10;
-    transition: background 0.3s;
+    transition: background 0.2s;
 }
 
 .theme-switch svg {
     width: 1.8em;
     height: 1.8em;
-    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.2s, transform 0.2s;
 }
 
 .theme-switch #sun, .theme-switch #moon {
     position: absolute;
     right: 0.5em;
-    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.2s, transform 0.2s;
     color: var(--link-color);
 }
 
@@ -298,7 +297,7 @@ body:not(.light-mode) .theme-switch #moon {
     margin: 4px 0;
     background: var(--link-color, #fff);
     border-radius: 2px;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 @media (max-width: 1023px) {
